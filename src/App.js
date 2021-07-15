@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-import Home from "components/Layouts/Home";
 import Admin from "Admin";
-import Form from "Form/FormList";
+import Model from "Model";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { userContext } from "components/functions/userContext";
@@ -16,6 +15,7 @@ const App = (props) => {
         <userContext.Provider value={[gvalue, setGvalue]}>
           <Switch>
             <Route path="/" exact component={Admin} />
+            <Route path="/model" component={Model} />
             <Route
               path="/admin/:name?/:child?/:grandchild?"
               component={Admin}
