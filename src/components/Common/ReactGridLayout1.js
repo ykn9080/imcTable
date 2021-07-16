@@ -91,14 +91,14 @@ export default class ShowcaseLayout extends React.Component {
       editStyle = { ...editStyle, display: "none" };
     if (el.i === "undefined") el.i = "0";
     const i = el.i;
-    let style = { padding: 5, marginRight: 5 };
+    let style = {
+      padding: 5,
+      marginRight: 5,
+      height: "auto",
+    };
     if (["graph"].indexOf(el.type) === -1)
       style = { ...style, overflow: "auto" };
     let moreStyle = { ...removeStyle, right: "8px", top: "8px" };
-    let testStyle = { ...removeStyle, right: "68px", top: "8px" };
-    let d = el.dtlist;
-
-    // el.dtlist = this.state.chartdata;
 
     const menu = [
       {
@@ -151,6 +151,7 @@ export default class ShowcaseLayout extends React.Component {
           </span> */}
       </>
     );
+
     return (
       <div key={i} data-grid={i} style={style}>
         <CreateContent {...el} />
@@ -236,6 +237,8 @@ const CreateContent = (k) => {
         return <AuthorChart authObj={k} title={true} />;
       case "graph":
         return <AuthorGraph authObj={k} title={true} />;
+      default:
+        return;
     }
   })();
 };

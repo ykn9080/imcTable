@@ -357,7 +357,7 @@ const SingleTable = (props) => {
   return (
     <>
       {columns && (
-        <div style={{ marginTop: 10, marginRight: 5 }}>
+        <div style={{ marginTop: 10, marginRight: 5, height: "auto" }}>
           {edit === true && (
             <>
               {grpby && <AntFormDisplay {...grpby} />}
@@ -392,20 +392,6 @@ const SingleTable = (props) => {
               initialValues={initCol}
             />
           </Popup>
-          <Button
-            onClick={() => {
-              console.log(
-                "tempData",
-                tempData,
-                "data:",
-                data,
-                "columns:",
-                columns
-              );
-            }}
-          >
-            chk
-          </Button>
         </div>
       )}
     </>

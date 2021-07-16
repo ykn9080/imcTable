@@ -122,32 +122,6 @@ export default class Demo extends React.Component {
   state = {
     isResizing: false,
     columns: this.props.columns,
-    // [
-    //   {
-    //     title: "Key",
-    //     dataIndex: "key",
-    //   },
-    //   {
-    //     title: "Name",
-    //     dataIndex: "name",
-    //     width: 200,
-    //   },
-    //   {
-    //     title: "Gender",
-    //     dataIndex: "gender",
-    //     width: 100,
-    //   },
-    //   {
-    //     title: "Age",
-    //     dataIndex: "age",
-    //     width: 75,
-    //   },
-    //   {
-    //     title: "Address",
-    //     dataIndex: "address",
-    //     width: 100,
-    //   },
-    // ],
   };
 
   components = {
@@ -157,43 +131,6 @@ export default class Demo extends React.Component {
   };
 
   data = this.props.data;
-  // [
-  //   {
-  //     key: "1",
-  //     name: "Boran",
-  //     gender: "male",
-  //     age: "12",
-  //     address: "New York",
-  //   },
-  //   {
-  //     key: "2",
-  //     name: "JayChou",
-  //     gender: "male",
-  //     age: "38",
-  //     address: "TaiWan",
-  //   },
-  //   {
-  //     key: "3",
-  //     name: "Lee",
-  //     gender: "female",
-  //     age: "22",
-  //     address: "BeiJing",
-  //   },
-  //   {
-  //     key: "4",
-  //     name: "ChouTan",
-  //     gender: "male",
-  //     age: "31",
-  //     address: "HangZhou",
-  //   },
-  //   {
-  //     key: "5",
-  //     name: "AiTing",
-  //     gender: "female",
-  //     age: "22",
-  //     address: "Xi’An",
-  //   },
-  // ];
 
   handleResize =
     (index) =>

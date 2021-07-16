@@ -15,7 +15,10 @@ const App = (props) => {
         <userContext.Provider value={[gvalue, setGvalue]}>
           <Switch>
             <Route path="/" exact component={Admin} />
-            <Route path="/model" component={Model} />
+            <Route
+              path="/model/:name?/:child?/:grandchild?"
+              component={Model}
+            />
             <Route
               path="/admin/:name?/:child?/:grandchild?"
               component={Admin}

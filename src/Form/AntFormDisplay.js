@@ -329,6 +329,9 @@ const AntFormDisplay = (props) => {
       }, 200);
   };
   const settingup = (data) => {
+    let list = _.filter(data.data.list, (o) => {
+      return o.dboption;
+    });
     if (props.patchlist) list = makePatchList(props.patchlist, list);
     setFormArray(data.data);
     makeFormArray(data.data);
@@ -341,6 +344,7 @@ const AntFormDisplay = (props) => {
   const makePatchList = (patchlist, list) => {
     //props.list contains obj to replace exisiting one
     //ie [{name:"country",optionArray:[{label:"Korea",value:"korea"}]}]
+    if (!list) return;
     const patchReplace = (patchlist, list) => {
       let nochangename = [];
       patchlist.map((a, b) => {
@@ -380,6 +384,7 @@ const AntFormDisplay = (props) => {
     };
 
     if (
+      list &&
       list.length > 0 &&
       ["form.list", "noStyle"].indexOf(list[0].type) > -1
     ) {

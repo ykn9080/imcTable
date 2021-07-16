@@ -93,10 +93,10 @@ export const createSource = (tempModel) => {
       let result = {
         key: "ext" + i,
         title: k,
-        dtlist: tmp.results[k],
+        dtlist: tmp.results?.[k] | [],
         type: { stype: "result" },
       };
-      if (tmp.colArr[k]) {
+      if (tmp.colArr?.[k]) {
         result.setting = { colArr: tmp.colArr[k] };
       }
       sourceArr.push(result);

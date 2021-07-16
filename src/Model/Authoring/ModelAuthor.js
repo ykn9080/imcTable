@@ -170,7 +170,14 @@ const ModelAuthor = (props) => {
           }
         })()} */}
 
-      <div style={{ marginTop: 10, marginLeft: 20, marginRight: 5 }}>
+      <div
+        style={{
+          marginTop: 10,
+          marginLeft: 20,
+          marginRight: 5,
+          height: "auto",
+        }}
+      >
         {!query.key && addnew}
         {(() => {
           switch (type) {

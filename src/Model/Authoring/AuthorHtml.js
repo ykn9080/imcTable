@@ -336,18 +336,14 @@ const AuthorHtml = ({ authObj, edit }) => {
       <div style={title && titlestyle}>
         <Title level={4}>{title}</Title>
       </div>
-      <div id="dvtest" style={{ width: "99%", padding: 10 }}>
+      <div
+        id="dvtest"
+        style={{ width: "99%", padding: 10, marginBottom: -5, height: "auto" }}
+      >
         {data && data.dtslist && (
           <Description dtslist={data.dtslist} format={format} column={column} />
         )}
       </div>
-      <Button
-        onClick={() => {
-          console.log(tempModel);
-        }}
-      >
-        tempModel
-      </Button>
     </>
   );
 };
