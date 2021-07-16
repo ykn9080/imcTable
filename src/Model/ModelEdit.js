@@ -11,11 +11,10 @@ import React, { useEffect } from "react";
 import { GoDeviceDesktop } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import ModelEdit0 from "./ModelEdit0";
-import ModelEdit1 from "./ModelEdit1";
-import ModelEdit2 from "./ModelEdit2";
+
 import ModelEdit3 from "./ModelEdit3";
-import ModelEdit4 from "./ModelEdit4";
+//import ModelEdit4 from "./ModelEdit4";
+import ModelEdit4 from "./ModelEdit4_Layout";
 
 const ModelEdit = (props) => {
   const history = useHistory(); // do this inside the component
@@ -148,7 +147,7 @@ const ModelEdit = (props) => {
         <div style={{ paddingLeft: 0, paddingBottom: 20 }}>
           <AntBreadCrumb />
         </div>
-        <StepAnt
+        {/* <StepAnt
           className="site-navigation-steps"
           inline={true}
           iconbutton={true}
@@ -156,17 +155,17 @@ const ModelEdit = (props) => {
           onChange={onChangeStep}
           size="small"
           stepInfo={step}
-        />
+        /> */}
       </div>
 
       {(() => {
         switch (currentStep) {
-          case 0:
-            return <ModelEdit0 />;
-          case 1:
-            return <ModelEdit1 />;
-          case 2:
-            return <ModelEdit2 />;
+          // case 0:
+          //   return <ModelEdit0 />;
+          // case 1:
+          //   return <ModelEdit1 />;
+          // case 2:
+          //   return <ModelEdit2 />;
           case 3:
             return <ModelEdit3 />;
           case 4:

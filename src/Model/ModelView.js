@@ -9,7 +9,7 @@ import IconArray1 from "components/SKD/IconArray1";
 import { Typography } from "antd";
 import Description from "components/SKD/Description";
 import ModelViewLayout from "Model/ModelViewLayout";
-
+import Dt from "./block.json";
 const { Title } = Typography;
 
 const ModelView = (props) => {
@@ -18,11 +18,14 @@ const ModelView = (props) => {
   const dispatch = useDispatch();
   const [summary, setSummary] = useState();
   let tempModel = useSelector((state) => state.global.tempModel);
+
+  console.log(Dt);
   let query = querySearch(location.search);
   let linkname, nodename, linktype;
   useEffect(() => {
     if (!tempModel) {
-      dispatch(globalVariable({ tempModel: location.state }));
+      //dispatch(globalVariable({ tempModel: location.state }));
+      dispatch(globalVariable({ tempModel: Dt }));
     }
     if (tempModel) {
       let linknode = tempModel?.properties?.linknode;
@@ -50,10 +53,10 @@ const ModelView = (props) => {
     dispatch(globalVariable({ selectedKey: query._id }));
     history.push(`/model/edit`);
 
-    dispatch(globalVariable({ currentStep: 0 }));
+    dispatch(globalVariable({ currentStep: 4 }));
     //dispatch(globalVariable({ currentData: null }));
-    dispatch(globalVariable({ tempData: null }));
-    dispatch(globalVariable({ tempModel: null }));
+    // dispatch(globalVariable({ tempData: null }));
+    // dispatch(globalVariable({ tempModel: null }));
   };
   //model setup summary
   //parameter

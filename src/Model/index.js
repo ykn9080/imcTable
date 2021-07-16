@@ -27,7 +27,6 @@ const Model = ({ match }) => {
       {(() => {
         switch (title) {
           case "list":
-          default:
             return (
               <>
                 <DenseAppBar title={"Model"}></DenseAppBar>
@@ -35,6 +34,7 @@ const Model = ({ match }) => {
               </>
             );
           case "view":
+          default:
             return (
               <>
                 <ModelView />

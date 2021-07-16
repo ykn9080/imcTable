@@ -3,7 +3,6 @@ import { Button, Dropdown, Menu, Popconfirm, Spin, Tabs, Tooltip } from "antd";
 import "components/Common/Antd.css";
 import DataEdit1 from "Data/DataEdit1";
 import _ from "lodash";
-import MTable from "Model/ModelEdit4_Table";
 import React, { useEffect, useState } from "react";
 import { GrClearOption } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
@@ -247,9 +246,6 @@ const ModelEdit3 = (props) => {
       <Tabs defaultActiveKey={0} tabPosition={"left"} tabBarExtraContent={slot}>
         <TabPane tab="Edit" key="1">
           {tempData && <DataEdit1 />}
-        </TabPane>
-        <TabPane tab="Table" key="2">
-          <MTable />
         </TabPane>
       </Tabs>
       <Button
