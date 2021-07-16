@@ -3,7 +3,6 @@ import _ from "lodash";
 import { useDispatch } from "react-redux";
 import { globalVariable } from "actions";
 import { useHistory } from "react-router-dom";
-import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
 import { currentsetting } from "config/index.js";
 import AntList from "components/Common/List";
@@ -20,7 +19,6 @@ const ListGen = (props) => {
   let title = props.type,
     titleUpper = "",
     dataformat;
-  const confirm = useConfirm();
   const [loading, setLoading] = useState(false);
   const [listData, setListData] = useState([]);
   const forceUpdate = useForceUpdate();

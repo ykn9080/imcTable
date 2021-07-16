@@ -52,17 +52,19 @@ export const DraggableColumns = (props) => {
     },
     nodeSelector: "th",
   };
-  const handleResize = (index) => (e, { size }) => {
-    console.log("handle resize");
-    setColumns(({ columns }) => {
-      const nextColumns = [...columns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      return nextColumns;
-    });
-  };
+  const handleResize =
+    (index) =>
+    (e, { size }) => {
+      console.log("handle resize");
+      setColumns(({ columns }) => {
+        const nextColumns = [...columns];
+        nextColumns[index] = {
+          ...nextColumns[index],
+          width: size.width,
+        };
+        return nextColumns;
+      });
+    };
 
   const onResizeStart = (e, data) => {
     console.log("start resize");
@@ -193,17 +195,19 @@ export default class Demo extends React.Component {
   //   },
   // ];
 
-  handleResize = (index) => (e, { size }) => {
-    console.log("handle resize");
-    this.setState(({ columns }) => {
-      const nextColumns = [...columns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      return { columns: nextColumns };
-    });
-  };
+  handleResize =
+    (index) =>
+    (e, { size }) => {
+      console.log("handle resize");
+      this.setState(({ columns }) => {
+        const nextColumns = [...columns];
+        nextColumns[index] = {
+          ...nextColumns[index],
+          width: size.width,
+        };
+        return { columns: nextColumns };
+      });
+    };
 
   onResizeStart = (e, data) => {
     console.log("start resize");

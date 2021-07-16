@@ -16,7 +16,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import AntFormDisplay from "Form/AntFormDisplay";
 import { idMake } from "components/functions/dataUtil";
-import VisGraph from "components/Graph/visnetwork/VisGraph";
+// import VisGraph from "components/Graph/visnetwork/VisGraph";
 import { FiRefreshCw } from "react-icons/fi";
 import {
   pickAndRename2,
@@ -322,7 +322,7 @@ const AuthorGraph = ({ authObj, edit, title }) => {
       )}
       <Row gutter={4}>
         <Col span={edit ? 14 : 24}>
-          <VisGraph options={optionsJson} data={gdataset} />
+          {/* <VisGraph options={optionsJson} data={gdataset} /> */}
         </Col>
         {edit && (
           <Col span={10}>
