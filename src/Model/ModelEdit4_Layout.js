@@ -23,6 +23,7 @@ import GridLay1 from "components/Common/ReactGridLayout1";
 import "components/Common/react-grid-layout.css";
 import { pick } from "components/functions/LodashUtil";
 import {
+  FileAddOutlined,
   EditOutlined,
   RollbackOutlined,
   SaveOutlined,
@@ -396,6 +397,16 @@ const ModelEdit4_Layout = (props) => {
   };
   const genExtra = () => (
     <div style={{ textAlign: "right", marginBottom: 5 }}>
+      <Tooltip title="Create New1">
+        <Button
+          icon={<FileAddOutlined />}
+          onClick={(e) => {
+            e.stopPropagation();
+            history.push("./author");
+            message.info("Select data for new authoring");
+          }}
+        />
+      </Tooltip>
       <Tooltip title="Create New">
         <Button
           icon={<PlusOutlined />}

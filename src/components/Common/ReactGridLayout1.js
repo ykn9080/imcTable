@@ -7,6 +7,7 @@ import AuthorGraph from "Model/Authoring/AuthorGraph";
 import AuthorTable from "Model/Authoring/AuthorTable";
 import AuthorHtml from "Model/Authoring/AuthorHtml";
 import AuthorMatrix from "Model/Authoring/AuthorMatrix";
+import CardSimple from "components/Common/CardSimple";
 import { Popconfirm, Tooltip } from "antd";
 import {
   CloseOutlined,
@@ -238,7 +239,7 @@ const CreateContent = (k) => {
       case "graph":
         return <AuthorGraph authObj={k} title={true} />;
       default:
-        return;
+        return <CardSimple />;
     }
   })();
 };
