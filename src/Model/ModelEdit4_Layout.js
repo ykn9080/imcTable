@@ -402,8 +402,6 @@ const ModelEdit4_Layout = (props) => {
           icon={<FileAddOutlined />}
           onClick={(e) => {
             e.stopPropagation();
-            history.push("./author");
-            message.info("Select data for new authoring");
           }}
         />
       </Tooltip>
