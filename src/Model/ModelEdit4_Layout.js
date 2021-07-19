@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import _ from "lodash";
+import _, { random } from "lodash";
 import { globalVariable } from "actions";
 import { loadCSS } from "fg-loadcss";
 import {
@@ -106,6 +106,7 @@ const ModelEdit4_Layout = (props) => {
       });
 
       dispatch(globalVariable({ tempModel }));
+      console.log(lay);
       setTempLayout(lay);
 
       modalInit();
@@ -251,23 +252,30 @@ const ModelEdit4_Layout = (props) => {
     e.stopPropagation();
     reverttempModel();
   };
-  const addItem = (j) => {
-    let odr = tempModel.properties.resultsAuthor;
-    let num = _.filter(odr, { checked: true }).length;
-    let firstrow = _.filter(odr, (o) => {
-      return o.y === 0;
-    }).length;
+  const createItem = (existing) => {
+    let num = 0,
+      firstrow = 0;
+    if (existing) {
+      num = _.filter(existing, { checked: true }).length;
+      firstrow = _.filter(existing, (o) => {
+        return o.y === 0;
+      }).length;
+    }
     if (firstrow === 0) firstrow = 1;
     let colnum1 = colnum;
     if (!colnum1) colnum1 = firstrow;
     let cnum = 12 / colnum1;
-    let addnew = {
+    return {
       x: (num % colnum1) * cnum,
-      y: parseInt(num / colnum1) * cnum,
+      y: Infinity,
       w: cnum,
       h: cnum * 2,
-      i: (num - 1).toString(),
+      i: parseInt(Math.random() * 1000).toString(),
     };
+  };
+  const addItem = (j) => {
+    let odr = tempModel.properties.resultsAuthor;
+    const addnew = createItem(odr);
 
     //x,y,w,h,i: w:6(half), h:6, x:(num%2*6), y:(parseInt(num/2)*6, i:num(sort and assiang index each)
     odr.map((k, i) => {
@@ -326,7 +334,22 @@ const ModelEdit4_Layout = (props) => {
     //history.push(`./edit/author?key=${json.key}`);
     history.push(`./edit/graph?id=${json.id}`);
   };
-
+  const addBlank = () => {
+    let newtempModel = { ...tempModel };
+    const author = newtempModel.properties.resultsAuthor;
+    let newItem = createItem(author);
+    newItem.type = "";
+    newItem.i = parseInt(Math.random() * 100).toString();
+    newItem.id = parseInt(Math.random() * 100).toString();
+    newItem.key = parseInt(Math.random() * 100000).toString();
+    newItem.checked = true;
+    newItem.setting = { title: `new Item${author.length + 1}` };
+    author.push(newItem);
+    dispatch(globalVariable({ tempModel: newtempModel }));
+    dispatch(globalVariable({ currentStep: currentStep - 1 }));
+    dispatch(globalVariable({ nextStep: currentStep }));
+    console.log(newtempModel);
+  };
   const handleOk = () => {
     setConfirmLoading(true);
     setVisible(false);
@@ -402,6 +425,7 @@ const ModelEdit4_Layout = (props) => {
           icon={<FileAddOutlined />}
           onClick={(e) => {
             e.stopPropagation();
+            addBlank();
           }}
         />
       </Tooltip>
@@ -619,6 +643,7 @@ const ModelEdit4_Layout = (props) => {
       </div>
     </>
   );
+  console.log(tempLayout);
   return (
     <>
       {genExtra()}

@@ -5,6 +5,8 @@ import ModelView from "Model/ModelView";
 import ModelEdit from "Model/ModelEdit";
 import ModelGraph from "Model/Authoring/ModelGraph";
 import ModelAuthor from "Model/Authoring/ModelAuthor";
+import ModelDemo from "components/Common/ReactGridLayout2";
+import ModelViewDemo from "Model/ModelViewDemo";
 
 const Model = ({ match }) => {
   let title = match.params.name,
@@ -40,10 +42,23 @@ const Model = ({ match }) => {
                 <ModelView />
               </>
             );
+
           case "edit":
             return (
               <>
                 <ModelEdit />
+              </>
+            );
+          case "demo":
+            return (
+              <>
+                <ModelDemo />
+              </>
+            );
+          case "fix":
+            return (
+              <>
+                <ModelViewDemo />
               </>
             );
           case "graph":

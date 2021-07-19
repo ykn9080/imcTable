@@ -65,7 +65,7 @@ export default function DenseAppBar(props) {
           <Typography variant="h6" color="inherit" className={classes.title}>
             {props.title}
           </Typography>
-          <span className={classes.children}>{children}</span>
+          {children}
           {right}
         </Toolbar>
       </AppBar>

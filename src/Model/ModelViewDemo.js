@@ -24,8 +24,8 @@ const ModelView = (props) => {
   let linkname, nodename, linktype;
   useEffect(() => {
     if (!tempModel) {
-      dispatch(globalVariable({ tempModel: location.state }));
-      //dispatch(globalVariable({ tempModel: Dt }));
+      //dispatch(globalVariable({ tempModel: location.state }));
+      dispatch(globalVariable({ tempModel: Dt }));
     }
     if (tempModel) {
       let linknode = tempModel?.properties?.linknode;
@@ -76,31 +76,6 @@ const ModelView = (props) => {
       onClick: edit,
     },
   ];
-  const btnArr1 = [
-    {
-      tooltip: "demo",
-      awesome: "border-all",
-      fontSize: "small",
-      color: "inherit",
-      onClick: () => history.push("./model/demo"),
-    },
-    {
-      tooltip: "Fix",
-      awesome: "flask",
-      fontSize: "small",
-      color: "inherit",
-
-      onClick: () => history.push("./model/fix"),
-    },
-    {
-      tooltip: "List",
-      awesome: "list-alt",
-      fontSize: "small",
-      color: "inherit",
-
-      onClick: () => history.push("./model/list"),
-    },
-  ];
   return (
     <>
       {!props.blank && (
@@ -108,9 +83,7 @@ const ModelView = (props) => {
           <DenseAppBar
             title={"Model View"}
             right={<IconArray1 btnArr={btnArr} />}
-          >
-            <IconArray1 btnArr={btnArr1} />
-          </DenseAppBar>
+          ></DenseAppBar>
           <div
             style={{
               paddingLeft: 25,

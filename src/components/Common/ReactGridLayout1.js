@@ -17,10 +17,17 @@ import {
 } from "@ant-design/icons";
 import "./react-grid-layout.css";
 import DisplayMore from "components/SKD/DisplayMore";
+var ReactGridLayout = require("react-grid-layout");
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default class ShowcaseLayout extends React.Component {
+  static defaultProps = {
+    className: "layout",
+    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+    rowHeight: 300,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +38,7 @@ export default class ShowcaseLayout extends React.Component {
       items: this.props.resultsLayout,
       remove: props.remove,
       chartdata: [],
+      newCounter: 0,
     };
 
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -42,6 +50,7 @@ export default class ShowcaseLayout extends React.Component {
     this.onEditItem = this.onEditItem.bind(this);
     this.onSortAscending = this.onSortAscending.bind(this);
     this.onSortDescending = this.onSortDescending.bind(this);
+    this.onAddItem = this.onAddItem.bind(this);
   }
 
   componentDidMount() {
@@ -69,8 +78,8 @@ export default class ShowcaseLayout extends React.Component {
     this.setState({ compactType });
   }
 
-  onLayoutChange(layout, layouts) {
-    this.props.onLayoutChange(layout, layouts);
+  onLayoutChange(layout) {
+    this.props.onLayoutChange(layout);
   }
 
   onNewLayout() {
@@ -190,24 +199,31 @@ export default class ShowcaseLayout extends React.Component {
 
     this.setState({ chartdata: el.dtlist });
   }
-
+  onAddItem() {
+    /*eslint no-console: 0*/
+    console.log("adding", "n" + this.state.newCounter);
+    this.setState({
+      // Add a new item. It must have a unique key!
+      items: this.state.items.concat({
+        i: "n" + this.state.newCounter,
+        x: (this.state.items.length * 2) % (this.state.cols || 12),
+        y: Infinity, // puts it at the bottom
+        w: 2,
+        h: 2,
+      }),
+      // Increment the counter to ensure key is always unique.
+      newCounter: this.state.newCounter + 1,
+    });
+  }
   render() {
+    console.log(this.props.resultsLayout);
     return (
       <div>
-        {/* <div>
-          Current Breakpoint: {this.state.currentBreakpoint} (
-          {this.props.cols[this.state.currentBreakpoint]} columns)
-        </div>
-        <div>
-          Compaction type:{" "}
-          {_.capitalize(this.state.compactType) || "No Compaction"}
-        </div>
-        <button onClick={this.onNewLayout}>Generate New Layout</button>
-        <button onClick={this.onCompactTypeChange}>
-          Change Compaction Type
-        </button> */}
+        <button onClick={this.onAddItem}>+</button>
         <ResponsiveReactGridLayout
           {...this.props}
+          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           layouts={this.state.layouts}
           onBreakpointChange={this.onBreakpointChange}
           onLayoutChange={this.onLayoutChange}
@@ -229,17 +245,17 @@ const CreateContent = (k) => {
   return (() => {
     switch (k.type) {
       case "html":
-        return <AuthorHtml authObj={k} title={true} />;
+        return <AuthorHtml authObj={k} title={true} className="gridcontent" />;
       case "table":
-        return <AuthorTable authObj={k} title={true} />;
+        return <AuthorTable authObj={k} title={true} className="gridcontent" />;
       case "matrix":
-        return <AuthorMatrix obj={k} title={true} />;
+        return <AuthorMatrix obj={k} title={true} className="gridcontent" />;
       case "chart":
-        return <AuthorChart authObj={k} title={true} />;
+        return <AuthorChart authObj={k} title={true} className="gridcontent" />;
       case "graph":
-        return <AuthorGraph authObj={k} title={true} />;
+        return <AuthorGraph authObj={k} title={true} className="gridcontent" />;
       default:
-        return <CardSimple />;
+        return <CardSimple className="gridcontent" />;
     }
   })();
 };
