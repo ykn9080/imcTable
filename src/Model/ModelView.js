@@ -6,9 +6,10 @@ import querySearch from "stringquery";
 import DenseAppBar from "components/Common/AppBar";
 import AntBreadCrumb from "components/Common/BreadCrumb";
 import IconArray1 from "components/SKD/IconArray1";
-import { Typography } from "antd";
+import { Typography, Modal } from "antd";
 import Description from "components/SKD/Description";
 import ModelViewLayout from "Model/ModelViewLayout";
+import ListGen from "components/SKD/ListGen";
 import Dt from "./block.json";
 const { Title } = Typography;
 
@@ -17,6 +18,8 @@ const ModelView = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [summary, setSummary] = useState();
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   let tempModel = useSelector((state) => state.global.tempModel);
 
   console.log(Dt);
@@ -98,9 +101,45 @@ const ModelView = (props) => {
       fontSize: "small",
       color: "inherit",
 
+      onClick: () => setVisible(true), //history.push("./model/list"),
+    },
+    {
+      tooltip: "List",
+      awesome: "list-alt",
+      fontSize: "small",
+      color: "inherit",
+
       onClick: () => history.push("./model/list"),
     },
   ];
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setVisible(false);
+    // if (selectChart) {
+    //   let newtempModel = { ...tempModel };
+    //   let odr = newtempModel.properties.resultsAuthor;
+    //   let filtered = _.filter(odr, { checked: true });
+    //   let currArr = pick(filtered, "id");
+    //   let removelist = [],
+    //     addedlist = [];
+    //   currArr.map((k, i) => {
+    //     if (selectChart.indexOf(k) === -1) removelist.push(k);
+    //     return null;
+    //   });
+    //   selectChart.map((k, i) => {
+    //     if (currArr.indexOf(k) === -1) addedlist.push(k);
+    //     return null;
+    //   });
+    //   addItem(addedlist);
+    //   removeItem(removelist);
+    //   dispatch(globalVariable({ tempModel: newtempModel }));
+    //   //편법!!, force reload by go back and forth
+    //   dispatch(globalVariable({ currentStep: currentStep - 1 }));
+    //   dispatch(globalVariable({ nextStep: currentStep }));
+    // }
+    setConfirmLoading(false);
+  };
+  const dataformat = ["_id", "data", "title", "desc", "type"];
   return (
     <>
       {!props.blank && (
@@ -140,6 +179,21 @@ const ModelView = (props) => {
           <ModelViewLayout data={tempModel} errorurl={props.errorurl} />
         </div>
       ) : null}
+      <Modal
+        title="Title"
+        visible={visible}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={() => setVisible(false)}
+      >
+        <>
+          <ListGen
+            url="model"
+            notitle={true}
+            dataformat={["_id", "data", "title", "desc", "type"]}
+          />
+        </>
+      </Modal>
     </>
   );
 };

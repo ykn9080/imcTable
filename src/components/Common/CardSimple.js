@@ -16,9 +16,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    //maxWidth: "100%"
-    maxHeight: 400,
-    minHeight: 300,
+    height: "100%",
+    minHeight: 340,
+    width: "auto",
   },
   cardDot: {
     borderStyle: "dashed",
@@ -91,22 +91,7 @@ const CardSimple = (props) => {
   return (
     <div className="gridcontent">
       <Card className={classes.card}>
-        <CardHeader
-          action={
-            <Checkbox
-              checked={checked[props.seq]}
-              onChange={handleChange}
-              name={props.seq}
-              inputProps={{ "aria-label": "secondary checkbox" }}
-            />
-          }
-        />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests.
-          </Typography>
-        </CardContent>
+        <CardContent>{props.children}</CardContent>
       </Card>
     </div>
   );

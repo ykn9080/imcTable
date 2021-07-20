@@ -13,8 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import ModelEdit3 from "./ModelEdit3";
-//import ModelEdit4 from "./ModelEdit4";
-import ModelEdit4 from "./ModelEdit4_Layout";
+import ModelEdit4 from "./ModelEdit4";
 
 const ModelEdit = (props) => {
   const history = useHistory(); // do this inside the component

@@ -9,7 +9,7 @@ import AuthorTable from "Model/Authoring/AuthorTable";
 import AuthorHtml from "Model/Authoring/AuthorHtml";
 import AuthorMatrix from "Model/Authoring/AuthorMatrix";
 import CardSimple from "components/Common/CardSimple";
-import { Popconfirm, Tooltip } from "antd";
+import { Popconfirm, Tooltip, Modal } from "antd";
 import {
   CloseOutlined,
   EditOutlined,
@@ -18,6 +18,7 @@ import {
 } from "@ant-design/icons";
 import "./react-grid-layout.css";
 import DisplayMore from "components/SKD/DisplayMore";
+import ButtonNew from "Collections/Buttons";
 var ReactGridLayout = require("react-grid-layout");
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -34,6 +35,8 @@ export default class ShowcaseLayout extends React.Component {
     this.state = {
       currentBreakpoint: "lg",
       compactType: "horizontal",
+      verticalCompact: false,
+      preventCollision: true,
       mounted: false,
       layouts: { lg: this.props.resultsLayout },
       items: this.props.resultsLayout,
@@ -56,11 +59,6 @@ export default class ShowcaseLayout extends React.Component {
 
   componentDidMount() {
     this.setState({ mounted: true });
-    console.log("component num", $(".react-grid-item").length);
-    $(".react-grid-item").each((index, item) => {
-      //console.log("children length", $(item).children());
-      console.log("ant-table-content", $(item).find(".ant-table-content"));
-    });
   }
 
   generateDOM(items) {
@@ -103,14 +101,21 @@ export default class ShowcaseLayout extends React.Component {
     let editStyle = { ...removeStyle, right: "31px" };
     if (this.props.remove === false)
       removeStyle = { ...removeStyle, display: "none" };
-    if (this.props.edit === false)
+    if (this.props.edit === false) {
       editStyle = { ...editStyle, display: "none" };
+      this.setState({
+        draggableCancel: ".dashboard-item-content",
+        draggableHandle: ".dashboard-item-header",
+      });
+    }
     if (el.i === "undefined") el.i = "0";
     const i = el.i;
     let style = {
       padding: 5,
       marginRight: 5,
       height: "auto",
+      display: "flex",
+      flexDirection: "column",
     };
     if (["graph"].indexOf(el.type) === -1)
       style = { ...style, overflow: "hidden" };
@@ -136,7 +141,7 @@ export default class ShowcaseLayout extends React.Component {
     ];
 
     const editbtn = (
-      <>
+      <div>
         <span className="icon1" style={editStyle}>
           <Tooltip title="Edit" key="editlayout">
             <EditOutlined onClick={() => this.onEditItem(i)} />
@@ -165,9 +170,9 @@ export default class ShowcaseLayout extends React.Component {
         {/* <span className="test" style={testStyle}>
             <button onClick={() => this.onTestItem(el)}>test</button>
           </span> */}
-      </>
+      </div>
     );
-
+    el = { ...el, edit: this.onEditItem };
     return (
       <div key={i} data-grid={i} style={style}>
         <CreateContent {...el} />
@@ -222,10 +227,9 @@ export default class ShowcaseLayout extends React.Component {
     });
   }
   render() {
-    console.log(this.props.resultsLayout);
+    console.log(this.props);
     return (
       <div>
-        <button onClick={this.onAddItem}>+</button>
         <ResponsiveReactGridLayout
           {...this.props}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
@@ -247,21 +251,28 @@ export default class ShowcaseLayout extends React.Component {
     );
   }
 }
+
 const CreateContent = (k) => {
   return (() => {
     switch (k.type) {
       case "html":
-        return <AuthorHtml authObj={k} title={true} className="gridcontent" />;
+        return <AuthorHtml authObj={k} title={true} />;
       case "table":
-        return <AuthorTable authObj={k} title={true} className="gridcontent" />;
+        return <AuthorTable authObj={k} title={true} />;
       case "matrix":
-        return <AuthorMatrix obj={k} title={true} className="gridcontent" />;
+        return <AuthorMatrix obj={k} title={true} />;
       case "chart":
-        return <AuthorChart authObj={k} title={true} className="gridcontent" />;
+        return <AuthorChart authObj={k} title={true} />;
       case "graph":
-        return <AuthorGraph authObj={k} title={true} className="gridcontent" />;
+        return <AuthorGraph authObj={k} title={true} />;
       default:
-        return <CardSimple className="gridcontent" />;
+        return (
+          <CardSimple>
+            <div style={{ padding: 30 }}>
+              <ButtonNew onClick={() => k.edit()} />
+            </div>
+          </CardSimple>
+        );
     }
   })();
 };

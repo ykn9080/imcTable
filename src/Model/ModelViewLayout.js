@@ -56,7 +56,12 @@ const ModelLayout = (props) => {
             FallbackComponent={ErrorFallback}
             onError={myErrorHandler}
           >
-            <GridLay1 show={false} resultsLayout={tempLayout}>
+            <GridLay1
+              show={false}
+              resultsLayout={tempLayout}
+              draggableCancel=".dashboard-item-content"
+              draggableHandle=".dashboard-item-header"
+            >
               {items}
             </GridLay1>
           </ErrorBoundary>

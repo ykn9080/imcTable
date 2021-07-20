@@ -241,25 +241,20 @@ const ModelEdit3 = (props) => {
   return (
     <div
       className="card-container"
-      style={{ marginTop: 20, marginLeft: 5, marginRight: 5, padding: 5 }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        paddingTop: "300px",
+        alignItems: "center",
+      }}
     >
-      <Tabs defaultActiveKey={0} tabPosition={"left"} tabBarExtraContent={slot}>
+      {/* <Tabs defaultActiveKey={0} tabPosition={"left"} tabBarExtraContent={slot}>
         <TabPane tab="Edit" key="1">
           {tempData && <DataEdit1 />}
         </TabPane>
       </Tabs>
-      <Button
-        onClick={() => {
-          console.log(tempData);
-        }}
-      >
-        tempData
-      </Button>
-      {showSpin && (
-        <div style={{ textAlign: "center", marginTop: 20 }}>
-          <Spin />
-        </div>
-      )}
+      */}
+      <Spin size="large" />
     </div>
   );
 };

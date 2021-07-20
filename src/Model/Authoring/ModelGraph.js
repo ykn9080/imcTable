@@ -445,8 +445,6 @@ const ModelGraph = (props) => {
         })()}
         {/* {linkclick && <MakeProjectBundle selectedKey={linknode_id} />} */}
         {linkclick && <DataBundleClick linkid={linknode_id} />}
-
-        <Button onClick={() => console.log(tempModel)}>tempModel</Button>
       </div>
     </>
   );

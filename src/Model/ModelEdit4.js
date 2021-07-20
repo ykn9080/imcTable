@@ -46,7 +46,7 @@ import { MainMaker } from "Model/ModelRun";
 const { Title } = Typography;
 const { Option } = Select;
 
-const ModelEdit4_Layout = (props) => {
+const ModelEdit4 = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -325,15 +325,20 @@ const ModelEdit4_Layout = (props) => {
     dispatch(globalVariable({ nextStep: currentStep }));
   };
   const onEditItem = (i) => {
+    if (!i) {
+      history.push(`./edit/graph`);
+      console.log("sssssss");
+      return;
+    }
     let odr = tempModel.properties.resultsAuthor;
     // let results = tempModel.properties.results;
     const json = _.find(odr, { i });
     // let nodelist = results[json.node];
     // json.nodelist = nodelist;
 
-    //history.push(`./edit/author?key=${json.key}`);
-    history.push(`./edit/graph?id=${json.id}`);
+    history.push(`./edit/author?key=${json.key}`);
   };
+
   const addBlank = () => {
     let newtempModel = { ...tempModel };
     const author = newtempModel.properties.resultsAuthor;
@@ -675,4 +680,4 @@ const ModelEdit4_Layout = (props) => {
   );
 };
 
-export default ModelEdit4_Layout;
+export default ModelEdit4;

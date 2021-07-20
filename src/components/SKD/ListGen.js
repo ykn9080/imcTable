@@ -157,7 +157,7 @@ const ListGen = (props) => {
   if (title) titleUpper = title.charAt(0).toUpperCase() + title.slice(1);
   return (
     <>
-      <PageHead title={titleUpper} extra={extra}></PageHead>
+      {!props.notitle && <PageHead title={titleUpper} extra={extra}></PageHead>}
       <AntList
         listData={listData}
         loading={loading}
