@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
+import $ from "jquery";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import AuthorChart from "Model/Authoring/AuthorChart";
 import AuthorGraph from "Model/Authoring/AuthorGraph";
@@ -55,6 +56,11 @@ export default class ShowcaseLayout extends React.Component {
 
   componentDidMount() {
     this.setState({ mounted: true });
+    console.log("component num", $(".react-grid-item").length);
+    $(".react-grid-item").each((index, item) => {
+      //console.log("children length", $(item).children());
+      console.log("ant-table-content", $(item).find(".ant-table-content"));
+    });
   }
 
   generateDOM(items) {
@@ -107,7 +113,7 @@ export default class ShowcaseLayout extends React.Component {
       height: "auto",
     };
     if (["graph"].indexOf(el.type) === -1)
-      style = { ...style, overflow: "auto" };
+      style = { ...style, overflow: "hidden" };
     let moreStyle = { ...removeStyle, right: "8px", top: "8px" };
 
     const menu = [

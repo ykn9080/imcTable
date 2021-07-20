@@ -180,6 +180,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
           dataObj={data}
           tbsetting={tbsetting}
           edit={edit}
+          className="gridcontent"
           save={saveTable}
         />
       )}

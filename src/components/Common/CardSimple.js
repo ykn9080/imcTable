@@ -14,49 +14,49 @@ import { red } from "@material-ui/core/colors";
 import AddIcon from "@material-ui/icons/Add";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     //maxWidth: "100%"
     maxHeight: 400,
-    minHeight: 300
+    minHeight: 300,
   },
   cardDot: {
     borderStyle: "dashed",
     paddingTop: 50,
     maxHeight: 400,
     minHeight: 300,
-    color: "grey"
+    color: "grey",
   },
   icon: {
-    margin: "0 auto"
+    margin: "0 auto",
   },
   media: {
-    height: 0
+    height: 0,
     //paddingTop: "56.25%" // 16:9
   },
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest
-    })
+      duration: theme.transitions.duration.shortest,
+    }),
   },
   expandOpen: {
-    transform: "rotate(180deg)"
+    transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: red[500]
-  }
+    backgroundColor: red[500],
+  },
 }));
 
-const CardSimple = props => {
+const CardSimple = (props) => {
   const classes = useStyles();
   const forceUpdate = useForceUpdate();
   const dispatch = useDispatch();
   const history = useHistory();
   const [expanded, setExpanded] = React.useState(false);
   const [checked, setChecked] = React.useState({});
-  const handleChange = event => {
+  const handleChange = (event) => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
     console.log(checked, props);
   };
@@ -68,7 +68,7 @@ const CardSimple = props => {
   const removeHandler = () => {
     setExpanded(!expanded);
   };
-  const BlankCard = data => {
+  const BlankCard = (data) => {
     return (
       <Card className={classes.cardDot}>
         <CardHeader style={{ textAlign: "center" }} title="Add New" />
@@ -89,7 +89,7 @@ const CardSimple = props => {
   //if (props.data.ctrid === "") return <BlankCard data={props.data} />;
 
   return (
-    <>
+    <div className="gridcontent">
       <Card className={classes.card}>
         <CardHeader
           action={
@@ -108,7 +108,7 @@ const CardSimple = props => {
           </Typography>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 };
 

@@ -318,7 +318,7 @@ const AuthorHtml = ({ authObj, edit }) => {
 
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
   return (
-    <>
+    <div className="gridcontent">
       {edit && (
         <>
           <AntFormDisplay
@@ -344,7 +344,7 @@ const AuthorHtml = ({ authObj, edit }) => {
           <Description dtslist={data.dtslist} format={format} column={column} />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
