@@ -9,7 +9,7 @@ import AuthorTable from "Model/Authoring/AuthorTable";
 import AuthorHtml from "Model/Authoring/AuthorHtml";
 import AuthorMatrix from "Model/Authoring/AuthorMatrix";
 import CardSimple from "components/Common/CardSimple";
-import { Popconfirm, Tooltip, Modal } from "antd";
+import { Popconfirm, Tooltip, Typography } from "antd";
 import {
   CloseOutlined,
   EditOutlined,
@@ -21,6 +21,7 @@ import DisplayMore from "components/SKD/DisplayMore";
 import ButtonNew from "Collections/Buttons";
 var ReactGridLayout = require("react-grid-layout");
 
+const { Title } = Typography;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default class ShowcaseLayout extends React.Component {
@@ -34,15 +35,15 @@ export default class ShowcaseLayout extends React.Component {
     super(props);
     this.state = {
       currentBreakpoint: "lg",
-      compactType: "horizontal",
-      verticalCompact: false,
-      preventCollision: true,
-      mounted: false,
-      layouts: { lg: this.props.resultsLayout },
+      compactType: "vertical",
+      // verticalCompact: false,
+      // preventCollision: true,
+      // mounted: false,
+      // chartdata: [],
+      newCounter: 0,
       items: this.props.resultsLayout,
       remove: props.remove,
-      chartdata: [],
-      newCounter: 0,
+      layouts: { lg: this.props.resultsLayout },
     };
 
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -116,6 +117,10 @@ export default class ShowcaseLayout extends React.Component {
       height: "auto",
       display: "flex",
       flexDirection: "column",
+      borderRadius: 5,
+      backgroundColor: "white",
+      boxShadow:
+        "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
     };
     if (["graph"].indexOf(el.type) === -1)
       style = { ...style, overflow: "hidden" };
@@ -139,7 +144,28 @@ export default class ShowcaseLayout extends React.Component {
         onClick: () => this.onSortDescending(el),
       },
     ];
-
+    const title = (
+      <div
+        style={{
+          position: "absolute",
+          top: 3,
+          left: 10,
+        }}
+      >
+        <Title level={5}>{el.setting.title}</Title>
+      </div>
+    );
+    const barStyle = {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      backgroundColor: "#EEEEEE",
+      height: 35,
+      borderBottom: "solid 1px #BBBBBB",
+    };
+    const fixground = <div style={barStyle} />;
+    const moveground = <div style={{ ...barStyle, cursor: "move" }} />;
     const editbtn = (
       <div>
         <span className="icon1" style={editStyle}>
@@ -173,9 +199,12 @@ export default class ShowcaseLayout extends React.Component {
       </div>
     );
     el = { ...el, edit: this.onEditItem };
+    console.log(el);
     return (
       <div key={i} data-grid={i} style={style}>
         <CreateContent {...el} />
+        {this.props.show !== false ? moveground : fixground}
+        {title}
         {this.props.show !== false && editbtn}
       </div>
     );

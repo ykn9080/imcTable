@@ -22,10 +22,7 @@ const Model = ({ match }) => {
   //const [adminMenu, setAdminMenu] = useState([]);
 
   return (
-    <>
-      {/* {["model"].indexOf(title) === -1 ? (
-        <PageHead title={titleUpper} />
-      ) : null} */}
+    <div style={{ backgroundColor: "#CBD5DD" }}>
       {(() => {
         switch (title) {
           case "list":
@@ -75,7 +72,7 @@ const Model = ({ match }) => {
             );
         }
       })()}
-    </>
+    </div>
   );
 };
 

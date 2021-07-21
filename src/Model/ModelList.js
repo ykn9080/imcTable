@@ -29,9 +29,9 @@ const ModelList = () => {
     setting = { return: str };
   }
   return (
-    <>
+    <div style={{ backgroundColor: "white" }}>
       <ListGen url="model" dataformat={dataformat} {...setting} />
-    </>
+    </div>
   );
 };
 

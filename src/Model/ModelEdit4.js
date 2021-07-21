@@ -253,13 +253,21 @@ const ModelEdit4 = (props) => {
     reverttempModel();
   };
   const createItem = (existing) => {
+    console.log(existing);
     let num = 0,
-      firstrow = 0;
+      firstrow = 0,
+      ii = 0,
+      yy = 0;
     if (existing) {
       num = _.filter(existing, { checked: true }).length;
       firstrow = _.filter(existing, (o) => {
         return o.y === 0;
       }).length;
+      existing.map((k, i) => {
+        if (parseInt(k.i) >= ii) ii++;
+        if (k.y > yy) yy = k.y;
+        return null;
+      });
     }
     if (firstrow === 0) firstrow = 1;
     let colnum1 = colnum;
@@ -267,10 +275,10 @@ const ModelEdit4 = (props) => {
     let cnum = 12 / colnum1;
     return {
       x: (num % colnum1) * cnum,
-      y: Infinity,
+      y: yy + cnum * 2,
       w: cnum,
-      h: cnum * 2,
-      i: parseInt(Math.random() * 1000).toString(),
+      h: 12,
+      i: ii.toString(), //parseInt(Math.random() * 1000).toString(),
     };
   };
   const addItem = (j) => {
@@ -344,7 +352,7 @@ const ModelEdit4 = (props) => {
     const author = newtempModel.properties.resultsAuthor;
     let newItem = createItem(author);
     newItem.type = "";
-    newItem.i = parseInt(Math.random() * 100).toString();
+
     newItem.id = parseInt(Math.random() * 100).toString();
     newItem.key = parseInt(Math.random() * 100000).toString();
     newItem.checked = true;
@@ -424,9 +432,10 @@ const ModelEdit4 = (props) => {
     );
   };
   const genExtra = () => (
-    <div style={{ textAlign: "right", marginBottom: 5 }}>
+    <div style={{ textAlign: "right", margin: "0 5px -5px 0" }}>
       <Tooltip title="Create New1">
         <Button
+          type="primary"
           icon={<FileAddOutlined />}
           onClick={(e) => {
             e.stopPropagation();
@@ -436,6 +445,7 @@ const ModelEdit4 = (props) => {
       </Tooltip>
       <Tooltip title="Create New">
         <Button
+          type="primary"
           icon={<PlusOutlined />}
           onClick={(e) => {
             e.stopPropagation();
@@ -446,6 +456,7 @@ const ModelEdit4 = (props) => {
       </Tooltip>
       <Tooltip title="Deploy Layout">
         <Button
+          type="primary"
           icon={<AppstoreAddOutlined />}
           onClick={(e) => {
             e.stopPropagation();
@@ -460,7 +471,7 @@ const ModelEdit4 = (props) => {
           okText="Yes"
           cancelText="No"
         >
-          <Button icon={<RollbackOutlined />} />
+          <Button type="primary" icon={<RollbackOutlined />} />
         </Popconfirm>
       </Tooltip>
       <Tooltip title="How many Columns">
@@ -487,6 +498,7 @@ const ModelEdit4 = (props) => {
           }}
         >
           <Button
+            type="primary"
             onClick={(e) => e.stopPropagation()}
             icon={<AppstoreOutlined />}
           />
@@ -494,6 +506,7 @@ const ModelEdit4 = (props) => {
       </Tooltip>
       <Tooltip title="Save Layout">
         <Button
+          type="primary"
           icon={<i className="fas fa-save" />}
           onClick={saveLayoutChange}
         />

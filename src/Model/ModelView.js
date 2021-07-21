@@ -11,6 +11,7 @@ import Description from "components/SKD/Description";
 import ModelViewLayout from "Model/ModelViewLayout";
 import ListGen from "components/SKD/ListGen";
 import Dt from "./block.json";
+
 const { Title } = Typography;
 
 const ModelView = (props) => {
@@ -152,28 +153,26 @@ const ModelView = (props) => {
           </DenseAppBar>
           <div
             style={{
-              paddingLeft: 25,
+              paddingLeft: 10,
               paddingTop: 5,
-              paddingBottom: 12,
-              backgroundColor: "#F7F7F7",
             }}
           >
-            <div style={{ paddingLeft: 0, paddingBottom: 20 }}>
-              <AntBreadCrumb />
-            </div>
+            <AntBreadCrumb />
           </div>
         </>
       )}
       {tempModel ? (
         <div style={{ margin: 5 }}>
-          <Title level={3}>{tempModel.title}</Title>
           <div
             style={{
-              padding: 5,
+              padding: 15,
               border: "1px solid #d8d4d4",
-              marginBottom: 10,
+              borderRadius: 5,
+              margin: "10px 10px 0 10px",
+              backgroundColor: "white",
             }}
           >
+            <Title level={3}>{tempModel.title}</Title>
             {summary && <Description data={summary} />}
           </div>
           <ModelViewLayout data={tempModel} errorurl={props.errorurl} />

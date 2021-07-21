@@ -117,8 +117,8 @@ const AuthorTable = ({ authObj, edit, title }) => {
   };
 
   return (
-    <>
-      {data && data.setting && title && (
+    <div style={{ padding: "30px 0 0 10px" }}>
+      {/* {data && data.setting && title && (
         <>
           <div style={title && titlestyle}>
             <Title level={4}>{data.setting.title}</Title>
@@ -134,9 +134,9 @@ const AuthorTable = ({ authObj, edit, title }) => {
             </Button>
           </div>
         </>
-      )}
+      )} */}
 
-      <div>
+      {/* <div>
         {visible ? (
           <Modal
             title="Add to Dataset"
@@ -166,7 +166,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
             />
           </Modal>
         ) : null}
-      </div>
+      </div> */}
 
       {edit && (
         <AntFormDisplay
@@ -184,7 +184,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
           save={saveTable}
         />
       )}
-    </>
+    </div>
   );
 };
 

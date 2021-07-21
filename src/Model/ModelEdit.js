@@ -3,7 +3,6 @@ import { message } from "antd";
 import axios from "axios";
 import DenseAppBar from "components/Common/AppBar";
 import AntBreadCrumb from "components/Common/BreadCrumb";
-import StepAnt from "components/Common/StepAnt";
 import { currentsetting } from "config/index.js";
 import IconArray1 from "components/SKD/IconArray1";
 import $ from "jquery";
@@ -11,7 +10,6 @@ import React, { useEffect } from "react";
 import { GoDeviceDesktop } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import ModelEdit3 from "./ModelEdit3";
 import ModelEdit4 from "./ModelEdit4";
 
@@ -137,24 +135,12 @@ const ModelEdit = (props) => {
       ></DenseAppBar>
       <div
         style={{
-          paddingLeft: 25,
+          paddingLeft: 10,
           paddingTop: 5,
-          paddingBottom: 12,
-          backgroundColor: "#F7F7F7",
+          backgroundColor: "transparent",
         }}
       >
-        <div style={{ paddingLeft: 0, paddingBottom: 20 }}>
-          <AntBreadCrumb />
-        </div>
-        {/* <StepAnt
-          className="site-navigation-steps"
-          inline={true}
-          iconbutton={true}
-          //ghost={true}
-          onChange={onChangeStep}
-          size="small"
-          stepInfo={step}
-        /> */}
+        <AntBreadCrumb />
       </div>
 
       {(() => {
