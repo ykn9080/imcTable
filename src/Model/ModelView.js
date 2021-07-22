@@ -162,7 +162,7 @@ const ModelView = (props) => {
         </>
       )}
       {tempModel ? (
-        <div style={{ margin: 5 }}>
+        <div>
           <div
             style={{
               padding: 15,

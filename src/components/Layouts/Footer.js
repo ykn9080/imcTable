@@ -8,21 +8,21 @@ import { currentsetting } from "config/index.js";
 const useStyles = makeStyles((theme) => ({
   footer: {
     textAlign: "center",
-    // position: "absolute",
-    bottom: 0,
-    // width: "100% !important",
-    height: "30px !important",
-    // backgroundColor: "#3F51B5"
+    width: "100%",
+    height: "50px !important",
+
+    padding: "10px 10px 0px 10px",
+    background: "grey",
   },
 }));
 const Footer = () => {
   const classes = useStyles();
   return (
-    <Container className={classes.footer}>
+    <div className={classes.footer}>
       <Typography variant="title">
         Footer Text **current server:<b>{currentsetting.webserviceprefix}</b>
       </Typography>
-    </Container>
+    </div>
   );
 };
 

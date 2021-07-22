@@ -99,7 +99,7 @@ const ModelView = (props) => {
         </>
       )}
       {tempModel ? (
-        <div style={{ margin: 5 }}>
+        <div>
           <Title level={3}>{tempModel.title}</Title>
           <div
             style={{

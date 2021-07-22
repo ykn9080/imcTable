@@ -3,6 +3,7 @@ import "./App.css";
 import Admin from "Admin";
 import Model from "Model";
 
+import Footer from "components/Layouts/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { userContext } from "components/functions/userContext";
 
@@ -26,6 +27,7 @@ const App = (props) => {
           </Switch>
         </userContext.Provider>
       </Router>
+      <Footer />
     </>
   );
 };

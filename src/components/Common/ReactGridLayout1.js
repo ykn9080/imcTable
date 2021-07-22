@@ -37,7 +37,7 @@ export default class ShowcaseLayout extends React.Component {
       currentBreakpoint: "lg",
       compactType: "vertical",
       // verticalCompact: false,
-      // preventCollision: true,
+      preventCollision: true,
       // mounted: false,
       // chartdata: [],
       newCounter: 0,
@@ -193,13 +193,9 @@ export default class ShowcaseLayout extends React.Component {
             <DisplayMore menu={menu} />
           </Tooltip>
         </span>
-        {/* <span className="test" style={testStyle}>
-            <button onClick={() => this.onTestItem(el)}>test</button>
-          </span> */}
       </div>
     );
     el = { ...el, edit: this.onEditItem };
-    console.log(el);
     return (
       <div key={i} data-grid={i} style={style}>
         <CreateContent {...el} />
