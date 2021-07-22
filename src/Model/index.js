@@ -22,7 +22,7 @@ const Model = ({ match }) => {
   //const [adminMenu, setAdminMenu] = useState([]);
 
   return (
-    <div style={{ backgroundColor: "#CBD5DD" }}>
+    <div style={{ backgroundColor: "#CBD5DD", paddingBottom: 40 }}>
       {(() => {
         switch (title) {
           case "list":

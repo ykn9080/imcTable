@@ -252,7 +252,6 @@ export default class ShowcaseLayout extends React.Component {
     });
   }
   render() {
-    console.log(this.props);
     return (
       <div>
         <ResponsiveReactGridLayout

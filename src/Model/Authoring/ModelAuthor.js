@@ -25,8 +25,8 @@ const ModelAuthor = (props) => {
   let dataResults, authorlist;
 
   let tempModel = useSelector((state) => state.global.tempModel);
-
-  if (!tempModel) history.push("/model");
+  console.log(tempModel);
+  //if (!tempModel) history.push("/model");
   dataResults = tempModel?.properties?.source; //blockdensity object
   if (!tempModel?.properties) tempModel.properties = {};
   if (!tempModel?.properties?.resultsAuthor)
@@ -66,7 +66,7 @@ const ModelAuthor = (props) => {
       fontSize: "small",
       color: "inherit",
       "aria-controls": "back",
-      onClick: () => history.push("/model/edit"),
+      onClick: () => history.push("/model/edit/graph"),
     },
   ];
   const btnArr = [
@@ -91,19 +91,20 @@ const ModelAuthor = (props) => {
           fontSize: "small",
           color: "inherit",
           onClick: () => {
-            history.push("/model/edit");
+            history.push("/model/edit/graph");
           },
         }
       : {},
   ];
-
+  console.log("authObj", authObj, "type", type);
   useEffect(() => {
     $(".MuiIconButton-root").css("padding", 0);
     $(".ant-col.ant-col-2").css("text-align", "right");
     dispatch(globalVariable({ helpLink: null }));
+    console.log(tempModel, query);
     if (tempModel.properties.resultsAuthor && query.key) {
       const obj = _.find(tempModel.properties.resultsAuthor, (o) => {
-        return o.key === query.key && o.id === query.id;
+        return o.key === query.key;
       });
       //   setAuthObj(obj);
       setAuthObj(obj);
@@ -198,7 +199,7 @@ const ModelAuthor = (props) => {
         {/* {linkclick && <DataBundleClick linkid={linknode_id} />} */}
 
         <Button onClick={() => console.log(tempModel.properties)}>
-          tempModel
+          tempModel123
         </Button>
       </div>
     </>

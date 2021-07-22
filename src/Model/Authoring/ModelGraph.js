@@ -261,16 +261,7 @@ const ModelGraph = (props) => {
     setJsonTable([]);
   };
 
-  const goback = [
-    {
-      tooltip: "Go to Previous",
-      awesome: "step-backward",
-      fontSize: "small",
-      color: "inherit",
-      "aria-controls": "back",
-      onClick: () => history.push("/model/edit"),
-    },
-  ];
+  const goback = [];
   const btnArr = [
     show && {
       tooltip: "Save and Show Authoring List",
@@ -279,35 +270,41 @@ const ModelGraph = (props) => {
       color: "inherit",
       onClick: handleSave,
     },
-    {
-      tooltip: "Delete",
-      awesome: "trash-alt",
-      fontSize: "small",
-      color: "inherit",
-      onClick: () => {
-        const opt = { title: "Delete?" };
-        sweetmsgconfirm(() => {
-          tempModel.properties.resultsAuthor.map((k, i) => {
-            if (k.id === query.id)
-              return tempModel.properties.resultsAuthor.splice(i, 1);
-            return null;
-          });
-          dispatch(globalVariable({ tempModel }));
-          history.push("/model/edit");
-        }, opt);
-      },
-    },
+    // {
+    //   tooltip: "Delete",
+    //   awesome: "trash-alt",
+    //   fontSize: "small",
+    //   color: "inherit",
+    //   onClick: () => {
+    //     const opt = { title: "Delete?" };
+    //     sweetmsgconfirm(() => {
+    //       tempModel.properties.resultsAuthor.map((k, i) => {
+    //         if (k.id === query.id)
+    //           return tempModel.properties.resultsAuthor.splice(i, 1);
+    //         return null;
+    //       });
+    //       dispatch(globalVariable({ tempModel }));
+    //       history.push("/model/edit");
+    //     }, opt);
+    //   },
+    // },
     {
       tooltip: !show ? "Add Controls" : "Back to List",
-      awesome: !show ? "plus-square" : "level-up-alt",
+      awesome: !show ? "plus" : "level-up-alt",
       fontSize: "small",
-      style: { marginRight: 10 },
       color: "inherit",
       onClick: () => {
-        history.push("/model/edit");
+        history.push("/model/author");
       },
     },
-
+    {
+      tooltip: "Go to Previous",
+      awesome: "times",
+      fontSize: "small",
+      color: "inherit",
+      "aria-controls": "back",
+      onClick: () => history.push("/model/edit"),
+    },
     // showType === "list"
     //   ? {
     //       tooltip: "Go to Previous",
@@ -402,8 +399,8 @@ const ModelGraph = (props) => {
   return (
     <>
       <DenseAppBar
-        title={"Graph Authoring(Model Graph)"}
-        left={<IconArray1 btnArr={goback} />}
+        title={"Object List"}
+        //left={<IconArray1 btnArr={goback} />}
         right={<IconArray1 btnArr={btnArr} />}
       ></DenseAppBar>
       <div

@@ -28,6 +28,7 @@ const ModelList = () => {
     const str = location.search.replace("?from=", "");
     setting = { return: str };
   }
+  console.log(setting);
   return (
     <div style={{ backgroundColor: "white" }}>
       <ListGen url="model" dataformat={dataformat} {...setting} />

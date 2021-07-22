@@ -11,7 +11,7 @@ const App = (props) => {
   const [gvalue, setGvalue] = useState([{ test: "ok", hello: "hi" }]);
 
   return (
-    <>
+    <div style={{ flexGrow: 1 }}>
       <Router>
         <userContext.Provider value={[gvalue, setGvalue]}>
           <Switch>
@@ -28,7 +28,7 @@ const App = (props) => {
         </userContext.Provider>
       </Router>
       <Footer />
-    </>
+    </div>
   );
 };
 

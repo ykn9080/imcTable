@@ -26,7 +26,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
 
   useEffect(() => {
     dispatch(globalVariable({ helpLink: "model/edit/graph?type=table" }));
-
+    console.log(authObj, edit, title);
     if (authObj) {
       let newAuth = { ...authObj };
       let title = "",

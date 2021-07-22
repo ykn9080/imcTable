@@ -99,10 +99,10 @@ const ListGen = (props) => {
     history.push(`/${props.url}/edit`);
   };
   const selectHandler = (item) => {
-    alert("selected", item.id);
+    console.log("selected", item, item.id);
     dispatch(globalVariable({ currentData: item }));
     dispatch(globalVariable({ selectedKey: item._id }));
-    history.push(`/${props.url}/edit`);
+    //history.push(`/${props.url}/edit`);
   };
   const selectHandler1 = (item) => {
     dispatch(globalVariable({ currentData: item }));
@@ -151,9 +151,14 @@ const ListGen = (props) => {
     </Tooltip>,
   ];
   let setting = {};
-  setting = { editHandler, deleteHandler };
+  if (!props.noedit) setting = { editHandler };
+  if (!props.nodelete) setting = { ...setting, deleteHandler };
+  if (props.selectHandler)
+    setting = {
+      ...setting,
+      selectHandler: props.selectHandler,
+    };
   if (props.return) setting = { ...setting, selectHandler: selectHandler1 };
-
   if (title) titleUpper = title.charAt(0).toUpperCase() + title.slice(1);
   return (
     <>
@@ -161,8 +166,6 @@ const ListGen = (props) => {
       <AntList
         listData={listData}
         loading={loading}
-        // editHandler={editHandler}
-        // deleteHandler={deleteHandler}
         size={"small"}
         layout={"horizontal"}
         footer={footer}

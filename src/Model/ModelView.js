@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { globalVariable } from "actions";
+import { currentsetting } from "config/index.js";
+import _ from "lodash";
+import axios from "axios";
 import querySearch from "stringquery";
 import DenseAppBar from "components/Common/AppBar";
 import AntBreadCrumb from "components/Common/BreadCrumb";
@@ -22,11 +25,20 @@ const ModelView = (props) => {
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   let tempModel = useSelector((state) => state.global.tempModel);
+  let listData = useSelector((state) => state.global.listData);
 
-  console.log(Dt);
   let query = querySearch(location.search);
   let linkname, nodename, linktype;
+
   useEffect(() => {
+    console.log(
+      "tempModel",
+      tempModel,
+      "query",
+      query,
+      "localtion.state",
+      location.state
+    );
     if (!tempModel) {
       dispatch(globalVariable({ tempModel: location.state }));
       //dispatch(globalVariable({ tempModel: Dt }));
@@ -141,6 +153,18 @@ const ModelView = (props) => {
     setConfirmLoading(false);
   };
   const dataformat = ["_id", "data", "title", "desc", "type"];
+  const selectHandler = (item) => {
+    console.log("selected123", item, item.id);
+    dispatch(globalVariable({ currentData: item }));
+    dispatch(globalVariable({ selectedKey: item._id }));
+    axios
+      .get(`${currentsetting.webserviceprefix}model/${item._id}`)
+      .then((response) => {
+        dispatch(globalVariable({ tempModel: response.data }));
+      });
+    history.push(`/model/view?_id=${item._id}`);
+    setVisible(false);
+  };
   return (
     <>
       {!props.blank && (
@@ -189,6 +213,9 @@ const ModelView = (props) => {
           <ListGen
             url="model"
             notitle={true}
+            nodelete
+            noedit
+            selectHandler={selectHandler}
             dataformat={["_id", "data", "title", "desc", "type"]}
           />
         </>
