@@ -31,6 +31,7 @@ const ModelView = (props) => {
   let linkname, nodename, linktype;
 
   useEffect(() => {
+    dispatch(globalVariable({ display: "list" })); //modellist compact
     console.log(
       "tempModel",
       tempModel,
@@ -74,40 +75,21 @@ const ModelView = (props) => {
     // dispatch(globalVariable({ tempData: null }));
     // dispatch(globalVariable({ tempModel: null }));
   };
+  const setting = () => {
+    //dispatch(globalVariable({ currentData: item }));
+    dispatch(globalVariable({ selectedKey: query._id }));
+    history.push(`/model/setting`);
+  };
   //model setup summary
   //parameter
   const btnArr = [
-    {
-      tooltip: "Back to List",
-      awesome: "level-up-alt",
-      fontSize: "small",
-      color: "inherit",
-      onClick: () => history.push("./model"),
-    },
-    {
-      tooltip: "Edit",
-      awesome: "pencil-alt",
-      fontSize: "small",
-      color: "inherit",
-      onClick: edit,
-    },
-  ];
-  const btnArr1 = [
-    {
-      tooltip: "demo",
-      awesome: "border-all",
-      fontSize: "small",
-      color: "inherit",
-      onClick: () => history.push("./model/demo"),
-    },
-    {
-      tooltip: "Fix",
-      awesome: "flask",
-      fontSize: "small",
-      color: "inherit",
-
-      onClick: () => history.push("./model/fix"),
-    },
+    // {
+    //   tooltip: "Back to List",
+    //   awesome: "level-up-alt",
+    //   fontSize: "small",
+    //   color: "inherit",
+    //   onClick: () => history.push("./model"),
+    // },
     {
       tooltip: "List",
       awesome: "list-alt",
@@ -117,14 +99,46 @@ const ModelView = (props) => {
       onClick: () => setVisible(true), //history.push("./model/list"),
     },
     {
-      tooltip: "List",
-      awesome: "list-alt",
+      tooltip: "Edit",
+      awesome: "pencil-alt",
       fontSize: "small",
       color: "inherit",
-
-      onClick: () => history.push("./model/list"),
+      onClick: edit,
+    },
+    {
+      tooltip: "Setting",
+      awesome: "cog",
+      fontSize: "small",
+      color: "inherit",
+      onClick: setting,
     },
   ];
+  // const btnArr1 = [
+  //   {
+  //     tooltip: "demo",
+  //     awesome: "border-all",
+  //     fontSize: "small",
+  //     color: "inherit",
+  //     onClick: () => history.push("./model/demo"),
+  //   },
+  //   {
+  //     tooltip: "Fix",
+  //     awesome: "flask",
+  //     fontSize: "small",
+  //     color: "inherit",
+
+  //     onClick: () => history.push("./model/fix"),
+  //   },
+
+  //   {
+  //     tooltip: "List",
+  //     awesome: "list-alt",
+  //     fontSize: "small",
+  //     color: "inherit",
+
+  //     onClick: () => history.push("./model/list"),
+  //   },
+  // ];
   const handleOk = () => {
     setConfirmLoading(true);
     setVisible(false);
@@ -170,11 +184,9 @@ const ModelView = (props) => {
       {!props.blank && (
         <>
           <DenseAppBar
-            title={"Model View"}
+            title={"Dashboard"}
             right={<IconArray1 btnArr={btnArr} />}
-          >
-            <IconArray1 btnArr={btnArr1} />
-          </DenseAppBar>
+          ></DenseAppBar>
           <div
             style={{
               paddingLeft: 10,

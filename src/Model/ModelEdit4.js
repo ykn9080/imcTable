@@ -276,8 +276,8 @@ const ModelEdit4 = (props) => {
     return {
       x: (num % colnum1) * cnum,
       y: yy + cnum * 2,
-      w: cnum,
-      h: 12,
+      w: 4,
+      h: 8,
       i: ii.toString(), //parseInt(Math.random() * 1000).toString(),
     };
   };

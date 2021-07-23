@@ -7,6 +7,7 @@ import ModelGraph from "Model/Authoring/ModelGraph";
 import ModelAuthor from "Model/Authoring/ModelAuthor";
 import ModelDemo from "components/Common/ReactGridLayout2";
 import ModelViewDemo from "Model/ModelViewDemo";
+import ModelSetting from "Model/ModelSetting";
 
 const Model = ({ match }) => {
   let title = match.params.name,
@@ -68,6 +69,12 @@ const Model = ({ match }) => {
             return (
               <>
                 <ModelAuthor />
+              </>
+            );
+          case "setting":
+            return (
+              <>
+                <ModelSetting />
               </>
             );
         }
