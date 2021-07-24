@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import $ from "jquery";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import AuthorChart from "Model/Authoring/AuthorChart";
 import AuthorGraph from "Model/Authoring/AuthorGraph";
@@ -9,20 +8,37 @@ import AuthorTable from "Model/Authoring/AuthorTable";
 import AuthorHtml from "Model/Authoring/AuthorHtml";
 import AuthorMatrix from "Model/Authoring/AuthorMatrix";
 import CardSimple from "components/Common/CardSimple";
-import { Popconfirm, Tooltip, Typography } from "antd";
+import { Popconfirm, Tooltip, Typography, Button } from "antd";
 import {
   CloseOutlined,
   EditOutlined,
   RiseOutlined,
   FallOutlined,
+  AreaChartOutlined,
+  TableOutlined,
+  FileTextOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons";
+import { FcMindMap, FcBarChart, FcList } from "react-icons/fc";
+import { CgWebsite } from "react-icons/cg";
+import { ImTable } from "react-icons/im";
 import "./react-grid-layout.css";
 import DisplayMore from "components/SKD/DisplayMore";
 import ButtonNew from "Collections/Buttons";
-var ReactGridLayout = require("react-grid-layout");
+import { makeStyles } from "@material-ui/core/styles";
 
 const { Title } = Typography;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const useStyles = makeStyles((theme) => ({
+  card: {
+    padding: 30,
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  cardbutton: { margin: 10, fontSize: 20 },
+}));
 
 export default class ShowcaseLayout extends React.Component {
   static defaultProps = {
@@ -275,8 +291,25 @@ export default class ShowcaseLayout extends React.Component {
     );
   }
 }
+const chartType = (type) => {
+  switch (type) {
+    case "chart":
+      return <AreaChartOutlined />;
+    case "graph":
+      return <FcMindMap />;
+    case "table":
+      return <TableOutlined />;
+    case "html":
+      return <FileTextOutlined />;
+    case "list":
+      return <AppstoreOutlined />;
+    default:
+      return null;
+  }
+};
 
 const CreateContent = (k) => {
+  const classes = useStyles();
   return (() => {
     switch (k.type) {
       case "html":
@@ -292,8 +325,53 @@ const CreateContent = (k) => {
       default:
         return (
           <CardSimple>
-            <div style={{ padding: 30 }}>
-              <ButtonNew onClick={() => k.edit()} />
+            <div
+              className={classes.card}
+              // style={{
+              //   padding: 30,
+              //   display: "flex",
+              //   flexDirection: "row",
+              //   flexWrap: "wrap",
+              //   justifyContent: "space-between",
+              // }}
+            >
+              {/* <ButtonNew onClick={() => k.edit()} /> */}
+              <Button
+                size="large"
+                className={classes.cardbutton}
+                // style={{ margin: 10, fontSize: 20 }}
+                icon={chartType("chart")}
+              >
+                Chart
+              </Button>
+              <Button
+                size="large"
+                style={{ margin: 10, fontSize: 20 }}
+                icon={chartType("table")}
+              >
+                Table
+              </Button>
+              <Button
+                size="large"
+                style={{ margin: 10, fontSize: 20 }}
+                icon={chartType("graph")}
+              >
+                Graph
+              </Button>
+              <Button
+                size="large"
+                style={{ margin: 10, fontSize: 20 }}
+                icon={chartType("html")}
+              >
+                Html
+              </Button>
+              <Button
+                size="large"
+                style={{ margin: 10, fontSize: 20 }}
+                icon={chartType("list")}
+              >
+                List
+              </Button>
             </div>
           </CardSimple>
         );
