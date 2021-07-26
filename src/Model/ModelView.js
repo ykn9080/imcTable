@@ -113,32 +113,7 @@ const ModelView = (props) => {
       onClick: setting,
     },
   ];
-  // const btnArr1 = [
-  //   {
-  //     tooltip: "demo",
-  //     awesome: "border-all",
-  //     fontSize: "small",
-  //     color: "inherit",
-  //     onClick: () => history.push("./model/demo"),
-  //   },
-  //   {
-  //     tooltip: "Fix",
-  //     awesome: "flask",
-  //     fontSize: "small",
-  //     color: "inherit",
 
-  //     onClick: () => history.push("./model/fix"),
-  //   },
-
-  //   {
-  //     tooltip: "List",
-  //     awesome: "list-alt",
-  //     fontSize: "small",
-  //     color: "inherit",
-
-  //     onClick: () => history.push("./model/list"),
-  //   },
-  // ];
   const handleOk = () => {
     setConfirmLoading(true);
     setVisible(false);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
 import { loadCSS } from "fg-loadcss";
-import GridLay1 from "components/Common/ReactGridLayout1";
+import GridLay1 from "Author/ReactGridLayout";
 import "components/Common/react-grid-layout.css";
 import { ErrorBoundary } from "react-error-boundary";
 

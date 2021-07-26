@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DenseAppBar from "components/Common/AppBar";
+import $ from "jquery";
 import ModelList from "Model/ModelList";
 import ModelView from "Model/ModelView";
 import ModelEdit from "Model/ModelEdit";
@@ -23,13 +24,19 @@ const Model = ({ match }) => {
   }
   //const [adminMenu, setAdminMenu] = useState([]);
 
+  useEffect(() => {
+    $(window).on("resize", () => {
+      $("#dvbody").css({ minHeight: window.innerHeight });
+    });
+  }, []);
   return (
     <>
       <div
+        id="dvbody"
         style={{
           backgroundImage: `url(${background})`,
           backgroundRepeat: "repeat",
-          minHeight: 900,
+          minHeight: window.innerHeight,
         }}
       >
         {(() => {
@@ -90,6 +97,8 @@ const Model = ({ match }) => {
                 <AuthorTable />
               </>
             );
+          default:
+            return null;
         }
       })()}
     </>

@@ -5,28 +5,30 @@ import { idMake } from "components/functions/dataUtil";
 import { Typography } from "antd";
 import SingleTable from "Data/DataEdit1_SingleTable";
 import AntFormDisplay from "Form/AntFormDisplay";
-import { Button, Modal, Row, Col } from "antd";
-import AddtoDataset from "Data/AddtoDataset";
-import axios from "axios";
+import Dataget from "Author/Dataget";
+
+// import AddtoDataset from "Data/AddtoDataset";
+// import axios from "axios";
 
 const { Title } = Typography;
 
 const AuthorTable = ({ authObj, edit, title }) => {
   const dispatch = useDispatch();
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [init, setInit] = useState();
   const [tbsetting, setTbsetting] = useState();
-  const [selectedTable, setSelectedTable] = useState();
-  const [selectData, setSelectData] = useState();
-  const [visible, setVisible] = useState(false);
-  const [addToDataset, setAddToDataset] = useState();
+  // const [selectedTable, setSelectedTable] = useState();
+  // const [selectData, setSelectData] = useState();
+  // const [visible, setVisible] = useState(false);
+  // const [addToDataset, setAddToDataset] = useState();
 
   const tempModel = useSelector((state) => state.global.tempModel);
+
   const trigger = useSelector((state) => state.global.triggerChild);
 
   useEffect(() => {
     dispatch(globalVariable({ helpLink: "model/edit/graph?type=table" }));
-    console.log(authObj, edit, title);
+    console.log("authObj", authObj, "edit", edit, "title", title);
     if (authObj) {
       let newAuth = { ...authObj };
       let title = "",
@@ -40,8 +42,12 @@ const AuthorTable = ({ authObj, edit, title }) => {
         desc = st.desc;
         size = st.size;
       }
+      console.log(title, desc, size);
       setInit({ title, desc, size });
       setData(newAuth);
+    } else {
+      setInit({ title: "", desc: "", size: "" });
+      setData({});
     }
   }, [authObj]);
 
@@ -97,83 +103,24 @@ const AuthorTable = ({ authObj, edit, title }) => {
   };
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
 
-  const onModalCreate = (data) => {
-    setSelectData(data);
+  console.log("init:", init, "data", data);
+  const onDataGet = (val) => {
+    console.log("ondataget", val);
+    let newAuth = { ...authObj };
+    newAuth.dtlist = val;
+    setData(newAuth);
   };
-
-  const addToDatasetData = (data) => {
-    setAddToDataset(data);
-  };
-
-  const doAddToDataset = () => {
-    let config = {
-      method: "post",
-      url: `http://192.168.3.58:8011/addToData`,
-      data: addToDataset,
-    };
-    axios(config).then((r) => {
-      console.log(r);
-    });
-  };
-
   return (
-    <div style={{ padding: "30px 0 0 10px" }}>
-      {/* {data && data.setting && title && (
+    <div style={{ padding: "35px 5px 10px 10px" }}>
+      {edit && init && (
         <>
-          <div style={title && titlestyle}>
-            <Title level={4}>{data.setting.title}</Title>
-          </div>
-          <div style={{ float: "right" }}>
-            <Button
-              onClick={() => {
-                onModalCreate(data);
-                setVisible(true);
-              }}
-            >
-              Add to Dataset
-            </Button>
-          </div>
+          <Title level={4}>Table</Title>
+          <AntFormDisplay
+            formid={"5f0ff2fe89db1023b0165b19"}
+            onValuesChange={onEditValuesChangeTable}
+            initialValues={init}
+          />
         </>
-      )} */}
-
-      {/* <div>
-        {visible ? (
-          <Modal
-            title="Add to Dataset"
-            visible={true}
-            onCancel={() => {
-              setVisible(false);
-            }}
-            footer={[
-              <Button
-                key="cancel"
-                onClick={() => {
-                  setSelectData(null);
-                  setVisible(false);
-                }}
-              >
-                Cancel
-              </Button>,
-              <Button key="add" type="primary" onClick={doAddToDataset}>
-                Add to Dataset
-              </Button>,
-            ]}
-            width={600}
-          >
-            <AddtoDataset
-              data={selectData}
-              addToDatasetData={addToDatasetData}
-            />
-          </Modal>
-        ) : null}
-      </div> */}
-      <h3>hello</h3>
-      {edit && (
-        <AntFormDisplay
-          formid={"5f0ff2fe89db1023b0165b19"}
-          onValuesChange={onEditValuesChangeTable}
-          initialValues={init}
-        />
       )}
       {data && (
         <SingleTable
@@ -184,6 +131,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
           save={saveTable}
         />
       )}
+      <Dataget onDataGet={onDataGet} />
     </div>
   );
 };

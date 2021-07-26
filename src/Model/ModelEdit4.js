@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import _, { random } from "lodash";
+import _ from "lodash";
 import { globalVariable } from "actions";
 import { loadCSS } from "fg-loadcss";
 import {
@@ -19,8 +19,8 @@ import {
   Menu,
   Dropdown,
 } from "antd";
-import GridLay1 from "components/Common/ReactGridLayout1";
-import "components/Common/react-grid-layout.css";
+import GridLay1 from "Author/ReactGridLayout";
+import "Author/react-grid-layout.css";
 import { pick } from "components/functions/LodashUtil";
 import {
   FileAddOutlined,
@@ -91,13 +91,16 @@ const ModelEdit4 = (props) => {
     }
     if (!_.isEqual(JSON.parse(tempAuthor), tempAuthor1)) {
       const author1 = JSON.stringify(tempModel?.properties?.resultsAuthor);
-      let author;
+      let author = [];
       if (author1) author = JSON.parse(author1);
       localStorage.setItem("tempAuthor", JSON.stringify(author));
 
-      let rAuthor = mergeDtlist();
+      //let rAuthor = mergeDtlist();
 
-      let lay = _.filter(rAuthor, {
+      // let lay = _.filter(rAuthor, {
+      //   checked: true,
+      // });
+      let lay = _.filter(author, {
         checked: true,
       });
 
@@ -344,7 +347,11 @@ const ModelEdit4 = (props) => {
     // let nodelist = results[json.node];
     // json.nodelist = nodelist;
 
-    history.push(`./edit/author?key=${json.key}`);
+    //history.push(`/author?key=${json.key}`);
+    history.push({
+      pathname: `/author/${json.type}`,
+      state: { author: json },
+    });
   };
 
   const addBlank = () => {

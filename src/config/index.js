@@ -79,6 +79,7 @@ const globalVar = {
   tempMenu: [],
   tempData: null,
   tempModel: null,
+  author: null,
   tempModelList: null,
   tempProject: null,
   tempSessionList: null,
