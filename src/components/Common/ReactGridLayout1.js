@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -8,7 +9,7 @@ import AuthorTable from "Model/Authoring/AuthorTable";
 import AuthorHtml from "Model/Authoring/AuthorHtml";
 import AuthorMatrix from "Model/Authoring/AuthorMatrix";
 import CardSimple from "components/Common/CardSimple";
-import { Popconfirm, Tooltip, Typography, Button } from "antd";
+import { Popconfirm, Tooltip, Typography } from "antd";
 import {
   CloseOutlined,
   EditOutlined,
@@ -19,25 +20,23 @@ import {
   FileTextOutlined,
   AppstoreOutlined,
 } from "@ant-design/icons";
-import { FcMindMap, FcBarChart, FcList } from "react-icons/fc";
-import { CgWebsite } from "react-icons/cg";
-import { ImTable } from "react-icons/im";
+import IconArray1 from "components/SKD/IconArray1";
+import { FcMindMap } from "react-icons/fc";
 import "./react-grid-layout.css";
 import DisplayMore from "components/SKD/DisplayMore";
-import ButtonNew from "Collections/Buttons";
 import { makeStyles } from "@material-ui/core/styles";
 
 const { Title } = Typography;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const useStyles = makeStyles((theme) => ({
   card: {
-    padding: 30,
+    padding: "50px 10px 10px 10px",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
   },
-  cardbutton: { margin: 10, fontSize: 20 },
+  cardbutton: { fontSize: 50 },
 }));
 
 export default class ShowcaseLayout extends React.Component {
@@ -310,6 +309,57 @@ const chartType = (type) => {
 
 const CreateContent = (k) => {
   const classes = useStyles();
+  const history = useHistory();
+  const btnArr = [
+    {
+      tooltip: "chart",
+      awesome: "chart-area",
+      fontSize: "large",
+      color: "inherit",
+      "aria-controls": "chart",
+      onClick: () => {
+        history.push("/model/author?type=chart");
+      },
+    },
+    {
+      tooltip: "Table",
+      awesome: "table",
+      fontSize: "large",
+      color: "inherit",
+      onClick: () => {
+        history.push("/model/author?type=table");
+      },
+    },
+    {
+      tooltip: "Network graph",
+      awesome: "project-diagram",
+      fontSize: "large",
+      color: "inherit",
+      "aria-controls": "network graph",
+      onClick: () => {
+        history.push("/model/author?type=graph");
+      },
+    },
+    {
+      tooltip: "Html",
+      awesome: "file-code",
+      fontSize: "large",
+      color: "inherit",
+      onClick: () => {
+        history.push("/model/author?type=html");
+      },
+    },
+    {
+      tooltip: "Select from list",
+      awesome: "list-alt",
+      fontSize: "large",
+      color: "inherit",
+      "aria-controls": "archive list",
+      onClick: () => {
+        history.push("/model/author?type=list");
+      },
+    },
+  ];
   return (() => {
     switch (k.type) {
       case "html":
@@ -324,56 +374,9 @@ const CreateContent = (k) => {
         return <AuthorGraph authObj={k} title={true} />;
       default:
         return (
-          <CardSimple>
-            <div
-              className={classes.card}
-              // style={{
-              //   padding: 30,
-              //   display: "flex",
-              //   flexDirection: "row",
-              //   flexWrap: "wrap",
-              //   justifyContent: "space-between",
-              // }}
-            >
-              {/* <ButtonNew onClick={() => k.edit()} /> */}
-              <Button
-                size="large"
-                className={classes.cardbutton}
-                // style={{ margin: 10, fontSize: 20 }}
-                icon={chartType("chart")}
-              >
-                Chart
-              </Button>
-              <Button
-                size="large"
-                style={{ margin: 10, fontSize: 20 }}
-                icon={chartType("table")}
-              >
-                Table
-              </Button>
-              <Button
-                size="large"
-                style={{ margin: 10, fontSize: 20 }}
-                icon={chartType("graph")}
-              >
-                Graph
-              </Button>
-              <Button
-                size="large"
-                style={{ margin: 10, fontSize: 20 }}
-                icon={chartType("html")}
-              >
-                Html
-              </Button>
-              <Button
-                size="large"
-                style={{ margin: 10, fontSize: 20 }}
-                icon={chartType("list")}
-              >
-                List
-              </Button>
-            </div>
-          </CardSimple>
+          <div className={classes.card}>
+            <IconArray1 btnArr={btnArr} />
+          </div>
         );
     }
   })();

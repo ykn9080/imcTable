@@ -19,22 +19,22 @@ const useStyles = makeStyles((theme) => ({
 const Footer = () => {
   const classes = useStyles();
   return (
-    // <div className={classes.footer}>
-    //   <Typography variant="title">
-    //     Footer Text **current server:<b>{currentsetting.webserviceprefix}</b>
-    //   </Typography>
-    // </div>
-    <div class="navbar navbar-fixed-bottom">
-      <div class="navbar-inner">
-        <div style={{ textAlign: "center", color: "white", paddingTop: 10 }}>
-          <Typography variant="title">
-            **current server:<b>{currentsetting.webserviceprefix}</b>
-          </Typography>
-
-          <p>©2013 • CONFIDENTIAL ALL RIGHTS RESERVED</p>
-        </div>
-      </div>
+    <div className={classes.footer}>
+      <Typography variant="title">
+        Footer Text **current server:<b>{currentsetting.webserviceprefix}</b>
+      </Typography>
     </div>
+    // <div class="navbar navbar-fixed-bottom">
+    //   <div class="navbar-inner">
+    //     <div style={{ textAlign: "center", color: "white", paddingTop: 10 }}>
+    //       <Typography variant="title">
+    //         **current server:<b>{currentsetting.webserviceprefix}</b>
+    //       </Typography>
+
+    //       <p>©2013 • CONFIDENTIAL ALL RIGHTS RESERVED</p>
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

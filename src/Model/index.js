@@ -7,7 +7,8 @@ import ModelGraph from "Model/Authoring/ModelGraph";
 import ModelAuthor from "Model/Authoring/ModelAuthor";
 import ModelDemo from "components/Common/ReactGridLayout2";
 import ModelViewDemo from "Model/ModelViewDemo";
-import ModelSetting from "Model/ModelSetting";
+import AuthorTable from "Model/Authoring/AuthorTable";
+import background from "images/background.png";
 
 const Model = ({ match }) => {
   let title = match.params.name,
@@ -23,63 +24,75 @@ const Model = ({ match }) => {
   //const [adminMenu, setAdminMenu] = useState([]);
 
   return (
-    <div style={{ backgroundColor: "#CBD5DD", paddingBottom: 40 }}>
+    <>
+      <div
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundRepeat: "repeat",
+          minHeight: 900,
+        }}
+      >
+        {(() => {
+          switch (title) {
+            case "list":
+              return (
+                <>
+                  <DenseAppBar title={"Model"}></DenseAppBar>
+                  <ModelList type={title} />
+                </>
+              );
+            case "view":
+            default:
+              return (
+                <>
+                  <ModelView />
+                </>
+              );
+
+            case "edit":
+              return (
+                <>
+                  <ModelEdit />
+                </>
+              );
+            case "demo":
+              return (
+                <>
+                  <ModelDemo />
+                </>
+              );
+            case "fix":
+              return (
+                <>
+                  <ModelViewDemo />
+                </>
+              );
+            case "graph":
+              return (
+                <>
+                  <ModelGraph />
+                </>
+              );
+            case "author":
+              return (
+                <>
+                  <ModelAuthor />
+                </>
+              );
+          }
+        })()}
+      </div>
       {(() => {
         switch (title) {
-          case "list":
+          case "authortable":
             return (
               <>
-                <DenseAppBar title={"Model"}></DenseAppBar>
-                <ModelList type={title} />
-              </>
-            );
-          case "view":
-          default:
-            return (
-              <>
-                <ModelView />
-              </>
-            );
-
-          case "edit":
-            return (
-              <>
-                <ModelEdit />
-              </>
-            );
-          case "demo":
-            return (
-              <>
-                <ModelDemo />
-              </>
-            );
-          case "fix":
-            return (
-              <>
-                <ModelViewDemo />
-              </>
-            );
-          case "graph":
-            return (
-              <>
-                <ModelGraph />
-              </>
-            );
-          case "author":
-            return (
-              <>
-                <ModelAuthor />
-              </>
-            );
-          case "setting":
-            return (
-              <>
-                <ModelSetting />
+                <AuthorTable />
               </>
             );
         }
       })()}
-    </div>
+    </>
   );
 };
 

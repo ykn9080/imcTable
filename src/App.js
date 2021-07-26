@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./App.css";
 import Admin from "Admin";
 import Model from "Model";
+import Author from "Author";
 
-import Footer from "components/Layouts/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { userContext } from "components/functions/userContext";
 
@@ -21,13 +21,16 @@ const App = (props) => {
               component={Model}
             />
             <Route
+              path="/author/:name?/:child?/:grandchild?"
+              component={Author}
+            />
+            <Route
               path="/admin/:name?/:child?/:grandchild?"
               component={Admin}
             />
           </Switch>
         </userContext.Provider>
       </Router>
-      <Footer />
     </div>
   );
 };
