@@ -120,6 +120,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
             onValuesChange={onEditValuesChangeTable}
             initialValues={init}
           />
+          <Dataget onDataGet={onDataGet} />
         </>
       )}
       {data && (
@@ -131,7 +132,6 @@ const AuthorTable = ({ authObj, edit, title }) => {
           save={saveTable}
         />
       )}
-      <Dataget onDataGet={onDataGet} />
     </div>
   );
 };
