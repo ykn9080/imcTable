@@ -39,7 +39,7 @@ export const DraggableColumns = (props) => {
     setData(props.data);
   }, [props.columns, props.data]);
   useEffect(() => {
-    setTbsetting({ ...props.tbsetting, size: "small" });
+    setTbsetting({ ...props.tbsetting });
   }, [props.tbsetting]);
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {

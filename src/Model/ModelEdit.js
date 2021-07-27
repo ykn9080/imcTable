@@ -47,32 +47,32 @@ const ModelEdit = (props) => {
       return false;
     }
     let newtempModel = { ...tempModel };
-    if (tempData && tempData.source) {
-      // tempData.source.map((k, i) => {
-      //   delete k.dtlist;
-      //   delete k.dtorigin;
-      //   tempData.source.splice(i, 1, k);
-      // });
-      newtempModel.properties.source = tempData.source;
-    }
-    if (newtempModel.properties) {
-      const prop = newtempModel.properties;
-      if (props.resultsAuthor)
-        prop.resultsAuthor.map((k, i) => {
-          delete k.dtlist;
-          prop.resultsAuthor.splice(i, 1, k);
-          return null;
-        });
-      if (props.source)
-        prop.source.map((k, i) => {
-          delete k.dtlist;
-          delete k.dtorigin;
-          delete k.nodelist;
-          prop.source.splice(i, 1, k);
-          return null;
-        });
-      if (prop.origindata) delete prop.origindata;
-    }
+    // if (tempData && tempData.source) {
+    //   // tempData.source.map((k, i) => {
+    //   //   delete k.dtlist;
+    //   //   delete k.dtorigin;
+    //   //   tempData.source.splice(i, 1, k);
+    //   // });
+    //   newtempModel.properties.source = tempData.source;
+    // }
+    // if (newtempModel.properties) {
+    //   const prop = newtempModel.properties;
+    //   if (props.resultsAuthor)
+    //     prop.resultsAuthor.map((k, i) => {
+    //       delete k.dtlist;
+    //       prop.resultsAuthor.splice(i, 1, k);
+    //       return null;
+    //     });
+    //   if (props.source)
+    //     prop.source.map((k, i) => {
+    //       delete k.dtlist;
+    //       delete k.dtorigin;
+    //       delete k.nodelist;
+    //       prop.source.splice(i, 1, k);
+    //       return null;
+    //     });
+    //   if (prop.origindata) delete prop.origindata;
+    // }
 
     let method = "post",
       id = "";

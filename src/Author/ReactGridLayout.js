@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -24,6 +25,7 @@ import { FcMindMap } from "react-icons/fc";
 import "./react-grid-layout.css";
 import DisplayMore from "components/SKD/DisplayMore";
 import { makeStyles } from "@material-ui/core/styles";
+import { globalVariable } from "actions";
 
 const { Title } = Typography;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -309,6 +311,20 @@ const chartType = (type) => {
 const CreateContent = (k) => {
   const classes = useStyles();
   const history = useHistory();
+  //const dispatch = useDispatch();
+  let kk = {
+    checked: k.checked,
+    h: k.h,
+    i: k.i,
+    seq: k.seq,
+    setting: k.setting,
+    title: k.title,
+    type: "table",
+    w: k.w,
+    x: k.x,
+    y: k.y,
+  };
+  localStorage.removeItem("blanki");
   const btnArr = [
     {
       tooltip: "chart",
@@ -317,7 +333,10 @@ const CreateContent = (k) => {
       color: "inherit",
       "aria-controls": "chart",
       onClick: () => {
-        history.push("/author/chart");
+        k.type = "chart";
+        // dispatch(globalVariable({ tempModelNew: null }));
+        // history.push("/author/chart");
+        CreateContent(k);
       },
     },
     {
@@ -326,7 +345,13 @@ const CreateContent = (k) => {
       fontSize: "large",
       color: "inherit",
       onClick: () => {
-        history.push("/author/table");
+        // dispatch(globalVariable({ tempModelNew: null }));
+        // console.log(k);
+        localStorage.setItem("blanki", kk.i);
+        history.push({
+          pathname: "/author/table",
+          state: { author: { ...kk, type: "table" } },
+        });
       },
     },
     {
@@ -336,7 +361,8 @@ const CreateContent = (k) => {
       color: "inherit",
       "aria-controls": "network graph",
       onClick: () => {
-        history.push("/author/graph");
+        // dispatch(globalVariable({ tempModelNew: null }));
+        //history.push("/author/graph");
       },
     },
     {
@@ -345,7 +371,8 @@ const CreateContent = (k) => {
       fontSize: "large",
       color: "inherit",
       onClick: () => {
-        history.push("/author/html");
+        // dispatch(globalVariable({ tempModelNew: null }));
+        //history.push("/author/html");
       },
     },
     {
@@ -355,7 +382,8 @@ const CreateContent = (k) => {
       color: "inherit",
       "aria-controls": "archive list",
       onClick: () => {
-        history.push("/model/author?type=list");
+        //dispatch(globalVariable({ tempModelNew: null }));
+        //history.push("/model/author?type=list");
       },
     },
   ];

@@ -66,20 +66,20 @@ const ModelEdit4 = (props) => {
   let currentStep = useSelector((state) => state.global.currentStep);
   let trigger = useSelector((state) => state.global.triggerChild);
 
-  if (!tempData) {
-    dispatch(globalVariable({ currentStep: currentStep - 1 }));
-    message.loading({
-      content: "Data fetching, please wait...",
-      style: {
-        marginTop: "10vh",
-      },
-      duration: 2,
-    });
+  // if (!tempData) {
+  //   dispatch(globalVariable({ currentStep: currentStep - 1 }));
+  //   message.loading({
+  //     content: "Data fetching, please wait...",
+  //     style: {
+  //       marginTop: "10vh",
+  //     },
+  //     duration: 2,
+  //   });
 
-    setTimeout(function () {
-      dispatch(globalVariable({ nextStep: currentStep }));
-    }, 1500);
-  }
+  //   setTimeout(function () {
+  //     dispatch(globalVariable({ nextStep: currentStep }));
+  //   }, 1500);
+  // }
   useEffect(() => {
     localStorage.removeItem("tempAuthor");
   }, []);
@@ -109,7 +109,7 @@ const ModelEdit4 = (props) => {
       });
 
       dispatch(globalVariable({ tempModel }));
-      console.log(lay);
+      console.log("tempLayout", lay);
       setTempLayout(lay);
 
       modalInit();
@@ -336,11 +336,11 @@ const ModelEdit4 = (props) => {
     dispatch(globalVariable({ nextStep: currentStep }));
   };
   const onEditItem = (i) => {
-    if (!i) {
-      history.push(`./edit/graph`);
-      console.log("sssssss");
-      return;
-    }
+    // if (!i) {
+    //   history.push(`./edit/graph`);
+    //   console.log("sssssss");
+    //   return;
+    // }
     let odr = tempModel.properties.resultsAuthor;
     // let results = tempModel.properties.results;
     const json = _.find(odr, { i });
@@ -348,6 +348,7 @@ const ModelEdit4 = (props) => {
     // json.nodelist = nodelist;
 
     //history.push(`/author?key=${json.key}`);
+    console.log(json);
     history.push({
       pathname: `/author/${json.type}`,
       state: { author: json },
@@ -678,9 +679,7 @@ const ModelEdit4 = (props) => {
           onLayoutChange={onLayoutChange}
           onRemoveItem={onRemoveItem}
           onEditItem={onEditItem}
-        >
-          {items}
-        </GridLay1>
+        ></GridLay1>
       )}
 
       <Modal
@@ -696,6 +695,13 @@ const ModelEdit4 = (props) => {
       >
         <p>{ModalContent}</p>
       </Modal>
+      <Button
+        onClick={() => {
+          console.log(tempModel);
+        }}
+      >
+        tempModel
+      </Button>
     </>
   );
 };

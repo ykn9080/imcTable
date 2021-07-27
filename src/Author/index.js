@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import $ from "jquery";
+import _ from "lodash";
 import { globalVariable } from "actions";
 import DenseAppBar from "components/Common/AppBar";
 import AntBreadCrumb from "components/Common/BreadCrumb";
@@ -10,6 +11,10 @@ import AuthorTable from "Author/AuthorTable";
 import AuthorHtml from "Author/AuthorHtml";
 import AuthorChart from "Author/AuthorChart";
 import AuthorGraph from "Author/AuthorGraph";
+import Dataget from "Author/Dataget";
+import { Tabs } from "antd";
+
+const { TabPane } = Tabs;
 
 const Author = (props) => {
   const [authObj, setAuthObj] = useState();
@@ -17,6 +22,7 @@ const Author = (props) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+  const tempModel = useSelector((state) => state.global.tempModel);
   let match = useRouteMatch("/author/:id").url.split("/");
   //const dispatch = useDispatch();
   const location = useLocation();
@@ -57,6 +63,7 @@ const Author = (props) => {
       },
     },
   ];
+
   return (
     <>
       <DenseAppBar
@@ -72,21 +79,23 @@ const Author = (props) => {
       >
         <AntBreadCrumb />
       </div>
-      {(() => {
-        switch (title) {
-          case "table":
-            return <AuthorTable authObj={authObj} edit={true} />;
-          case "html":
-            return <AuthorHtml />;
-          case "chart":
-            return <AuthorChart />;
-          case "graph":
-            return <AuthorGraph />;
+      <div style={{ marginTop: 20 }}>
+        {(() => {
+          switch (title) {
+            case "table":
+              return <AuthorTable authObj={authObj} edit={true} />;
+            case "html":
+              return <AuthorHtml />;
+            case "chart":
+              return <AuthorChart />;
+            case "graph":
+              return <AuthorGraph />;
 
-          default:
-            return null;
-        }
-      })()}
+            default:
+              return null;
+          }
+        })()}
+      </div>
     </>
   );
 };

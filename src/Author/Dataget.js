@@ -1,10 +1,13 @@
 import React from "react";
 import $ from "jquery";
 import axios from "axios";
+import { HiOutlineViewList } from "react-icons/hi";
 import AntFormDisplay from "Form/AntFormDisplay";
-import { Input, Row, Col } from "antd";
+import { Input, Row, Col, Typography, Divider, Button } from "antd";
 
+const { Title } = Typography;
 const { TextArea } = Input;
+
 const Dataget = (props) => {
   const onFinish = (val) => {
     console.log(val);
@@ -34,7 +37,19 @@ const Dataget = (props) => {
       });
   };
   return (
-    <div>
+    <div style={{ padding: "5px 5px 10px 10px" }}>
+      <Row gutter={4}>
+        <Col flex={11}>
+          <Title level={4}>Data</Title>
+        </Col>
+        <Col flex={"auto"}>
+          <div style={{ textAlign: "right" }}>
+            <Button icon={<HiOutlineViewList />} />
+          </div>
+        </Col>
+      </Row>
+
+      <Divider style={{ marginTop: 0 }} />
       <Row gutter={4}>
         <Col flex={6}>
           {" "}
