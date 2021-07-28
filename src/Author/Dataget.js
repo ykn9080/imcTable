@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import axios from "axios";
 import { HiOutlineViewList } from "react-icons/hi";
@@ -9,6 +9,20 @@ const { Title } = Typography;
 const { TextArea } = Input;
 
 const Dataget = (props) => {
+  const [initVal, setInitVal] = useState();
+  useEffect(() => {
+    if (props.dtsrc) {
+      setInitVal(props.dtsrc.initVal);
+      $("#code").val(JSON.stringify(props.dtsrc.result, null, 2));
+    } else
+      setInitVal({
+        url: "",
+        method: "get",
+        body: "",
+        header: "",
+        datafield: "",
+      });
+  }, []);
   const onFinish = (val) => {
     console.log(val);
     const options = {
@@ -31,6 +45,10 @@ const Dataget = (props) => {
         }
         props.onDataGet(rtn);
         $("#code").val(JSON.stringify(response.data, null, 2));
+        localStorage.setItem(
+          "modeldtsrc",
+          JSON.stringify({ initVal: val, result: response.data })
+        );
       })
       .catch(function (error) {
         console.error(error);
@@ -52,11 +70,13 @@ const Dataget = (props) => {
       <Divider style={{ marginTop: 0 }} />
       <Row gutter={4}>
         <Col flex={6}>
-          {" "}
-          <AntFormDisplay
-            formid="60fe76d93f6f282f238e01bb"
-            onFinish={onFinish}
-          />
+          {initVal && (
+            <AntFormDisplay
+              formid="60fe76d93f6f282f238e01bb"
+              onFinish={onFinish}
+              initialValues={initVal}
+            />
+          )}
         </Col>
         <Col flex={6}>
           <TextArea rows={10} id="code"></TextArea>

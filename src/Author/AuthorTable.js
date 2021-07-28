@@ -18,6 +18,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [init, setInit] = useState();
+  const [dtsrc, setDtsrc] = useState();
   const [tbsetting, setTbsetting] = useState();
   // const [selectedTable, setSelectedTable] = useState();
   // const [selectData, setSelectData] = useState();
@@ -43,6 +44,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
         desc = st.desc;
         size = st.size;
       }
+      if (newAuth.dtsrc) setDtsrc(newAuth.dtsrc);
       setInit({ title, desc, size });
       setData(newAuth);
     } else {
@@ -65,10 +67,12 @@ const AuthorTable = ({ authObj, edit, title }) => {
         // newdata = { ...newdata, ...mdtb };
         localStorage.removeItem("modeltable");
       }
-
-      // if (!newdata.id) {
-      //   newdata = { ...newdata, id: idMake(), type: "table" };
-      // }
+      let dtsrc = localStorage.getItem("modeldtsrc");
+      if (dtsrc) {
+        dtsrc = JSON.parse(dtsrc);
+        set = { ...set, ...dtsrc };
+        localStorage.removeItem("modeldtsrc");
+      }
 
       newdata = {
         ...newdata,
@@ -138,7 +142,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
             )}
           </TabPane>
           <TabPane tab="Data" key="2">
-            <Dataget onDataGet={onDataGet} />
+            <Dataget onDataGet={onDataGet} dtsrc={dtsrc} />
           </TabPane>
         </Tabs>
       ) : (
