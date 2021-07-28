@@ -5,7 +5,7 @@ import { idMake } from "components/functions/dataUtil";
 import { Typography, Divider, Card, Button } from "antd";
 import SingleTable from "Data/DataEdit1_SingleTable";
 import AntFormDisplay from "Form/AntFormDisplay";
-import Dataget from "Author/Dataget";
+import Dataget from "Model/Author/Dataget";
 import { Tabs } from "antd";
 
 // import AddtoDataset from "Data/AddtoDataset";
@@ -43,6 +43,10 @@ const AuthorTable = ({ authObj, edit, title }) => {
         if (st.title) title = st.title;
         desc = st.desc;
         size = st.size;
+        let src = {};
+        if (st.initVal) src.initVal = st.initVal;
+        if (st.result) src.result = st.result;
+        setDtsrc(src);
       }
       if (newAuth.dtsrc) setDtsrc(newAuth.dtsrc);
       setInit({ title, desc, size });

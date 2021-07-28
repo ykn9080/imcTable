@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
 import { loadCSS } from "fg-loadcss";
-import GridLay1 from "Author/ReactGridLayout";
-import "components/Common/react-grid-layout.css";
+import GridLay1 from "Model/Author/ReactGridLayout";
+import "Model/Author/react-grid-layout.css";
 import { ErrorBoundary } from "react-error-boundary";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
@@ -21,8 +21,8 @@ const ModelLayout = (props) => {
 
   useEffect(() => {
     if (!props?.data?.properties?.resultsAuthor) return;
-    let lay = _.filter(props?.data?.properties?.resultsAuthor, {
-      checked: true,
+    let lay = _.filter(props?.data?.properties?.resultsAuthor, (o) => {
+      return o.checked === true && o.type !== "";
     });
     lay.sort(function (a, b) {
       return parseInt(a.i) - parseInt(b.i);

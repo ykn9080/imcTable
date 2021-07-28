@@ -19,14 +19,13 @@ import {
   Menu,
   Dropdown,
 } from "antd";
-import GridLay1 from "Author/ReactGridLayout";
-import "Author/react-grid-layout.css";
+import GridLay1 from "Model/Author/ReactGridLayout";
+import "Model/Author/react-grid-layout.css";
 import { pick } from "components/functions/LodashUtil";
 import {
-  FileAddOutlined,
   EditOutlined,
   RollbackOutlined,
-  SaveOutlined,
+  UndoOutlined,
   AppstoreAddOutlined,
   AppstoreOutlined,
   PlusOutlined,
@@ -62,7 +61,7 @@ const ModelEdit4 = (props) => {
   const [defaultlist, setDefaultlist] = useState();
 
   let tempModel = useSelector((state) => state.global.tempModel);
-  let tempData = useSelector((state) => state.global.tempData);
+  //let tempData = useSelector((state) => state.global.tempData);
   let currentStep = useSelector((state) => state.global.currentStep);
   let trigger = useSelector((state) => state.global.triggerChild);
 
@@ -86,6 +85,7 @@ const ModelEdit4 = (props) => {
   useEffect(() => {
     let tempAuthor = localStorage.getItem("tempAuthor");
     let tempAuthor1 = tempModel?.properties?.resultsAuthor;
+    console.log(_.cloneDeep(tempAuthor1));
     if (tempAuthor1 && tempAuthor1.length === 0) {
       createMain(tempModel);
     }
@@ -211,31 +211,31 @@ const ModelEdit4 = (props) => {
     });
     return null;
   });
-  const saveLayout = () => {
-    let layout = localStorage.getItem("tempLayout");
-    if (layout) {
-      layout = JSON.parse(layout);
-      let odr = tempModel.properties.resultsAuthor;
-      layout.map((k, i) => {
-        odr.map((a, b) => {
-          if (a.i === k.i) {
-            a.x = k.x;
-            a.y = k.y;
-            a.w = k.w;
-            a.h = k.h;
-            odr.splice(b, 1, a);
-            return null;
-          }
-          return null;
-        });
-      });
-      localStorage.removeItem("tempLayout");
-    }
-    dispatch(globalVariable({ tempModel }));
-  };
+  // const saveLayout = () => {
+  //   let layout = localStorage.getItem("tempLayout");
+  //   if (layout) {
+  //     layout = JSON.parse(layout);
+  //     let odr = tempModel.properties.resultsAuthor;
+  //     layout.map((k, i) => {
+  //       odr.map((a, b) => {
+  //         if (a.i === k.i) {
+  //           a.x = k.x;
+  //           a.y = k.y;
+  //           a.w = k.w;
+  //           a.h = k.h;
+  //           odr.splice(b, 1, a);
+  //           return null;
+  //         }
+  //         return null;
+  //       });
+  //     });
+  //     localStorage.removeItem("tempLayout");
+  //   }
+  //   dispatch(globalVariable({ tempModel }));
+  // };
   const saveTemp = (trigger) => {
     if (trigger.length > 0 && trigger[0] === "save") {
-      saveLayout();
+      saveLayout(tempModel);
       dispatch(globalVariable({ triggerChild: [] }));
     }
   };
@@ -243,13 +243,13 @@ const ModelEdit4 = (props) => {
   const onLayoutChange = (layout, layouts) => {
     localStorage.setItem("tempLayout", JSON.stringify(layout));
   };
-  const saveLayoutChange = (e) => {
-    e.stopPropagation();
-    saveLayout();
-    message
-      .loading("Saved to temporary file..", 2)
-      .then(() => message.info('press "Save" to server ->', 4));
-  };
+  // const saveLayoutChange = (e) => {
+  //   e.stopPropagation();
+  //   saveLayout(tempModel);
+  //   // message
+  //   //   .loading("Saved to temporary file..", 2)
+  //   //   .then(() => message.info('press "Save" to server ->', 4));
+  // };
 
   const resetLayout = (e) => {
     e.stopPropagation();
@@ -300,55 +300,45 @@ const ModelEdit4 = (props) => {
   const removeItem = (j) => {
     let odr = tempModel.properties.resultsAuthor;
     odr.map((k, i) => {
-      if (j.indexOf(k.id) > -1) {
-        ["x", "y", "w", "h", "i", "checked"].map((a) => {
-          delete k[a];
-          return null;
-        });
-        odr.splice(i, 1, k);
+      if (j.indexOf(k.i) > -1) {
+        // ["x", "y", "w", "h", "i", "checked"].map((a) => {
+        //   delete k[a];
+        //   return null;
+        // });
+        odr.splice(i, 1);
       }
       return null;
     });
-    //renumbering after delete
-    let filtered = _.filter(odr, { checked: true });
-    filtered.sort(function (a, b) {
-      return parseInt(a.i) - parseInt(b.i);
-    });
+    // //renumbering after delete
+    // let filtered = _.filter(odr, { checked: true });
+    // filtered.sort(function (a, b) {
+    //   return parseInt(a.i) - parseInt(b.i);
+    // });
 
-    odr.map((k, i) => {
-      filtered.map((a, b) => {
-        a.i = b.toString();
-        if (k.id === a.id) {
-          odr.splice(i, 1, a);
-        }
-        return null;
-      });
-      return null;
-    });
+    // odr.map((k, i) => {
+    //   filtered.map((a, b) => {
+    //     a.i = b.toString();
+    //     if (k.id === a.id) {
+    //       odr.splice(i, 1, a);
+    //     }
+    //     return null;
+    //   });
+    //   return null;
+    // });
   };
   const onRemoveItem = (i) => {
     let odr = tempModel.properties.resultsAuthor;
     const obj = _.find(odr, { i });
-    removeItem(obj.id);
+    removeItem(obj.i);
     dispatch(globalVariable({ tempModel }));
     //편법!!, force reload by go back and forth
     dispatch(globalVariable({ currentStep: currentStep - 1 }));
     dispatch(globalVariable({ nextStep: currentStep }));
   };
   const onEditItem = (i) => {
-    // if (!i) {
-    //   history.push(`./edit/graph`);
-    //   console.log("sssssss");
-    //   return;
-    // }
     let odr = tempModel.properties.resultsAuthor;
-    // let results = tempModel.properties.results;
     const json = _.find(odr, { i });
-    // let nodelist = results[json.node];
-    // json.nodelist = nodelist;
 
-    //history.push(`/author?key=${json.key}`);
-    console.log(json);
     history.push({
       pathname: `/author/${json.type}`,
       state: { author: json },
@@ -356,9 +346,12 @@ const ModelEdit4 = (props) => {
   };
 
   const addBlank = () => {
+    console.log(tempModel);
     let newtempModel = { ...tempModel };
     const author = newtempModel.properties.resultsAuthor;
+
     let newItem = createItem(author);
+    console.log(author);
     newItem.type = "";
 
     newItem.id = parseInt(Math.random() * 100).toString();
@@ -366,10 +359,11 @@ const ModelEdit4 = (props) => {
     newItem.checked = true;
     newItem.setting = { title: `new Item${author.length + 1}` };
     author.push(newItem);
+    console.log(_.cloneDeep(newtempModel));
     dispatch(globalVariable({ tempModel: newtempModel }));
     dispatch(globalVariable({ currentStep: currentStep - 1 }));
     dispatch(globalVariable({ nextStep: currentStep }));
-    console.log(newtempModel);
+    // console.log(newtempModel);
   };
   const handleOk = () => {
     setConfirmLoading(true);
@@ -444,14 +438,14 @@ const ModelEdit4 = (props) => {
       <Tooltip title="Create New1">
         <Button
           type="primary"
-          icon={<FileAddOutlined />}
+          icon={<PlusOutlined />}
           onClick={(e) => {
             e.stopPropagation();
             addBlank();
           }}
         />
       </Tooltip>
-      <Tooltip title="Create New">
+      {/* <Tooltip title="Create New">
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -461,8 +455,8 @@ const ModelEdit4 = (props) => {
             message.info("Select data for new authoring");
           }}
         />
-      </Tooltip>
-      <Tooltip title="Deploy Layout">
+      </Tooltip> */}
+      {/* <Tooltip title="Deploy Layout">
         <Button
           type="primary"
           icon={<AppstoreAddOutlined />}
@@ -471,7 +465,7 @@ const ModelEdit4 = (props) => {
             setVisible(true);
           }}
         />
-      </Tooltip>
+      </Tooltip> */}
       <Tooltip title="Reset Layout">
         <Popconfirm
           title="Are you sure to reset layout?"
@@ -479,7 +473,7 @@ const ModelEdit4 = (props) => {
           okText="Yes"
           cancelText="No"
         >
-          <Button type="primary" icon={<RollbackOutlined />} />
+          <Button type="primary" icon={<UndoOutlined />} />
         </Popconfirm>
       </Tooltip>
       <Tooltip title="How many Columns">
@@ -512,13 +506,13 @@ const ModelEdit4 = (props) => {
           />
         </Popover>
       </Tooltip>
-      <Tooltip title="Save Layout">
+      {/* <Tooltip title="Save Layout">
         <Button
           type="primary"
           icon={<i className="fas fa-save" />}
           onClick={saveLayoutChange}
         />
-      </Tooltip>
+      </Tooltip> */}
     </div>
   );
   const laybutton = (
@@ -547,11 +541,11 @@ const ModelEdit4 = (props) => {
           </Popover>
         </Tooltip>
       </Col>
-      <Col>
+      {/* <Col>
         <Tooltip title="Save Layout">
           <Button icon={<SaveOutlined />} onClick={saveLayoutChange} />
         </Tooltip>
-      </Col>
+      </Col> */}
     </Row>
   );
   function handleChange(value, e) {
@@ -706,4 +700,26 @@ const ModelEdit4 = (props) => {
   );
 };
 
+export const saveLayout = (tempModel) => {
+  let layout = localStorage.getItem("tempLayout");
+  if (layout) {
+    layout = JSON.parse(layout);
+    let odr = tempModel.properties.resultsAuthor;
+    layout.map((k, i) => {
+      odr.map((a, b) => {
+        if (a.i === k.i) {
+          a.x = k.x;
+          a.y = k.y;
+          a.w = k.w;
+          a.h = k.h;
+          odr.splice(b, 1, a);
+          return null;
+        }
+        return null;
+      });
+    });
+    localStorage.removeItem("tempLayout");
+  }
+  return tempModel;
+};
 export default ModelEdit4;

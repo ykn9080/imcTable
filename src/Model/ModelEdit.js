@@ -11,7 +11,7 @@ import { GoDeviceDesktop } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ModelEdit3 from "./ModelEdit3";
-import ModelEdit4 from "./ModelEdit4";
+import ModelEdit4, { saveLayout } from "./ModelEdit4";
 
 const ModelEdit = (props) => {
   const history = useHistory(); // do this inside the component
@@ -46,7 +46,8 @@ const ModelEdit = (props) => {
       message.error("Incomplete file.");
       return false;
     }
-    let newtempModel = { ...tempModel };
+
+    let newtempModel = { ...saveLayout(tempModel) };
     // if (tempData && tempData.source) {
     //   // tempData.source.map((k, i) => {
     //   //   delete k.dtlist;
@@ -98,7 +99,13 @@ const ModelEdit = (props) => {
 
   const gotoView = () => {
     dispatch(globalVariable({ selectedKey: tempModel._id }));
-    history.push(`/Model/view?_id=${tempModel._id}`);
+    //history.push(`/Model/view?_id=${tempModel._id}`);
+    history.push(`/view`);
+  };
+  const setting = () => {
+    //dispatch(globalVariable({ currentData: item }));
+    //dispatch(globalVariable({ selectedKey: query._id }));
+    history.push(`/setting`);
   };
   const btnArr = [
     {
@@ -112,6 +119,13 @@ const ModelEdit = (props) => {
       color: "inherit",
       "aria-controls": "save_server",
       onClick: saveToserver,
+    },
+    {
+      tooltip: "Setting",
+      awesome: "cog",
+      fontSize: "small",
+      color: "inherit",
+      onClick: setting,
     },
     // {
     //   tooltip: "Go to previous",
@@ -130,7 +144,7 @@ const ModelEdit = (props) => {
   return (
     <>
       <DenseAppBar
-        title={"Model Edit"}
+        title={"Dashboard Edit"}
         right={<IconArray1 btnArr={btnArr} />}
       ></DenseAppBar>
       <div

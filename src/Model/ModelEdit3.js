@@ -178,65 +178,65 @@ const ModelEdit3 = (props) => {
     dispatch(globalVariable({ currentStep: nextStep }));
     dispatch(globalVariable({ nextStep: null }));
   }
-  useEffect(() => {
-    dispatch(globalVariable({ helpLink: `/model/edit?step=${currentStep}` }));
-  }, []);
-  useEffect(() => {
-    const rtn = refreshModelData(tempModel, tempData);
-    dispatch(globalVariable({ tempModel: rtn.tempModel }));
-    dispatch(globalVariable({ tempData: rtn.tempData }));
-  }, [filtered]);
+  // useEffect(() => {
+  //   dispatch(globalVariable({ helpLink: `/model/edit?step=${currentStep}` }));
+  // }, []);
+  // useEffect(() => {
+  //   const rtn = refreshModelData(tempModel, tempData);
+  //   dispatch(globalVariable({ tempModel: rtn.tempModel }));
+  //   dispatch(globalVariable({ tempData: rtn.tempData }));
+  // }, [filtered]);
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={() => resetData("all")}>
-        <Tooltip title="Reset results,resultAuthor,source" placement="right">
-          Reset All
-        </Tooltip>
-      </Menu.Item>
-    </Menu>
-  );
-  const resetData = (type) => {
-    if (!tempModel) return false;
-    let newtempModel = { ...tempModel };
-    const pro = newtempModel?.properties;
-    if (!pro) return false;
-    delete pro.source;
-    if (type === "all") {
-      delete pro.results;
-      delete pro.resultsAuthor;
-    }
-    newtempModel.properties = pro;
-    dispatch(globalVariable({ tempModel: newtempModel }));
-    dispatch(globalVariable({ tempData: [] }));
+  // const menu = (
+  //   <Menu>
+  //     <Menu.Item key="1" onClick={() => resetData("all")}>
+  //       <Tooltip title="Reset results,resultAuthor,source" placement="right">
+  //         Reset All
+  //       </Tooltip>
+  //     </Menu.Item>
+  //   </Menu>
+  // );
+  // const resetData = (type) => {
+  //   if (!tempModel) return false;
+  //   let newtempModel = { ...tempModel };
+  //   const pro = newtempModel?.properties;
+  //   if (!pro) return false;
+  //   delete pro.source;
+  //   if (type === "all") {
+  //     delete pro.results;
+  //     delete pro.resultsAuthor;
+  //   }
+  //   newtempModel.properties = pro;
+  //   dispatch(globalVariable({ tempModel: newtempModel }));
+  //   dispatch(globalVariable({ tempData: [] }));
 
-    dispatch(globalVariable({ currentStep: currentStep - 1 }));
-    if (type === "source") dispatch(globalVariable({ nextStep: currentStep }));
-  };
+  //   dispatch(globalVariable({ currentStep: currentStep - 1 }));
+  //   if (type === "source") dispatch(globalVariable({ nextStep: currentStep }));
+  // };
 
-  const slot = ["right"].reduce(
-    (acc, left) => ({
-      ...acc,
-      [left]: (
-        <>
-          <Dropdown overlay={menu} trigger={["contextMenu"]}>
-            <Tooltip title="Reset source" placement="right">
-              <Popconfirm
-                placement="top"
-                title={"Are you sure to reset?"}
-                onConfirm={() => resetData("source")}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button icon={<GrClearOption />} style={{ width: 80 }} />
-              </Popconfirm>
-            </Tooltip>
-          </Dropdown>
-        </>
-      ),
-    }),
-    {}
-  );
+  // const slot = ["right"].reduce(
+  //   (acc, left) => ({
+  //     ...acc,
+  //     [left]: (
+  //       <>
+  //         <Dropdown overlay={menu} trigger={["contextMenu"]}>
+  //           <Tooltip title="Reset source" placement="right">
+  //             <Popconfirm
+  //               placement="top"
+  //               title={"Are you sure to reset?"}
+  //               onConfirm={() => resetData("source")}
+  //               okText="Yes"
+  //               cancelText="No"
+  //             >
+  //               <Button icon={<GrClearOption />} style={{ width: 80 }} />
+  //             </Popconfirm>
+  //           </Tooltip>
+  //         </Dropdown>
+  //       </>
+  //     ),
+  //   }),
+  //   {}
+  // );
 
   return (
     <div

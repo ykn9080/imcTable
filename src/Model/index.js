@@ -4,11 +4,10 @@ import $ from "jquery";
 import ModelList from "Model/ModelList";
 import ModelView from "Model/ModelView";
 import ModelEdit from "Model/ModelEdit";
-import ModelGraph from "Model/Authoring/ModelGraph";
-import ModelAuthor from "Model/Authoring/ModelAuthor";
-import ModelDemo from "components/Common/ReactGridLayout2";
-import ModelViewDemo from "Model/ModelViewDemo";
-import AuthorTable from "Model/Authoring/AuthorTable";
+import ModelSetting from "Model/ModelSetting";
+// import ModelGraph from "Model/Authoring/ModelGraph";
+// import ModelAuthor from "Model/Author/ModelAuthor";
+import AuthorTable from "Model/Author/AuthorTable";
 import background from "images/background.png";
 
 const Model = ({ match }) => {
@@ -62,30 +61,25 @@ const Model = ({ match }) => {
                   <ModelEdit />
                 </>
               );
-            case "demo":
+
+            case "setting":
               return (
                 <>
-                  <ModelDemo />
+                  <ModelSetting />
                 </>
               );
-            case "fix":
-              return (
-                <>
-                  <ModelViewDemo />
-                </>
-              );
-            case "graph":
-              return (
-                <>
-                  <ModelGraph />
-                </>
-              );
-            case "author":
-              return (
-                <>
-                  <ModelAuthor />
-                </>
-              );
+            // case "graph":
+            //   return (
+            //     <>
+            //       <ModelGraph />
+            //     </>
+            //   );
+            // case "author":
+            //   return (
+            //     <>
+            //       <ModelAuthor />
+            //     </>
+            //   );
           }
         })()}
       </div>

@@ -20,7 +20,7 @@ const ModelSetting = () => {
       awesome: "level-up-alt",
       fontSize: "small",
       color: "inherit",
-      onClick: () => history.push("/model"),
+      onClick: () => history.push("/"),
     },
   ];
   return (

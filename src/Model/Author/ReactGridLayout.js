@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import AuthorChart from "Author/AuthorChart";
-import AuthorGraph from "Author/AuthorGraph";
-import AuthorTable from "Author/AuthorTable";
-import AuthorHtml from "Author/AuthorHtml";
-import AuthorMatrix from "Author/AuthorMatrix";
+import AuthorChart from "Model/Author/AuthorChart";
+import AuthorGraph from "Model/Author/AuthorGraph";
+import AuthorTable from "Model/Author/AuthorTable";
+import AuthorHtml from "Model/Author/AuthorHtml";
+import AuthorMatrix from "Model/Author/AuthorMatrix";
 import { Popconfirm, Tooltip, Typography } from "antd";
 import {
   CloseOutlined,
@@ -333,10 +333,11 @@ const CreateContent = (k) => {
       color: "inherit",
       "aria-controls": "chart",
       onClick: () => {
-        k.type = "chart";
-        // dispatch(globalVariable({ tempModelNew: null }));
-        // history.push("/author/chart");
-        CreateContent(k);
+        localStorage.setItem("blanki", kk.i);
+        history.push({
+          pathname: "/author/chart",
+          state: { author: { ...kk, type: "chart" } },
+        });
       },
     },
     {
@@ -361,8 +362,11 @@ const CreateContent = (k) => {
       color: "inherit",
       "aria-controls": "network graph",
       onClick: () => {
-        // dispatch(globalVariable({ tempModelNew: null }));
-        //history.push("/author/graph");
+        localStorage.setItem("blanki", kk.i);
+        history.push({
+          pathname: "/author/graph",
+          state: { author: { ...kk, type: "graph" } },
+        });
       },
     },
     {
@@ -371,8 +375,11 @@ const CreateContent = (k) => {
       fontSize: "large",
       color: "inherit",
       onClick: () => {
-        // dispatch(globalVariable({ tempModelNew: null }));
-        //history.push("/author/html");
+        localStorage.setItem("blanki", kk.i);
+        history.push({
+          pathname: "/author/html",
+          state: { author: { ...kk, type: "html" } },
+        });
       },
     },
     {

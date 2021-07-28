@@ -7,11 +7,11 @@ import { globalVariable } from "actions";
 import DenseAppBar from "components/Common/AppBar";
 import AntBreadCrumb from "components/Common/BreadCrumb";
 import IconArray1 from "components/SKD/IconArray1";
-import AuthorTable from "Author/AuthorTable";
-import AuthorHtml from "Author/AuthorHtml";
-import AuthorChart from "Author/AuthorChart";
-import AuthorGraph from "Author/AuthorGraph";
-import Dataget from "Author/Dataget";
+import AuthorTable from "Model/Author/AuthorTable";
+import AuthorHtml from "Model/Author/AuthorHtml";
+import AuthorChart from "Model/Author/AuthorChart";
+import AuthorGraph from "Model/Author/AuthorGraph";
+import Dataget from "Model/Author/Dataget";
 import { Tabs } from "antd";
 
 const { TabPane } = Tabs;
@@ -59,7 +59,7 @@ const Author = (props) => {
       fontSize: "small",
       color: "inherit",
       onClick: () => {
-        history.push("/model/edit");
+        history.push("/edit");
       },
     },
   ];

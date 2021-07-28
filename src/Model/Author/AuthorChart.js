@@ -5,10 +5,11 @@ import "components/Common/Antd.css";
 import axios from "axios";
 import { globalVariable } from "actions";
 import { currentsetting } from "components/functions/config";
-import { Typography, Row, Col } from "antd";
-// import AntFormDisplay from "components/Common/AntFormDisplay";
+import { Typography, Row, Col, Tabs, Divider, Card, Button } from "antd";
+import AntFormDisplay from "Form/AntFormDisplay";
 import { idMake } from "components/functions/dataUtil";
-// import Rechart from "components/Chart/ReChart";
+import Dataget from "Model/Author/Dataget";
+import Rechart from "Model/Chart/ReChart";
 // import Chartjs2 from "components/Chart/react-chartjs-2";
 // import Reactvis from "components/Chart/react-vis";
 // import VicScatter from "components/Chart/Victory";
@@ -16,14 +17,16 @@ import { idMake } from "components/functions/dataUtil";
 var randomColor = require("randomcolor");
 
 const { Title } = Typography;
+const { TabPane } = Tabs;
 
-const AuthorChart = ({ authObj, edit, title }) => {
+const AuthorChart = ({ authObj, edit = true, title }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
+  const [dtsrc, setDtsrc] = useState({});
   const [nodelist, setNodelist] = useState();
   const [filterlist, setFilterlist] = useState();
-  const [setting1, setSetting1] = useState();
-  const [formlist, setFormlist] = useState();
+  const [setting1, setSetting1] = useState(true);
+  const [formlist, setFormlist] = useState([]);
   const [initChart, setInitChart] = useState();
   const tempModel = useSelector((state) => state.global.tempModel);
   const trigger = useSelector((state) => state.global.triggerChild);
@@ -114,9 +117,14 @@ const AuthorChart = ({ authObj, edit, title }) => {
         const ds = authObj.setting;
         setSetting1(ds);
         setInitChart(ds);
+        let src = {};
+        if (ds.initVal) src.initVal = ds.initVal;
+        if (ds.result) src.result = ds.result;
+        setDtsrc(src);
       } else {
         setInitChart({});
       }
+      if (authObj.dtsrc) setDtsrc(authObj.dtsrc);
     }
     // setTimeout(() => {
     //   $(".ant-row.ant-form-item").css("margin-bottom", 1);
@@ -139,11 +147,17 @@ const AuthorChart = ({ authObj, edit, title }) => {
         setSetting1(set);
         localStorage.removeItem("modelchart");
       }
+      let dtsrc = localStorage.getItem("modeldtsrc");
+      if (dtsrc) {
+        dtsrc = JSON.parse(dtsrc);
+        set = { ...set, ...dtsrc };
+        localStorage.removeItem("modeldtsrc");
+      }
       let datanew = {};
       datanew = data;
-      if (!datanew.id) {
-        datanew = { ...datanew, id: idMake(), type: "chart" };
-      }
+      // if (!datanew.id) {
+      //   datanew = { ...datanew, id: idMake(), type: "chart" };
+      // }
       datanew = {
         ...datanew,
         setting: set,
@@ -237,59 +251,109 @@ const AuthorChart = ({ authObj, edit, title }) => {
   };
   //treemap
   //Reactvis
-
+  const onDataGet = (val) => {
+    const newData = { ...data, dtlist: val };
+    setData(newData);
+  };
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
   return (
     <>
-      {setting1 && title && (
-        <div style={title && titlestyle}>
-          <Title level={4}>{setting1.title}</Title>
-        </div>
-      )}
-      <Row gutter={4}>
-        <Col span={edit ? 14 : 24}>
-          {setting1 &&
-            (() => {
-              switch (setting1.charttype) {
-                // case "pie":
-                //   const dt = chartjsData(filterlist, setting1);
-                //   return <Chartjs2 data={dt} />;
-                // case "treemap":
-                //   return <Reactvis />;
-                // case "scatter":
-                //   const dt2 = VicScatterData();
-                //   return (
-                //     setting1 &&
-                //     setting1.value && (
-                //       <VicScatter dt={dt2} bubble={setting1.value[0]} />
-                //     )
-                //   );
-                default:
-                  return (
-                    <div style={{ margin: 20, marginRight: 7 }}>
-                      {/* <Rechart data={filterlist} {...setting1} aspect={1.6} /> */}
+      <Tabs tabPosition={"left"}>
+        <TabPane tab="Author" key="1">
+          {
+            <>
+              <Title level={4}>Chart</Title>
+              <Divider style={{ marginTop: 0 }} />
+              <Row gutter={4}>
+                <Col span={edit ? 14 : 24}>
+                  {setting1 &&
+                    (() => {
+                      switch (setting1.charttype) {
+                        // case "pie":
+                        //   const dt = chartjsData(filterlist, setting1);
+                        //   return <Chartjs2 data={dt} />;
+                        // case "treemap":
+                        //   return <Reactvis />;
+                        // case "scatter":
+                        //   const dt2 = VicScatterData();
+                        //   return (
+                        //     setting1 &&
+                        //     setting1.value && (
+                        //       <VicScatter dt={dt2} bubble={setting1.value[0]} />
+                        //     )
+                        //   );
+                        default:
+                          return (
+                            <div style={{ margin: 20, marginRight: 7 }}>
+                              <Rechart
+                                data={filterlist}
+                                {...setting1}
+                                aspect={1.6}
+                              />
+                            </div>
+                          );
+                      }
+                    })()}
+                </Col>
+                {edit && (
+                  <Col span={10}>
+                    <div style={{ marginTop: 10, marginRight: 5 }}>
+                      {formlist && (
+                        <AntFormDisplay
+                          formid="5f1a590712d3bf549d18e583"
+                          onValuesChange={onValuesChangeTable1}
+                          patchlist={formlist}
+                          initialValues={initChart}
+                        />
+                      )}
                     </div>
-                  );
-              }
-            })()}
-        </Col>
-        {edit && (
-          <Col span={10}>
-            <div style={{ marginTop: 10, marginRight: 5 }}>
-              {/* {formlist && (
-                <AntFormDisplay
-                  formid="5f1a590712d3bf549d18e583"
-                  onValuesChange={onValuesChangeTable1}
-                  patchlist={formlist}
-                  initialValues={initChart}
-                />
-              )
-              } */}
-            </div>
-          </Col>
-        )}
-      </Row>
+                  </Col>
+                )}
+              </Row>
+            </>
+          }
+          {<div style={{ marginTop: 40 }}></div>}
+        </TabPane>
+        <TabPane tab="Data" key="2">
+          <Dataget onDataGet={onDataGet} dtsrc={dtsrc} />
+        </TabPane>
+      </Tabs>
     </>
   );
+  // return (
+  //   <div style={{ padding: "5px 5px 10px 10px" }}>
+  //     <Tabs tabPosition={"left"}>
+  //       <TabPane tab="Author" key="1">
+  //         {
+  //           <>
+  //             <Title level={4}>Chart</Title>
+  //             <Divider style={{ marginTop: 0 }} />
+  //             <Card>
+  //               <AntFormDisplay
+  //                 formid="5f1a590712d3bf549d18e583"
+  //                 onValuesChange={onValuesChangeTable1}
+  //                 patchlist={formlist}
+  //                 initialValues={initChart}
+  //               />
+  //             </Card>
+  //           </>
+  //         }
+  //         {<div style={{ marginTop: 40 }}></div>}
+  //       </TabPane>
+  //       <TabPane tab="Data" key="2">
+  //         <Dataget onDataGet={onDataGet} />
+  //         {/* dtsrc={dtsrc} /> */}
+  //       </TabPane>
+  //     </Tabs>
+
+  //     <Button
+  //       onClick={() => {
+  //         console.log(tempModel);
+  //       }}
+  //     >
+  //       tempModel
+  //     </Button>
+  //   </div>
+  // );
 };
 export default AuthorChart;

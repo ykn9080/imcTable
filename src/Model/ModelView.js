@@ -13,7 +13,6 @@ import { Typography, Modal } from "antd";
 import Description from "components/SKD/Description";
 import ModelViewLayout from "Model/ModelViewLayout";
 import ListGen from "components/SKD/ListGen";
-import Dt from "./block.json";
 
 const { Title } = Typography;
 
@@ -32,8 +31,20 @@ const ModelView = (props) => {
   useEffect(() => {
     dispatch(globalVariable({ display: "list" })); //modellist compact
     if (!tempModel) {
-      dispatch(globalVariable({ tempModel: location.state }));
-      //dispatch(globalVariable({ tempModel: Dt }));
+      if (location.state)
+        dispatch(globalVariable({ tempModel: location.state }));
+      else {
+        const id = "5f83e068d9fcf318ff557f52";
+        let config = {
+          method: "get",
+          url: `${currentsetting.webserviceprefix}model/${id}`,
+        };
+
+        axios(config).then((r) => {
+          dispatch(globalVariable({ tempModel: r.data }));
+        });
+        //
+      }
     }
     if (tempModel) {
       let linknode = tempModel?.properties?.linknode;
@@ -59,18 +70,14 @@ const ModelView = (props) => {
   const edit = () => {
     //dispatch(globalVariable({ currentData: item }));
     dispatch(globalVariable({ selectedKey: query._id }));
-    history.push(`/model/edit`);
+    history.push(`/edit`);
 
     dispatch(globalVariable({ currentStep: 4 }));
     //dispatch(globalVariable({ currentData: null }));
     // dispatch(globalVariable({ tempData: null }));
     // dispatch(globalVariable({ tempModel: null }));
   };
-  const setting = () => {
-    //dispatch(globalVariable({ currentData: item }));
-    dispatch(globalVariable({ selectedKey: query._id }));
-    history.push(`/model/setting`);
-  };
+
   //model setup summary
   //parameter
   const btnArr = [
@@ -95,13 +102,6 @@ const ModelView = (props) => {
       fontSize: "small",
       color: "inherit",
       onClick: edit,
-    },
-    {
-      tooltip: "Setting",
-      awesome: "cog",
-      fontSize: "small",
-      color: "inherit",
-      onClick: setting,
     },
   ];
 
@@ -142,7 +142,7 @@ const ModelView = (props) => {
       .then((response) => {
         dispatch(globalVariable({ tempModel: response.data }));
       });
-    history.push(`/model/view?_id=${item._id}`);
+    history.push(`/view?_id=${item._id}`);
     setVisible(false);
   };
   return (
