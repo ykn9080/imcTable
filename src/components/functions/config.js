@@ -5,10 +5,10 @@ const server_url = {
   docean: "http://imcmaster.pro:3001/",
   dcyram: "http://imcmaster.pro:9006/",
   cyram_dev: "http://src.netminer.com:9006/",
-  namubuntu: "http://imcmaster.iptime.org:3001/",
+  namubuntu: "http://imcmaster.iptime.org:9006/",
   digitalocean: "http://167.71.208.218:9006/",
 };
-const current_url = server_url.local;
+const current_url = server_url.namubuntu;
 const currentsetting = {
   passporturl: current_url,
   webserviceprefix: current_url,

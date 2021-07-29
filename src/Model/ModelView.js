@@ -34,6 +34,15 @@ const ModelView = (props) => {
     if (!tempModel) {
       dispatch(globalVariable({ tempModel: location.state }));
       //dispatch(globalVariable({ tempModel: Dt }));
+      const id = "5f83e068d9fcf318ff557f52";
+      let config = {
+        method: "get",
+        url: `${currentsetting.webserviceprefix}model/${id}`,
+      };
+
+      axios(config).then((r) => {
+        dispatch(globalVariable({ tempModel: r.data }));
+      });
     }
     if (tempModel) {
       let linknode = tempModel?.properties?.linknode;
@@ -59,7 +68,7 @@ const ModelView = (props) => {
   const edit = () => {
     //dispatch(globalVariable({ currentData: item }));
     dispatch(globalVariable({ selectedKey: query._id }));
-    history.push(`/model/edit`);
+    history.push(`/edit`);
 
     dispatch(globalVariable({ currentStep: 4 }));
     //dispatch(globalVariable({ currentData: null }));
@@ -69,7 +78,7 @@ const ModelView = (props) => {
   const setting = () => {
     //dispatch(globalVariable({ currentData: item }));
     dispatch(globalVariable({ selectedKey: query._id }));
-    history.push(`/model/setting`);
+    history.push(`/setting`);
   };
   //model setup summary
   //parameter
@@ -128,7 +137,7 @@ const ModelView = (props) => {
       .then((response) => {
         dispatch(globalVariable({ tempModel: response.data }));
       });
-    history.push(`/model/view?_id=${item._id}`);
+    history.push(`/view?_id=${item._id}`);
     setVisible(false);
   };
   return (

@@ -46,7 +46,7 @@ const Dataget = (props) => {
   useEffect(() => {
     setShowalert(false);
     setLoading(false);
-    if (Object.keys(props.dtsrc).length > 0) {
+    if (props.dtsrc && Object.keys(props.dtsrc).length > 0) {
       setInitVal(props.dtsrc.initVal);
       setResult(JSON.stringify(props.dtsrc.result, null, 2));
     } else {
@@ -74,17 +74,16 @@ const Dataget = (props) => {
     return array;
   };
   const onFinish = (val) => {
-    console.log(val);
-    const options = {
+    let options = {
       method: val.method,
       url: val.url,
     };
-    if (val.header) options = { ...options, header: JSON.parse(val.header) };
+    if (val.header) options = { ...options, header: val.header };
+
     setLoading(true);
     axios
       .request(options)
       .then(function (response) {
-        console.log(response.data);
         let rtn = response.data;
         //$("#dvResult").css({ visibility: "visible" });
         if (val.datafield) {
@@ -94,7 +93,6 @@ const Dataget = (props) => {
             rtn = rtn[k];
           });
         }
-        console.log(rtn);
         setResult(JSON.stringify(rtn, null, 2));
         localStorage.setItem(
           "modeldtsrc",
@@ -111,7 +109,7 @@ const Dataget = (props) => {
         setLoading(false);
       });
   };
-  console.log("initVal", initVal, "result", result);
+
   return (
     <div style={{ padding: "5px 5px 10px 10px" }}>
       <Row gutter={4}>

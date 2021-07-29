@@ -85,11 +85,11 @@ const Author = (props) => {
             case "table":
               return <AuthorTable authObj={authObj} edit={true} />;
             case "html":
-              return <AuthorHtml />;
+              return <AuthorHtml authObj={authObj} edit={true} />;
             case "chart":
-              return <AuthorChart />;
+              return <AuthorChart authObj={authObj} edit={true} />;
             case "graph":
-              return <AuthorGraph />;
+              return <AuthorGraph authObj={authObj} edit={true} />;
 
             default:
               return null;

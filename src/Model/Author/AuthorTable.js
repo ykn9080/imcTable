@@ -30,7 +30,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
   const trigger = useSelector((state) => state.global.triggerChild);
 
   useEffect(() => {
-    dispatch(globalVariable({ helpLink: "model/edit/graph?type=table" }));
+    dispatch(globalVariable({ helpLink: "edit/graph?type=table" }));
     if (authObj) {
       let newAuth = { ...authObj };
       let title = "",
