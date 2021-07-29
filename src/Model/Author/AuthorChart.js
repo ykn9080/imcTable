@@ -253,7 +253,8 @@ const AuthorChart = ({ authObj, edit = true, title }) => {
   //Reactvis
   const onDataGet = (val) => {
     const newData = { ...data, dtlist: val };
-    setData(newData);
+    setFilterlist(val);
+    if (val.length > 0) makeOptionArray(val[0]);
   };
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
   return (
