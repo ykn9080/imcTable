@@ -1,151 +1,149 @@
-import React, { useState } from 'react';
-import { Column } from '@ant-design/charts';
-import _ from 'lodash';
+import React, { useState } from "react";
+import { Column } from "@ant-design/charts";
+import _ from "lodash";
 
 var data = [
   {
-    nodeset: 'Club1',
-    name: 'John',
+    nodeset: "Club1",
+    name: "John",
     value: 2,
   },
   {
-    nodeset: 'Club1',
-    name: 'Thomas',
+    nodeset: "Club1",
+    name: "Thomas",
     value: 5,
   },
   {
-    nodeset: 'Club1',
-    name: 'Anna',
+    nodeset: "Club1",
+    name: "Anna",
     value: 7,
   },
   {
-    nodeset: 'Club1',
-    name: 'James',
+    nodeset: "Club1",
+    name: "James",
     value: 5,
   },
   {
-    nodeset: 'Club1',
-    name: 'Peter',
+    nodeset: "Club1",
+    name: "Peter",
     value: 23,
   },
   {
-    nodeset: 'Club1',
-    name: 'Mary',
+    nodeset: "Club1",
+    name: "Mary",
     value: 22,
   },
   {
-    nodeset: 'Club1',
-    name: 'Michael',
+    nodeset: "Club1",
+    name: "Michael",
     value: 16,
   },
   {
-    nodeset: 'Club2',
-    name: 'John',
+    nodeset: "Club2",
+    name: "John",
     value: 16,
   },
   {
-    nodeset: 'Club2',
-    name: 'Thomas',
+    nodeset: "Club2",
+    name: "Thomas",
     value: 17,
   },
   {
-    nodeset: 'Club2',
-    name: 'Anna',
+    nodeset: "Club2",
+    name: "Anna",
     value: 11,
   },
   {
-    nodeset: 'Club2',
-    name: 'James',
+    nodeset: "Club2",
+    name: "James",
     value: 8,
   },
   {
-    nodeset: 'Club2',
-    name: 'Peter',
+    nodeset: "Club2",
+    name: "Peter",
     value: 21,
   },
   {
-    nodeset: 'Club2',
-    name: 'Mary',
+    nodeset: "Club2",
+    name: "Mary",
     value: 5,
   },
   {
-    nodeset: 'Club2',
-    name: 'Michael',
+    nodeset: "Club2",
+    name: "Michael",
     value: 16,
   },
   {
-    nodeset: 'Club3',
-    name: 'John',
+    nodeset: "Club3",
+    name: "John",
     value: 13,
   },
   {
-    nodeset: 'Club3',
-    name: 'Thomas',
+    nodeset: "Club3",
+    name: "Thomas",
     value: 23,
   },
   {
-    nodeset: 'Club3',
-    name: 'Anna',
+    nodeset: "Club3",
+    name: "Anna",
     value: 26,
   },
   {
-    nodeset: 'Club3',
-    name: 'James',
+    nodeset: "Club3",
+    name: "James",
     value: 48,
   },
   {
-    nodeset: 'Club3',
-    name: 'Peter',
+    nodeset: "Club3",
+    name: "Peter",
     value: 12,
   },
   {
-    nodeset: 'Club3',
-    name: 'Mary',
+    nodeset: "Club3",
+    name: "Mary",
     value: 29,
   },
   {
-    nodeset: 'Club3',
-    name: 'Michael',
+    nodeset: "Club3",
+    name: "Michael",
     value: 10,
   },
 ];
 
-
-const AreaBox = () => {
-
+const AreaBox = (props) => {
+  if (props.data) data = props.data;
   var config = {
     height: 400,
     data: data,
-    xField: 'name',
-    yField: 'value',
-    seriesField: 'nodeset',
+    xField: "name",
+    yField: "value",
+    seriesField: "nodeset",
     isPercent: true,
     isStack: true,
     legend: {
-      layout: 'vertical',
-      position: 'right'
+      layout: "vertical",
+      position: "right",
     },
     label: {
-      position: 'middle',
+      position: "middle",
       content: function content(item) {
         return item.value.toFixed(2);
       },
-      style: { 
-        fill: '#fff',
+      style: {
+        fill: "#fff",
       },
     },
-    legend: { 
-      layout: 'horizontal',
-      position: 'bottom'
+    legend: {
+      layout: "horizontal",
+      position: "bottom",
     },
-
   };
   return (
     <>
       <div>
         <Column {...config} />
-    </div>
+      </div>
     </>
-  )
+  );
 };
 export default AreaBox;

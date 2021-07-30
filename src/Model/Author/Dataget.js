@@ -96,7 +96,7 @@ const Dataget = (props) => {
         setResult(JSON.stringify(rtn, null, 2));
         localStorage.setItem(
           "modeldtsrc",
-          JSON.stringify({ initVal: val, result: response.data })
+          JSON.stringify({ initVal: val, result: rtn })
         );
         if (Array.isArray(rtn)) {
           props.onDataGet(makeStringify(rtn));

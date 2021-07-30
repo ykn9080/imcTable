@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@ant-design/charts";
-const data = [
+let data = [
   {
     x: "Finance",
     mean: 21,

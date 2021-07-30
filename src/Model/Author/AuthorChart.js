@@ -47,7 +47,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const trigger = useSelector((state) => state.global.triggerChild);
 
   const makeOptionArray = (obj) => {
-    let oparr = [];
+    let oparr = [{ value: null, text: "N/A" }];
 
     Object.keys(obj).map((k, i) => {
       oparr.push({ value: k, text: k.charAt(0).toUpperCase() + k.slice(1) });
@@ -82,6 +82,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
       x = setting1.xaxis,
       y = setting1.yaxis,
       val = setting1.value;
+
     //x uniq list
     nodelist.map((dt) => xlist.push(_.pick(dt, x)[x]));
     nodelist.map((dt) => ylist.push(_.pick(dt, y)[y]));
@@ -92,16 +93,19 @@ const AuthorChart = ({ authObj, edit, title }) => {
         return o[x] === k;
       });
       let obj = { [x]: k };
+      console.log(listbyx, obj);
       val.map((v, i) => {
         let sum = _.sumBy(listbyx, v);
-
+        if (typeof sum !== "int") sum = sum.toFixed(2);
+        let avg = _.meanBy(listbyx, v).toFixed(2);
         let count = listbyx.length;
+
         switch (setting1.aggregate) {
           case "sum":
             obj[v] = sum;
             break;
           case "average":
-            obj[v] = parseFloat(sum / count);
+            obj[v] = avg; //parseFloat(sum / count);
             break;
           case "count":
             obj[v] = count;
@@ -114,8 +118,10 @@ const AuthorChart = ({ authObj, edit, title }) => {
       listx.push(obj);
       return null;
     });
-
+    console.log(listx, setting1, nodelist);
     setFilterlist(listx);
+    //setNodelist(listx);
+    chartchart(setting1, listx);
   };
   useEffect(() => {
     dispatch(globalVariable({ helpLink: "/edit/graph?type=chart" }));
@@ -150,6 +156,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
   }, [authObj]);
 
   useEffect(() => {
+    console.log(setting1);
     if (setting1 && setting1.value && setting1.aggregate) aggre();
     else if (setting1) chartchart(setting1);
   }, [setting1]);
@@ -216,9 +223,10 @@ const AuthorChart = ({ authObj, edit, title }) => {
     //     "yaxis",
     //   ].indexOf(Object.keys(changedValues)[0]) > -1
     // )
-    {
-      setSetting1({ ...set2, ...changedValues });
-    }
+
+    setSetting1({ ...set2, ...changedValues });
+
+    console.log(changedValues, { ...set2, ...changedValues });
     //use localstorage to prevent state change
     localStorage.setItem("modelchart", JSON.stringify(allValues));
   };
@@ -255,7 +263,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
   };
 
   // chart Data conversion
-  const chartchart = (setting) => {
+  const chartchart = (setting, newlist) => {
     if (!setting | !setting.value) return false;
     const x = setting.xaxis;
     const val = setting.value[0];
@@ -264,14 +272,16 @@ const AuthorChart = ({ authObj, edit, title }) => {
     let xaxisV = [],
       valueV = [],
       yaxisV = [];
-    if (filterlist)
-      filterlist.map((dt) => {
+    if (!newlist) newlist = filterlist;
+    if (newlist) {
+      console.log(newlist);
+      newlist.map((dt) => {
         xaxisV.push(_.pick(dt, x)[x]);
         valueV.push(_.pick(dt, val)[val]);
         yaxisV.push(_.pick(dt, y)[y]);
         return null;
       });
-
+    }
     let label = [];
     label.push(x);
     label.push(y);
@@ -378,63 +388,79 @@ const AuthorChart = ({ authObj, edit, title }) => {
   };
   //treemap
   //Reactvis
-
+  let data2 = [
+    { title: "테스트1", weather: "good", value: 38 },
+    { title: "테스트2", weather: "good", value: 52 },
+    { title: "테스트3", weather: "bad", value: 61 },
+    { title: "테스트4", weather: "good", value: 145 },
+    { title: "테스트5", weather: "good", value: 48 },
+    { title: "테스트6", weather: "bad", value: 38 },
+    { title: "테스트7", weather: "good", value: 38 },
+    { title: "테스트8", weather: "good", value: 38 },
+  ];
   const onDataGet = (val) => {
     const newData = { ...data, dtlist: val };
     setFilterlist(val);
+    setNodelist(val);
     if (val.length > 0) makeOptionArray(val[0]);
   };
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
-
+  console.log("chartdata", chartData);
   const chtonly = (
     <>
       <Row gutter={4}>
         <Col span={edit ? 14 : 24}>
-          {setting1 &&
-            (() => {
-              switch (setting1.charttype) {
-                // case "pie":
-                //   const dt = chartjsData(filterlist, setting1);
-                //   return <Chartjs2 data={dt} />;
-                // case "treemap":
-                //   return <Reactvis />;
-                // case "scatter":
-                //   const dt2 = VicScatterData();
-                //   return (
-                //     setting1 &&
-                //     setting1.value && (
-                //       <VicScatter dt={dt2} bubble={setting1.value[0]} />
-                //     )
-                //   );
-                case "pie":
-                  return <PieChart data={chartData} />;
-                case "bar":
-                  return <BarChart data={chartData} label={labelName} />;
-                case "line":
-                  return <LineChart data={chartData} />;
-                case "box plot":
-                  return <BoxPlot data={boxData} />;
-                case "scatter plot":
-                  return <ScatterPlot data={chartData} label={labelName} />;
-                case "parallel coordinates":
-                  return <ParallelCoordinatesChart data={pcData} />;
-                case "matrixdiagram":
-                  return <MatrixDiagram data={chartData} />;
-                case "areabox":
-                  return <AreaBar />;
-                case "dendrogram":
-                  return <Dendrogram />;
-                case "treemap":
-                  return (
-                    <Treemap data={treemapdata} width={600} height={400} />
-                  );
-                default:
-                  return null;
-                // <div style={{ margin: 20, marginRight: 7 }}>
-                //   <Rechart data={filterlist} {...setting1} aspect={1.6} />
-                // </div>
-              }
-            })()}
+          <div
+            style={{
+              margin: 20,
+            }}
+          >
+            {setting1 &&
+              (() => {
+                switch (setting1.charttype) {
+                  // case "pie":
+                  //   const dt = chartjsData(filterlist, setting1);
+                  //   return <Chartjs2 data={dt} />;
+                  // case "treemap":
+                  //   return <Reactvis />;
+                  // case "scatter":
+                  //   const dt2 = VicScatterData();
+                  //   return (
+                  //     setting1 &&
+                  //     setting1.value && (
+                  //       <VicScatter dt={dt2} bubble={setting1.value[0]} />
+                  //     )
+                  //   );
+                  case "pie":
+                    return <PieChart data={chartData} />;
+                  case "bar":
+                    return <BarChart data={chartData} label={labelName} />;
+                  case "line":
+                    return <LineChart data={chartData} />;
+                  case "box plot":
+                    return <BoxPlot data={boxData} />;
+                  case "scatter plot":
+                    return <ScatterPlot data={chartData} label={labelName} />;
+                  case "parallel coordinates":
+                    return <ParallelCoordinatesChart data={pcData} />;
+                  case "matrixdiagram":
+                    return <MatrixDiagram data={chartData} />;
+                  case "areabox":
+                    return <AreaBar />;
+                  case "dendrogram":
+                    return <Dendrogram />;
+                  case "treemap":
+                    return (
+                      <Treemap data={treemapdata} width={600} height={400} />
+                    );
+                  default:
+                    return null;
+                  // <div style={{ margin: 20, marginRight: 7 }}>
+                  //   <Rechart data={filterlist} {...setting1} aspect={1.6} />
+                  // </div>
+                }
+              })()}
+          </div>
         </Col>
         {edit && (
           <Col span={10}>
@@ -463,6 +489,13 @@ const AuthorChart = ({ authObj, edit, title }) => {
               <Title level={4}>Chart</Title>
               <Divider style={{ marginTop: 0 }} />
               {chtonly}
+              <Button
+                onClick={() => {
+                  console.log(tempModel);
+                }}
+              >
+                tempModel
+              </Button>
             </>
           </TabPane>
           <TabPane tab="Data" key="2">
@@ -474,40 +507,5 @@ const AuthorChart = ({ authObj, edit, title }) => {
       )}
     </>
   );
-  // return (
-  //   <div style={{ padding: "5px 5px 10px 10px" }}>
-  //     <Tabs tabPosition={"left"}>
-  //       <TabPane tab="Author" key="1">
-  //         {
-  //           <>
-  //             <Title level={4}>Chart</Title>
-  //             <Divider style={{ marginTop: 0 }} />
-  //             <Card>
-  //               <AntFormDisplay
-  //                 formid="5f1a590712d3bf549d18e583"
-  //                 onValuesChange={onValuesChangeTable1}
-  //                 patchlist={formlist}
-  //                 initialValues={initChart}
-  //               />
-  //             </Card>
-  //           </>
-  //         }
-  //         {<div style={{ marginTop: 40 }}></div>}
-  //       </TabPane>
-  //       <TabPane tab="Data" key="2">
-  //         <Dataget onDataGet={onDataGet} />
-  //         {/* dtsrc={dtsrc} /> */}
-  //       </TabPane>
-  //     </Tabs>
-
-  //     <Button
-  //       onClick={() => {
-  //         console.log(tempModel);
-  //       }}
-  //     >
-  //       tempModel
-  //     </Button>
-  //   </div>
-  // );
 };
 export default AuthorChart;
