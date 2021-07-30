@@ -203,19 +203,20 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const onValuesChangeTable1 = (changedValues, allValues) => {
     let set2 = {};
     if (setting1) set2 = { ...setting1 };
-    if (
-      [
-        "charttype",
-        "brush",
-        "cartesiangrid",
-        "aggregate",
-        "legend",
-        "tooltip",
-        "value",
-        "xaxis",
-        "yaxis",
-      ].indexOf(Object.keys(changedValues)[0]) > -1
-    ) {
+    // if (
+    //   [
+    //     "charttype",
+    //     "brush",
+    //     "cartesiangrid",
+    //     "aggregate",
+    //     "legend",
+    //     "tooltip",
+    //     "value",
+    //     "xaxis",
+    //     "yaxis",
+    //   ].indexOf(Object.keys(changedValues)[0]) > -1
+    // )
+    {
       setSetting1({ ...set2, ...changedValues });
     }
     //use localstorage to prevent state change
@@ -429,9 +430,9 @@ const AuthorChart = ({ authObj, edit, title }) => {
                   );
                 default:
                   return null;
-                  // <div style={{ margin: 20, marginRight: 7 }}>
-                  //   <Rechart data={filterlist} {...setting1} aspect={1.6} />
-                  // </div>
+                // <div style={{ margin: 20, marginRight: 7 }}>
+                //   <Rechart data={filterlist} {...setting1} aspect={1.6} />
+                // </div>
               }
             })()}
         </Col>
@@ -469,7 +470,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
           </TabPane>
         </Tabs>
       ) : (
-        <div style={{ marginTop: 30 }}>{chtonly}</div>
+        <div style={{ marginTop: 100 }}>{chtonly}</div>
       )}
     </>
   );
