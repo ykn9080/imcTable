@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
+import $ from "jquery";
 import "components/Common/Antd.css";
 import axios from "axios";
 import { globalVariable } from "actions";
 import { currentsetting } from "components/functions/config";
-import { Typography, Row, Col, Tabs, Divider, Card, Button } from "antd";
+import {
+  Typography,
+  Row,
+  Col,
+  Tabs,
+  Divider,
+  Table,
+  Button,
+  Switch,
+} from "antd";
 import AntFormDisplay from "Form/AntFormDisplay";
 import { idMake } from "components/functions/dataUtil";
 import Dataget from "Model/Author/Dataget";
@@ -407,7 +417,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
   console.log("chartdata", chartData);
   const chtonly = (
-    <>
+    <div id="dvCht" style={{ display: "block" }}>
       <Row gutter={4}>
         <Col span={edit ? 14 : 24}>
           <div
@@ -477,7 +487,12 @@ const AuthorChart = ({ authObj, edit, title }) => {
           </Col>
         )}
       </Row>
-    </>
+    </div>
+  );
+  const tbonly = (
+    <div style={{ marginRight: 10 }}>
+      <Table dataSource={nodelist} />
+    </div>
   );
 
   return (
@@ -488,7 +503,15 @@ const AuthorChart = ({ authObj, edit, title }) => {
             <>
               <Title level={4}>Chart</Title>
               <Divider style={{ marginTop: 0 }} />
-              {chtonly}
+              <Tabs size="small">
+                <TabPane tab="Chart" key="1">
+                  {chtonly}
+                </TabPane>
+                <TabPane tab="Table" key="2">
+                  {tbonly}
+                </TabPane>
+              </Tabs>
+
               <Button
                 onClick={() => {
                   console.log(tempModel);
