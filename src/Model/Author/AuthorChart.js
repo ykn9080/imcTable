@@ -316,6 +316,14 @@ const AuthorChart = ({ authObj, edit, title }) => {
           title: `${v}`,
           value: valueV[i],
         }));
+        var config = {
+          data: data,
+          xField: "value",
+          yField: "year",
+          seriesField: "year",
+          legend: { position: "top-left" },
+        };
+
         return setChartData(bardata);
       case "line":
         // xaxisV = xaxisV.map(Number)
