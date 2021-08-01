@@ -106,7 +106,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
       console.log(listbyx, obj);
       val.map((v, i) => {
         let sum = _.sumBy(listbyx, v);
-        if (typeof sum !== "int") sum = sum.toFixed(2);
+        //if (typeof sum !== "int") sum = sum.toFixed(2);
         let avg = _.meanBy(listbyx, v).toFixed(2);
         let count = listbyx.length;
 
@@ -150,6 +150,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
         const ds = authObj.setting;
         setSetting1(ds);
         setInitChart(ds);
+        setFormlist(ds.patchlist);
         let src = {};
         if (ds.initVal) src.initVal = ds.initVal;
         if (ds.result) src.result = ds.result;
@@ -176,7 +177,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
     if (trigger.length > 0 && trigger[0] === "save") {
       let datanew = { ...data };
       let mdtb = localStorage.getItem("modelchart");
-      let set = {};
+      let set = { patchlist: formlist };
       set = setting1;
       if (mdtb) {
         mdtb = JSON.parse(mdtb);
@@ -489,9 +490,23 @@ const AuthorChart = ({ authObj, edit, title }) => {
       </Row>
     </div>
   );
+  const makeTableColumn = (datalist) => {
+    let col = [];
+    if (datalist && datalist.length > 0)
+      Object.keys(datalist[0]).map((k, i) => {
+        col.push({ title: k, dataIndex: k, key: k });
+        return null;
+      });
+    console.log(col);
+    return col;
+  };
   const tbonly = (
     <div style={{ marginRight: 10 }}>
-      <Table dataSource={nodelist} />
+      <Table
+        size="small"
+        columns={makeTableColumn(nodelist)}
+        dataSource={nodelist}
+      />
     </div>
   );
 
