@@ -36,6 +36,7 @@ import AreaBar from "Model/Chart/antv/AreaBar";
 import Dendrogram from "Model/Chart/react-tree/Dendrogram";
 import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
+import { Pie } from "@ant-design/charts";
 
 var randomColor = require("randomcolor");
 
@@ -52,6 +53,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const [formlist, setFormlist] = useState();
   const [initChart, setInitChart] = useState();
   const [chartData, setChartData] = useState([]);
+  const [config, setConfig] = useState();
   const [labelName, setLabelName] = useState();
   const tempModel = useSelector((state) => state.global.tempModel);
   const trigger = useSelector((state) => state.global.triggerChild);
@@ -300,7 +302,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
     if (label) {
       setLabelName(label);
     }
-
+    let conf = { data: filterlist };
     switch (setting.charttype) {
       default:
         return;
@@ -309,6 +311,9 @@ const AuthorChart = ({ authObj, edit, title }) => {
           rowHeader: `${v}`,
           frequency: valueV[i],
         }));
+        conf = { ...conf, angleField: val, colorField: x };
+        setConfig(conf);
+        console.log(conf);
         return setChartData(piedata);
       case "bar":
         // valueV = valueV.map(Number)
@@ -451,7 +456,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
                   //     )
                   //   );
                   case "pie":
-                    return <PieChart data={chartData} />;
+                    return <Pie conf={config} />;
                   case "bar":
                     return <BarChart data={chartData} label={labelName} />;
                   case "line":
