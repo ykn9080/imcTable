@@ -19,6 +19,7 @@ import {
   TableOutlined,
   FileTextOutlined,
   AppstoreOutlined,
+  FullscreenOutlined,
 } from "@ant-design/icons";
 import IconArray1 from "components/SKD/IconArray1";
 import { FcMindMap } from "react-icons/fc";
@@ -79,6 +80,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   generateDOM(items) {
+    console.log(items);
     return _.map(items, (el) => this.createElement(el));
   }
 
@@ -158,6 +160,14 @@ export default class ShowcaseLayout extends React.Component {
           </Tooltip>
         ),
         onClick: () => this.onSortDescending(el),
+      },
+      {
+        title: (
+          <Tooltip title="fullscreen" placement="left">
+            <FullscreenOutlined />
+          </Tooltip>
+        ),
+        onClick: () => this.onFullScreenItem(el),
       },
     ];
     const title = (
@@ -265,6 +275,25 @@ export default class ShowcaseLayout extends React.Component {
       }),
       // Increment the counter to ensure key is always unique.
       newCounter: this.state.newCounter + 1,
+    });
+  }
+  onFullScreenItem(el) {
+    el.w = 12;
+    el.h = 12;
+    el.x = 0;
+    el.y = 0;
+
+    let index = _.findIndex(this.state.items, (o) => {
+      return o.i === el.i;
+    });
+
+    // Replace item at index using native splice
+    //this.state.items.splice(index, 1, el);
+
+    // setItems([...removedItems]);
+    console.log(this.state.items);
+    this.setState({
+      items: [el],
     });
   }
   render() {

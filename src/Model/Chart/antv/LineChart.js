@@ -15,7 +15,7 @@ let data = [
 const LineChart = (props) => {
   if (props.data) data = props.data;
   console.log(props);
-  const config = {
+  let config = {
     height: 400,
     data: data,
     padding: "auto",
@@ -26,7 +26,9 @@ const LineChart = (props) => {
     //   tickCount: 5,
     // },
   };
-
+  if (props.config) {
+    config = { ...config, ...props.config };
+  }
   return <Line {...config} />;
 };
 export default LineChart;

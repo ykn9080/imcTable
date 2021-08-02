@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Column } from "@ant-design/charts";
+import { Area } from "@ant-design/charts";
 import _ from "lodash";
 
 var data = [
@@ -111,24 +111,23 @@ var data = [
 ];
 
 const AreaBox = (props) => {
-  if (props.data) data = props.data;
   var config = {
     height: 400,
-    data: data,
-    xField: "name",
-    yField: "value",
-    seriesField: "nodeset",
-    isPercent: true,
-    isStack: true,
+    // data: data,
+    // xField: "name",
+    // yField: "value",
+    // seriesField: "nodeset",
+    //isPercent: true,
+    //isStack: true,
     legend: {
       layout: "vertical",
       position: "right",
     },
     label: {
       position: "middle",
-      content: function content(item) {
-        return item.value.toFixed(2);
-      },
+      // content: function content(item) {
+      //   return item.value.toFixed(2);
+      // },
       style: {
         fill: "#fff",
       },
@@ -138,10 +137,13 @@ const AreaBox = (props) => {
       position: "bottom",
     },
   };
+  if (props.config) {
+    config = { ...config, ...props.config };
+  }
   return (
     <>
       <div>
-        <Column {...config} />
+        <Area {...config} />
       </div>
     </>
   );

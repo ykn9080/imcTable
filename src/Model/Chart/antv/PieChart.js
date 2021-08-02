@@ -12,7 +12,7 @@ let data = [
 const PieChart = (props) => {
   if (props.data) data = props.data;
 
-  const config = {
+  let config = {
     height: 400,
     appendPadding: 10,
     data: data,
@@ -43,6 +43,9 @@ const PieChart = (props) => {
     },
     interactions: [{ type: "pie-legend-active" }, { type: "element-active" }],
   };
+  if (props.config) {
+    config = { ...config, ...props.config };
+  }
   return <Pie {...config} />;
 };
 

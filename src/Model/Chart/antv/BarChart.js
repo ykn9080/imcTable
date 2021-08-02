@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Column } from "@ant-design/charts";
-import { Row, Col } from "antd";
+import { Bar } from "@ant-design/charts";
+
 import "antd/dist/antd.css";
 // import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
 // import { GrDocumentImage } from "react-icons/gr"
@@ -20,7 +20,7 @@ const BarChart = (props) => {
   if (props.data) data = props.data;
   let label = [];
   if (props.label) label = props.label;
-  const config = {
+  let config = {
     height: 400,
     data: data,
     xField: "title",
@@ -42,27 +42,12 @@ const BarChart = (props) => {
   // let exportReport = {
   //     fileName: "test"
   // }
+  if (props.config) {
+    config = { ...config, ...props.config };
+  }
   return (
     <>
-      {/* <Row>
-                <Col span={24}>
-                    <div style={{ textAlign: "right" }}>
-                        <button onClick={() => exportComponentAsPNG(chartRef, exportReport)}>export</button>
-                    </div>
-                </Col>
-            </Row> */}
-      <Row>
-        <Col span={24}>
-          <div>
-            <Column {...config} />
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <div style={{ textAlign: "center" }}>{label[2]}</div>
-        </Col>
-      </Row>
+      <Bar {...config} />
     </>
   );
 };

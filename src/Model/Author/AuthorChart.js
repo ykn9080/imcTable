@@ -14,7 +14,10 @@ import {
   Divider,
   Table,
   Button,
-  Switch,
+  List,
+  Card,
+  Checkbox,
+  Input,
 } from "antd";
 import AntFormDisplay from "Form/AntFormDisplay";
 import { idMake } from "components/functions/dataUtil";
@@ -27,21 +30,24 @@ import PieChart from "Model/Chart/antv/PieChart";
 import BarChart from "Model/Chart/antv/BarChart";
 // import Bar from "Model/Chart/@nivo/Bar";
 import LineChart from "Model/Chart/antv/LineChart";
+import ColumnChart from "Model/Chart/antv/ColumnChart";
 import BoxPlot from "Model/Chart/antv/BoxPlot";
 import ScatterPlot from "Model/Chart/antv/ScatterPlot";
 import MatrixDiagram from "Model/Chart/antv/MatrixDiagram";
 import ParallelCoordinatesChart from "Model/Chart/@nivo/nivoParallel";
 import { pcData } from "Model/Chart/@nivo/parallelData";
-import AreaBar from "Model/Chart/antv/AreaBar";
+import AreaChart from "Model/Chart/antv/AreaChart";
 import Dendrogram from "Model/Chart/react-tree/Dendrogram";
 import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
-import { Pie } from "@ant-design/charts";
+import { Pie, Line, Bar, Column, Area } from "@ant-design/charts";
+import Options from "Model/Chart/antv/OptionArray";
 
 var randomColor = require("randomcolor");
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
+const { TextArea } = Input;
 
 const AuthorChart = ({ authObj, edit, title }) => {
   const dispatch = useDispatch();
@@ -155,7 +161,9 @@ const AuthorChart = ({ authObj, edit, title }) => {
         setFormlist(ds.patchlist);
         let src = {};
         if (ds.initVal) src.initVal = ds.initVal;
-        if (ds.result) src.result = ds.result;
+        if (ds.result) {
+          src.result = orderByX(ds.result, ds.xField);
+        }
         setDtsrc(src);
       } else {
         setInitChart({});
@@ -167,7 +175,9 @@ const AuthorChart = ({ authObj, edit, title }) => {
     //   $(".ant-row.ant-form-item").css("margin-bottom", 1);
     // }, 500);
   }, [authObj]);
-
+  const orderByX = (data, xfield) => {
+    return _.sortBy(data, xfield);
+  };
   useEffect(() => {
     console.log(setting1);
     if (setting1 && setting1.value && setting1.aggregate) aggre();
@@ -302,42 +312,71 @@ const AuthorChart = ({ authObj, edit, title }) => {
     if (label) {
       setLabelName(label);
     }
-    let conf = { data: filterlist };
+    newlist = _.sortBy(newlist, setting.xaxis);
+    console.log(newlist, setting.xaxis);
+    let conf = { data: newlist };
     switch (setting.charttype) {
       default:
         return;
       case "pie":
-        let piedata = xaxisV.map((v, i) => ({
-          rowHeader: `${v}`,
-          frequency: valueV[i],
-        }));
         conf = { ...conf, angleField: val, colorField: x };
-        setConfig(conf);
-        console.log(conf);
-        return setChartData(piedata);
-      case "bar":
-        // valueV = valueV.map(Number)
-        let bardata = xaxisV.map((v, i) => ({
-          title: `${v}`,
-          value: valueV[i],
-        }));
-        var config = {
-          data: data,
-          xField: "value",
-          yField: "year",
-          seriesField: "year",
-          legend: { position: "top-left" },
+        const opt = {
+          radius: 0.9,
+          label: {
+            type: "inner",
+            offset: "-30%",
+            content: function content(_ref) {
+              var percent = _ref.percent;
+              return "".concat((percent * 100).toFixed(0), "%");
+            },
+            style: {
+              fontSize: 14,
+              textAlign: "center",
+            },
+          },
+          interactions: [{ type: "element-active" }],
         };
+        conf = { ...conf, opt };
+        if (val) setConfig(conf);
+        console.log(conf);
+        //return setChartData(piedata);
+        break;
+      // case "bar":
+      //   // valueV = valueV.map(Number)
+      //   let bardata = xaxisV.map((v, i) => ({
+      //     title: `${v}`,
+      //     value: valueV[i],
+      //   }));
+      //   var config = {
+      //     data: data,
+      //     xField: "value",
+      //     yField: "year",
+      //     seriesField: "year",
+      //     legend: { position: "top-left" },
+      //   };
 
-        return setChartData(bardata);
+      //   return setChartData(bardata);
       case "line":
+      case "area":
+      case "column":
         // xaxisV = xaxisV.map(Number)
-        valueV = valueV.map(Number);
-        let linedata = xaxisV.map((v, i) => ({
-          title: `${v}`,
-          value: valueV[i],
-        }));
-        return setChartData(linedata);
+        // valueV = valueV.map(Number);
+        // let linedata = xaxisV.map((v, i) => ({
+        //   title: `${v}`,
+        //   value: valueV[i],
+        // }));
+        // return setChartData(linedata);
+        conf = { ...conf, yField: val, xField: x };
+        if (setting.series) conf = { ...conf, seriesField: setting.series };
+        if (val) setConfig(conf);
+        console.log(conf);
+        break;
+
+      case "bar":
+        conf = { ...conf, yField: x, xField: val };
+        if (setting.series) conf = { ...conf, seriesField: setting.series };
+        if (val) setConfig(conf);
+        break;
       case "scatter plot":
         xaxisV = xaxisV.map(Number);
         yaxisV = yaxisV.map(Number);
@@ -430,6 +469,10 @@ const AuthorChart = ({ authObj, edit, title }) => {
   };
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
   console.log("chartdata", chartData);
+  const onCheck = (val) => {
+    console.log(val);
+    //setConfig(...config, ...val);
+  };
   const chtonly = (
     <div id="dvCht" style={{ display: "block" }}>
       <Row gutter={4}>
@@ -456,11 +499,23 @@ const AuthorChart = ({ authObj, edit, title }) => {
                   //     )
                   //   );
                   case "pie":
-                    return <Pie conf={config} />;
+                    return <PieChart config={config} />;
                   case "bar":
-                    return <BarChart data={chartData} label={labelName} />;
+                    return (
+                      <BarChart
+                        config={config}
+                        data={chartData}
+                        label={labelName}
+                      />
+                    );
                   case "line":
-                    return <LineChart data={chartData} />;
+                    //return <LineChart data={chartData} />;
+                    return <LineChart config={config} />;
+                  case "column":
+                    return <ColumnChart config={config} />;
+                  //return <Column {...config} />;
+                  case "area":
+                    return <AreaChart config={config} />;
                   case "box plot":
                     return <BoxPlot data={boxData} />;
                   case "scatter plot":
@@ -469,8 +524,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
                     return <ParallelCoordinatesChart data={pcData} />;
                   case "matrixdiagram":
                     return <MatrixDiagram data={chartData} />;
-                  case "areabox":
-                    return <AreaBar />;
+
                   case "dendrogram":
                     return <Dendrogram />;
                   case "treemap":
@@ -501,6 +555,16 @@ const AuthorChart = ({ authObj, edit, title }) => {
           </Col>
         )}
       </Row>
+      <div>
+        <div>other options</div>
+        {setting1 && setting1.charttype && (
+          <ChartOption
+            type={setting1.charttype}
+            config={config}
+            onCheck={onCheck}
+          />
+        )}
+      </div>
     </div>
   );
   const makeTableColumn = (datalist) => {
@@ -538,6 +602,9 @@ const AuthorChart = ({ authObj, edit, title }) => {
                 <TabPane tab="Table" key="2">
                   {tbonly}
                 </TabPane>
+                <TabPane tab="Config" key="3">
+                  <TextArea row={15} />
+                </TabPane>
               </Tabs>
 
               <Button
@@ -558,5 +625,70 @@ const AuthorChart = ({ authObj, edit, title }) => {
       )}
     </>
   );
+};
+
+const ChartOption = (props) => {
+  console.log(props.type, Options["line"]);
+  useEffect(() => {
+    setAllSource(Options["line"]);
+    setDataSource(Options["line"]);
+  }, []);
+  const onChange = (event, item) => {
+    event.preventDefault();
+    console.log(`checked = ${item.title}`);
+    setChk(item.key);
+    props.onCheck(item.options);
+    if (event.target.checked) {
+      setDataSource([item]);
+      setGrid({ gutter: 4, column: 4 });
+    } else {
+      setDataSource(allSource);
+      setChk(null);
+      setGrid({ gutter: 4, column: 4 });
+    }
+  };
+  const [chk, setChk] = useState();
+  const [dataSource, setDataSource] = useState();
+  const [allSource, setAllSource] = useState();
+  const [grid, setGrid] = useState({ gutter: 16, column: 6 });
+
+  const Chkbox = ({ item }) => {
+    return (
+      <Checkbox
+        checked={chk === item.key && true}
+        onChange={(event) => {
+          onChange(event, item);
+        }}
+      ></Checkbox>
+    );
+  };
+  console.log(props.config);
+  return (
+    <>
+      <h5>{props.type}</h5>
+      {dataSource && (
+        <List
+          grid={grid}
+          dataSource={dataSource}
+          renderItem={(item) => (
+            <List.Item>
+              <Card size="small" extra={<Chkbox item />}>
+                {FindChart("line", item.option)}
+              </Card>
+            </List.Item>
+          )}
+        />
+      )}
+    </>
+  );
+};
+const FindChart = (type, config) => {
+  config = { ...config, height: 120, autoFit: true };
+  switch (type) {
+    case "line":
+      return <LineChart config={config} />;
+    default:
+      return null;
+  }
 };
 export default AuthorChart;
