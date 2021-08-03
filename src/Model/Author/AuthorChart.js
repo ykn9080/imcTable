@@ -632,6 +632,15 @@ const ChartOption = (props) => {
   useEffect(() => {
     setAllSource(Options["line"]);
     setDataSource(Options["line"]);
+    $(".cardshow").on(
+      "hover",
+      function () {
+        $(this).append($("<span> ***</span>"));
+      },
+      function () {
+        $(this).find("span").last().remove();
+      }
+    );
   }, []);
   const onChange = (event, item) => {
     event.preventDefault();
@@ -663,6 +672,9 @@ const ChartOption = (props) => {
     );
   };
   console.log(props.config);
+  const onCardClick = (item) => {
+    console.log(item);
+  };
   return (
     <>
       <h5>{props.type}</h5>
@@ -672,7 +684,12 @@ const ChartOption = (props) => {
           dataSource={dataSource}
           renderItem={(item) => (
             <List.Item>
-              <Card size="small" extra={<Chkbox item />}>
+              <Card
+                size="small"
+                className="cardshow"
+                onClick={() => onCardClick(item)}
+                // extra={<Chkbox item />}
+              >
                 {FindChart("line", item.option)}
               </Card>
             </List.Item>
