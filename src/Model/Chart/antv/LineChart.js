@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "@ant-design/charts";
 
 let data = [
@@ -14,7 +14,6 @@ let data = [
 
 const LineChart = (props) => {
   if (props.data) data = props.data;
-  console.log(props);
   let config = {
     height: 400,
     data: data,
@@ -29,6 +28,7 @@ const LineChart = (props) => {
   if (props.config) {
     config = { ...config, ...props.config };
   }
+
   return <Line {...config} />;
 };
 export default LineChart;

@@ -38,7 +38,6 @@ const BarChart = (props) => {
       value: { alias: "value" },
     },
   };
-  console.log(config);
   // let exportReport = {
   //     fileName: "test"
   // }

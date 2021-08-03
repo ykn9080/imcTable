@@ -17,7 +17,7 @@ let data = [
 const ScatterPlot = (props) => {
   //if(props.data) data = props.data;
 
-  const config = {
+  let config = {
     appendPadding: 10,
     data: data,
     xField: "XAxisVector",
@@ -44,6 +44,9 @@ const ScatterPlot = (props) => {
     //   content: '{name}',
     // },
   };
+  if (props.config) {
+    config = { ...config, ...props.config };
+  }
   return <Scatter {...config} />;
 };
 
