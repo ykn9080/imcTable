@@ -18,17 +18,12 @@ import {
   Card,
   Input,
   Form,
+  Drawer,
 } from "antd";
 import AntFormDisplay from "Form/AntFormDisplay";
-import { idMake } from "components/functions/dataUtil";
 import Dataget from "Model/Author/Dataget";
-import Rechart from "Model/Chart/ReChart";
-// import Chartjs2 from "components/Chart/react-chartjs-2";
-// import Reactvis from "components/Chart/react-vis";
-// import VicScatter from "Model/Chart/Victory";
 import PieChart from "Model/Chart/antv/PieChart";
 import BarChart from "Model/Chart/antv/BarChart";
-// import Bar from "Model/Chart/@nivo/Bar";
 import LineChart from "Model/Chart/antv/LineChart";
 import ColumnChart from "Model/Chart/antv/ColumnChart";
 import BoxPlot from "Model/Chart/antv/BoxPlot";
@@ -41,7 +36,6 @@ import Dendrogram from "Model/Chart/react-tree/Dendrogram";
 import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
 import Options from "Model/Chart/antv/OptionArray";
-import useForceUpdate from "use-force-update";
 
 var randomColor = require("randomcolor");
 
@@ -51,7 +45,6 @@ const { TextArea } = Input;
 
 const AuthorChart = ({ authObj, edit, title }) => {
   const dispatch = useDispatch();
-  const forceUpdate = useForceUpdate();
   const [form] = Form.useForm();
 
   const [data, setData] = useState();
@@ -63,8 +56,6 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const [initChart, setInitChart] = useState();
   const [chartData, setChartData] = useState([]);
   const [config, setConfig] = useState();
-  const [originfig, setOriginfig] = useState();
-  const [activeKey, setActiveKey] = useState("1");
   const [initConfig, setInitConfig] = useState();
   const [labelName, setLabelName] = useState();
   const tempModel = useSelector((state) => state.global.tempModel);
@@ -382,7 +373,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
       textarea: optt,
     });
 
-    //console.log(chartOrigin());
+    console.log(chartOrigin(), opt);
     setConfig({ ...chartOrigin(), ...opt });
     setTimeout(function () {
       setSetting1({ ...setting1, chartype: chart1 });
@@ -577,11 +568,12 @@ const AuthorChart = ({ authObj, edit, title }) => {
 
 const ChartOption = (props) => {
   useEffect(() => {
-    setDataSource(Options[props.charttype]);
+    setDataSource(Options[props.type]);
   }, []);
 
   const [dataSource, setDataSource] = useState();
   const [selected, setSelected] = useState();
+  const [visible, setVisible] = useState(false);
 
   const onCardClick = (item) => {
     if (!selected) {
@@ -601,6 +593,7 @@ const ChartOption = (props) => {
   return (
     <>
       <h5>{props.type}</h5>
+
       {dataSource && (
         <List
           grid={{ gutter: 16, column: 6 }}
@@ -619,7 +612,7 @@ const ChartOption = (props) => {
                 onClick={() => onCardClick(item)}
                 cover={
                   <div style={{ padding: 15 }}>
-                    {FindChart("line", item.option)}
+                    {FindChart(props.type, item.option)}
                   </div>
                 }
               ></Card>
@@ -631,7 +624,7 @@ const ChartOption = (props) => {
   );
 };
 const FindChart = (type, config) => {
-  config = { ...config, height: 120, autoFit: true };
+  config = { ...config, height: 90, autoFit: true };
 
   switch (type) {
     case "line":
