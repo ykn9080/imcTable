@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Line } from "@ant-design/charts";
+import { config } from "@fortawesome/fontawesome-svg-core";
 
 let data = [
   { title: "test1", value: 15 },
@@ -13,6 +14,7 @@ let data = [
 ];
 
 const LineChart = (props) => {
+  console.log(props);
   let config = {
     height: 400,
     data: data,

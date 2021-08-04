@@ -13,8 +13,8 @@ const PieChart = (props) => {
   if (props.data) data = props.data;
 
   let config = {
-    height: 400,
-    appendPadding: 10,
+    // height: 400,
+    // appendPadding: 10,
     data: data,
     angleField: "frequency",
     colorField: "rowHeader", //일부 차트는 seriesField
@@ -31,17 +31,17 @@ const PieChart = (props) => {
     // }
     // 차트 속성변경하고자 할때에는 https://charts.ant.design/demos/pie?type=api
     // api문서 참조
-    legend: {
-      //범례
-      layout: "horizontal",
-      position: "bottom",
-    },
-    radius: 0.8,
-    label: {
-      type: "outer",
-      content: "{name} {percentage} ({value})",
-    },
-    interactions: [{ type: "pie-legend-active" }, { type: "element-active" }],
+    // legend: {
+    //   //범례
+    //   layout: "horizontal",
+    //   position: "bottom",
+    // },
+    // radius: 0.8,
+    // label: {
+    //   type: "outer",
+    //   content: "{name} {percentage} ({value})",
+    // },
+    // interactions: [{ type: "pie-legend-active" }, { type: "element-active" }],
   };
   if (props.config) {
     config = { ...config, ...props.config };

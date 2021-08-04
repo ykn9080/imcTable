@@ -112,30 +112,30 @@ var data = [
 
 const AreaBox = (props) => {
   var config = {
-    height: 400,
-    // data: data,
-    // xField: "name",
-    // yField: "value",
-    // seriesField: "nodeset",
+    // height: 400,
+    data: data,
+    xField: "name",
+    yField: "value",
+    seriesField: "nodeset",
     //isPercent: true,
     //isStack: true,
-    legend: {
-      layout: "vertical",
-      position: "right",
-    },
-    label: {
-      position: "middle",
-      // content: function content(item) {
-      //   return item.value.toFixed(2);
-      // },
-      style: {
-        fill: "#fff",
-      },
-    },
-    legend: {
-      layout: "horizontal",
-      position: "bottom",
-    },
+    // legend: {
+    //   layout: "vertical",
+    //   position: "right",
+    // },
+    // label: {
+    //   position: "middle",
+    //   // content: function content(item) {
+    //   //   return item.value.toFixed(2);
+    //   // },
+    //   style: {
+    //     fill: "#fff",
+    //   },
+    // },
+    // legend: {
+    //   layout: "horizontal",
+    //   position: "bottom",
+    // },
   };
   if (props.config) {
     config = { ...config, ...props.config };

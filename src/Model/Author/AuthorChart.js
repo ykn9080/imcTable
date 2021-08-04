@@ -14,11 +14,9 @@ import {
   Divider,
   Table,
   Button,
-  List,
-  Card,
   Input,
   Form,
-  Drawer,
+  Collapse,
 } from "antd";
 import AntFormDisplay from "Form/AntFormDisplay";
 import Dataget from "Model/Author/Dataget";
@@ -35,7 +33,7 @@ import AreaChart from "Model/Chart/antv/AreaChart";
 import Dendrogram from "Model/Chart/react-tree/Dendrogram";
 import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
-import Options from "Model/Chart/antv/OptionArray";
+import ChartOption from "Model/Author/AuthorOption";
 
 var randomColor = require("randomcolor");
 
@@ -56,7 +54,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const [initChart, setInitChart] = useState();
   const [chartData, setChartData] = useState([]);
   const [config, setConfig] = useState();
-  const [initConfig, setInitConfig] = useState();
+  const [chartOpt, setChartOpt] = useState("");
   const [labelName, setLabelName] = useState();
   const tempModel = useSelector((state) => state.global.tempModel);
   const trigger = useSelector((state) => state.global.triggerChild);
@@ -101,37 +99,41 @@ const AuthorChart = ({ authObj, edit, title }) => {
     nodelist.map((dt) => ylist.push(_.pick(dt, y)[y]));
     xlist = _.uniq(xlist);
     ylist = _.uniq(ylist);
-    xlist.map((k, i) => {
-      const listbyx = _.filter(nodelist, (o) => {
-        return o[x] === k;
-      });
-      let obj = { [x]: k };
-      val.map((v, i) => {
-        let sum = _.sumBy(listbyx, v);
-        //if (typeof sum !== "int") sum = sum.toFixed(2);
-        let avg = _.meanBy(listbyx, v).toFixed(2);
-        let count = listbyx.length;
+    if (setting1.aggregate && setting1.aggregate !== "n/a")
+      xlist.map((k, i) => {
+        const listbyx = _.filter(nodelist, (o) => {
+          return o[x] === k;
+        });
+        let obj = { [x]: k };
 
-        switch (setting1.aggregate) {
-          case "sum":
-            obj[v] = sum;
-            break;
-          case "average":
-            obj[v] = avg; //parseFloat(sum / count);
-            break;
-          case "count":
-            obj[v] = count;
-            break;
-          default:
-            break;
-        }
+        val.map((v, i) => {
+          let sum = _.sumBy(listbyx, v);
+          //if (typeof sum !== "int") sum = sum.toFixed(2);
+          let avg = _.meanBy(listbyx, v).toFixed(2);
+          let count = listbyx.length;
+
+          switch (setting1.aggregate) {
+            case "sum":
+              obj[v] = sum;
+              break;
+            case "average":
+              obj[v] = avg; //parseFloat(sum / count);
+              break;
+            case "count":
+              obj[v] = count;
+              break;
+            default:
+              break;
+          }
+          return null;
+        });
+        listx.push(obj);
         return null;
       });
-      listx.push(obj);
-      return null;
-    });
+    else listx = setting1.result;
     setFilterlist(listx);
     //setNodelist(listx);
+
     chartchart(setting1, listx);
   };
   useEffect(() => {
@@ -143,8 +145,9 @@ const AuthorChart = ({ authObj, edit, title }) => {
       setData(authObj);
       if (authObj.dtlist) {
         setNodelist(authObj.dtlist);
-        if (setting1 && setting1.value && setting1.aggregate) aggre();
-        else setFilterlist(authObj.dtlist);
+        aggre();
+        // if (setting1 && setting1.value && setting1.aggregate) aggre();
+        // else setFilterlist(authObj.dtlist);
         if (authObj.dtlist.length > 0) makeOptionArray(authObj.dtlist[0]);
       }
       if (authObj.setting) {
@@ -158,12 +161,19 @@ const AuthorChart = ({ authObj, edit, title }) => {
           src.result = orderByX(ds.result, ds.xField);
         }
         setDtsrc(src);
+        if (ds.options) {
+          const optt = JSON.stringify(ds.options, null, 4);
+          setChartOpt(optt);
+          form.setFieldsValue({
+            textarea: optt,
+          });
+        }
       } else {
         setInitChart({});
       }
       if (authObj.dtsrc) setDtsrc(authObj.dtsrc);
     }
-    if (setting1 && setting1.value && setting1.charttype) chartchart(setting1);
+    //if (setting1 && setting1.value && setting1.charttype) chartchart(setting1);
     // setTimeout(() => {
     //   $(".ant-row.ant-form-item").css("margin-bottom", 1);
     // }, 500);
@@ -172,8 +182,9 @@ const AuthorChart = ({ authObj, edit, title }) => {
     return _.sortBy(data, xfield);
   };
   useEffect(() => {
-    if (setting1 && setting1.value && setting1.aggregate) aggre();
-    else if (setting1) chartchart(setting1);
+    // if (setting1 && setting1.value && setting1.aggregate) aggre();
+    // else if (setting1) chartchart(setting1);
+    aggre();
   }, [setting1]);
 
   const saveTemp = (trigger) => {
@@ -189,11 +200,18 @@ const AuthorChart = ({ authObj, edit, title }) => {
         setSetting1(set);
         localStorage.removeItem("modelchart");
       }
+
       let dtsrc = localStorage.getItem("modeldtsrc");
       if (dtsrc) {
         dtsrc = JSON.parse(dtsrc);
         set = { ...set, ...dtsrc };
         localStorage.removeItem("modeldtsrc");
+      }
+      if (chartOpt !== "") {
+        set = { ...set, options: JSON.parse(chartOpt) };
+      } else if (set.options) {
+        console.log(chartOpt, "herere");
+        delete set.options;
       }
 
       // if (!datanew.id) {
@@ -225,42 +243,12 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const onValuesChangeTable1 = (changedValues, allValues) => {
     let set2 = {};
     if (setting1) set2 = { ...setting1 };
-
+    if (["scatter"].indexOf(allValues.charttype) > -1) set2.aggregate = null;
+    //if (["pie"].indexOf(allValues.charttype) > -1) set2.aggregate = "sum";
     setSetting1({ ...set2, ...changedValues });
 
     //use localstorage to prevent state change
     localStorage.setItem("modelchart", JSON.stringify(allValues));
-  };
-  //pie chart
-  const chartjsData = () => {
-    if (!setting1 | !setting1.value) return false;
-    const x = setting1.xaxis;
-    const val = setting1.value[0];
-    let lbl = [],
-      dtt = [],
-      i;
-    _.sortBy(filterlist, [val]);
-    filterlist.map((dt) => lbl.push(_.pick(dt, x)[x]));
-    filterlist.map((dt) => dtt.push(_.pick(dt, val)[val]));
-
-    let colors = ["#FF6384", "#4BC0C0", "#FFCE56", "#E7E9ED", "#36A2EB"];
-    if (lbl.length > 5)
-      while (i < lbl.length - 5) {
-        colors.push(randomColor());
-        i++;
-      }
-    else colors.splice(lbl.length);
-    const data = {
-      labels: lbl,
-      datasets: [
-        {
-          data: dtt,
-          backgroundColor: colors,
-          hoverBackgroundColor: colors,
-        },
-      ],
-    };
-    return data;
   };
 
   // chart Data conversion
@@ -324,11 +312,13 @@ const AuthorChart = ({ authObj, edit, title }) => {
     newlist = _.sortBy(newlist, setting.xaxis);
 
     let conf = { data: newlist };
+    if (setting.options) conf = { ...conf, ...setting.options };
     switch (setting.charttype) {
       default:
         return;
       case "pie":
         conf = { ...conf, angleField: val, colorField: x };
+
         break;
       case "line":
       case "area":
@@ -342,14 +332,11 @@ const AuthorChart = ({ authObj, edit, title }) => {
         break;
       case "scatter":
         conf = { ...conf, yField: val, xField: x };
+        if (setting.series) conf = { ...conf, seriesField: setting.series };
+        if (setting.colorField)
+          conf = { ...conf, colorField: setting.colorField };
+        if (setting.sizeField) conf = { ...conf, sizeField: setting.sizeField };
         break;
-      case "matrixdiagram":
-        let matrixdata = xaxisV.map((v, i) => ({
-          xaxis: `${v}`,
-          yaxis: `${yaxisV[i]}`,
-          value: valueV[i],
-        }));
-        return setChartData(matrixdata);
     }
     if (val) setConfig(conf);
   };
@@ -372,7 +359,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
     form.setFieldsValue({
       textarea: optt,
     });
-
+    setChartOpt(optt);
     console.log(chartOrigin(), opt);
     setConfig({ ...chartOrigin(), ...opt });
     setTimeout(function () {
@@ -390,18 +377,13 @@ const AuthorChart = ({ authObj, edit, title }) => {
             }}
           >
             {setting1 &&
+              config &&
               (() => {
                 switch (setting1.charttype) {
                   case "pie":
                     return <PieChart config={config} />;
                   case "bar":
-                    return (
-                      <BarChart
-                        config={config}
-                        data={chartData}
-                        label={labelName}
-                      />
-                    );
+                    return <BarChart config={config} />;
                   case "line":
                     return <LineChart config={config} />;
                   case "column":
@@ -448,7 +430,6 @@ const AuthorChart = ({ authObj, edit, title }) => {
         )}
       </Row>
       <div>
-        <div>other options</div>
         {setting1 && setting1.charttype && (
           <ChartOption
             type={setting1.charttype}
@@ -474,6 +455,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
       <Table
         size="small"
         columns={makeTableColumn(nodelist)}
+        scroll={{ x: 2000, y: 500 }}
         dataSource={nodelist}
       />
     </div>
@@ -481,36 +463,35 @@ const AuthorChart = ({ authObj, edit, title }) => {
 
   const onConfigFinish = (val) => {
     console.log(val);
+    setChartOpt(val.textarea);
   };
-  const onReset = () => {
-    form.resetFields();
-  };
-  const onFill = () => {
-    form.setFieldsValue({
-      textarea: "Hello world!",
-    });
-  };
-  console.log(initConfig);
+  // const onReset = () => {
+  //   form.resetFields();
+  //   setChartOpt("");
+  // };
 
   const form1 = (
     <Form
+      layout="vertical"
       form={form}
       name="control-hooks"
-      // initialValues={{ textarea: initConfig }}
       onFinish={onConfigFinish}
     >
       <Form.Item name="textarea" label="textarea">
         <TextArea autoSize={{ minRows: 15, maxRows: 26 }} />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-        <Button htmlType="button" onClick={onReset}>
+        <Button
+          htmlType="button"
+          onClick={() => {
+            form.resetFields();
+            setChartOpt("");
+          }}
+        >
           Reset
         </Button>
-        <Button htmlType="button" onClick={onFill}>
-          Fill
+        <Button type="primary" htmlType="submit">
+          Submit
         </Button>
       </Form.Item>
     </Form>
@@ -533,15 +514,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
                     {tbonly}
                   </TabPane>
                   <TabPane tab="Config" key="3">
-                    <div style={{ marginRight: 10 }}>
-                      {form1}
-                      {/* <AntFormDisplay
-                        formid="6108aff23f6f287d948e01bd"
-                        form={form}
-                        onFinish={onConfigFinish}
-                        initialValues={{ textarea: initConfig }}
-                      /> */}
-                    </div>
+                    <div style={{ marginRight: 10 }}>{form1}</div>
                   </TabPane>
                 </Tabs>
 
@@ -566,73 +539,4 @@ const AuthorChart = ({ authObj, edit, title }) => {
   );
 };
 
-const ChartOption = (props) => {
-  useEffect(() => {
-    setDataSource(Options[props.type]);
-  }, []);
-
-  const [dataSource, setDataSource] = useState();
-  const [selected, setSelected] = useState();
-  const [visible, setVisible] = useState(false);
-
-  const onCardClick = (item) => {
-    if (!selected) {
-      setSelected([item.key]);
-      props.onOptionClick(item.option);
-    } else if (selected.indexOf(item.key) > -1) {
-      const indx = selected.indexOf(item.key);
-      const nsel = selected.splice(indx);
-      setSelected(nsel);
-      props.onOptionClick(null);
-    } else {
-      selected.push(item.key);
-      setSelected(selected);
-      props.onOptionClick(item.option);
-    }
-  };
-  return (
-    <>
-      <h5>{props.type}</h5>
-
-      {dataSource && (
-        <List
-          grid={{ gutter: 16, column: 6 }}
-          dataSource={dataSource}
-          renderItem={(item) => (
-            <List.Item>
-              <Card
-                style={{
-                  border:
-                    selected && selected.indexOf(item.key) > -1
-                      ? "1px solid #3994F7"
-                      : "1px solid #d8d4d4",
-                  borderRadius: 5,
-                }}
-                hoverable
-                onClick={() => onCardClick(item)}
-                cover={
-                  <div style={{ padding: 15 }}>
-                    {FindChart(props.type, item.option)}
-                  </div>
-                }
-              ></Card>
-            </List.Item>
-          )}
-        />
-      )}
-    </>
-  );
-};
-const FindChart = (type, config) => {
-  config = { ...config, height: 90, autoFit: true };
-
-  switch (type) {
-    case "line":
-      return <LineChart config={config} />;
-    case "scatter":
-      return <ScatterPlot config={config} />;
-    default:
-      return null;
-  }
-};
 export default AuthorChart;
