@@ -16,7 +16,6 @@ import {
   Button,
   Input,
   Form,
-  Collapse,
 } from "antd";
 import AntFormDisplay from "Form/AntFormDisplay";
 import Dataget from "Model/Author/Dataget";
@@ -34,8 +33,6 @@ import Dendrogram from "Model/Chart/react-tree/Dendrogram";
 import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
 import ChartOption from "Model/Author/AuthorOption";
-
-var randomColor = require("randomcolor");
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -243,7 +240,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const onValuesChangeTable1 = (changedValues, allValues) => {
     let set2 = {};
     if (setting1) set2 = { ...setting1 };
-    if (["scatter"].indexOf(allValues.charttype) > -1) set2.aggregate = null;
+    if (["scatter"].indexOf(allValues.charttype) > -1) set2.aggregate = "n/a";
     //if (["pie"].indexOf(allValues.charttype) > -1) set2.aggregate = "sum";
     setSetting1({ ...set2, ...changedValues });
 
@@ -323,6 +320,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
       case "line":
       case "area":
       case "column":
+        console.log(conf);
         conf = { ...conf, yField: val, xField: x };
         if (setting.series) conf = { ...conf, seriesField: setting.series };
         break;
@@ -430,7 +428,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
         )}
       </Row>
       <div>
-        {setting1 && setting1.charttype && (
+        {edit && setting1 && setting1.charttype && (
           <ChartOption
             type={setting1.charttype}
             config={config}

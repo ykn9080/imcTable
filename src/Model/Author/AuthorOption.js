@@ -14,8 +14,10 @@ import Options from "Model/Chart/antv/OptionArray";
 const { Panel } = Collapse;
 
 const ChartOption = (props) => {
+  console.log(props);
   useEffect(() => {
     setDataSource(Options[props.type]);
+    setSelected([]);
   }, [props.type]);
 
   const [dataSource, setDataSource] = useState();
