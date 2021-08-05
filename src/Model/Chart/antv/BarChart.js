@@ -14,40 +14,31 @@ let data = [
   { title: "테스트7", value: 38 },
   { title: "테스트8", value: 38 },
 ];
-
+let conf = {
+  height: 400,
+  data: data,
+  xField: "title",
+  yField: "value",
+};
 const BarChart = (props) => {
-  const chartRef = useRef(null);
-  if (props.data) data = props.data;
-  let label = [];
-  if (props.label) label = props.label;
-  let config = {
-    height: 400,
-    data: data,
-    xField: "title",
-    yField: "value",
-    seriesField: props.series,
-    label: {
-      position: "middle",
-      style: {
-        fill: "#FFFFFF",
-        opacity: 0.6,
-      },
-    },
-    meta: {
-      title: { alias: "title" },
-      value: { alias: "value" },
-    },
-  };
-  // let exportReport = {
-  //     fileName: "test"
+  // const chartRef = useRef(null);
+  // if (props.data) data = props.data;
+  // let label = [];
+  // if (props.label) label = props.label;
+
+  // // let exportReport = {
+  // //     fileName: "test"
+  // // }
+  // if (props.config) {
+  //   config = { ...config, ...props.config };
   // }
-  if (props.config) {
-    config = { ...config, ...props.config };
-  }
-  return (
-    <>
-      <Bar {...config} />
-    </>
-  );
+  const [config, setConfig] = useState();
+  useEffect(() => {
+    conf = { ...conf, ...props.config };
+    setConfig(conf);
+    console.log(conf);
+  }, [props.config]);
+
+  return <>{config && <Bar {...config} />}</>;
 };
 export default BarChart;

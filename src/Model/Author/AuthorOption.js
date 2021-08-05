@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import "components/Common/Antd.css";
-import { List, Card, Collapse } from "antd";
+import { List, Card, Collapse, Button } from "antd";
 import PieChart from "Model/Chart/antv/PieChart";
 import BarChart from "Model/Chart/antv/BarChart";
 import LineChart from "Model/Chart/antv/LineChart";
 import ColumnChart from "Model/Chart/antv/ColumnChart";
-import BoxPlot from "Model/Chart/antv/BoxPlot";
 import ScatterPlot from "Model/Chart/antv/ScatterPlot";
 import AreaChart from "Model/Chart/antv/AreaChart";
 import Options from "Model/Chart/antv/OptionArray";
@@ -14,7 +13,6 @@ import Options from "Model/Chart/antv/OptionArray";
 const { Panel } = Collapse;
 
 const ChartOption = (props) => {
-  console.log(props);
   useEffect(() => {
     setDataSource(Options[props.type]);
     setSelected([]);
@@ -24,14 +22,23 @@ const ChartOption = (props) => {
   const [selected, setSelected] = useState([]);
 
   const onCardClick = (item) => {
+    // if (selected.indexOf(item.key) > -1) {
+    //   const indx = selected.indexOf(item.key);
+    //   const nsel = selected.splice(indx);
+    //   setSelected(nsel);
+    //   props.onOptionClick(null);
+    // } else {
+    //   selected.push(item.key);
+    //   setSelected(selected);
+    //   props.onOptionClick(item.option);
+    // }
     if (selected.indexOf(item.key) > -1) {
       const indx = selected.indexOf(item.key);
       const nsel = selected.splice(indx);
       setSelected(nsel);
       props.onOptionClick(null);
     } else {
-      selected.push(item.key);
-      setSelected(selected);
+      setSelected([item.key]);
       props.onOptionClick(item.option);
     }
   };
@@ -67,10 +74,18 @@ const ChartOption = (props) => {
           )}
         </Panel>
       </Collapse>
+      <Button
+        onClick={() => {
+          console.log(selected);
+        }}
+      >
+        selected
+      </Button>
     </>
   );
 };
 const FindChart = (type, config, option) => {
+  if (!(config?.data && config.data.length > 0)) return null;
   let originfig = {
     data: config.data,
     xField: config.xField,

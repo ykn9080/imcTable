@@ -1,4 +1,4 @@
-const Options = {
+const option = {
   line: [
     {
       option: {
@@ -88,7 +88,7 @@ const Options = {
       key: 1,
     },
     {
-      options: {
+      option: {
         appendPadding: 10,
 
         radius: 0.9,
@@ -109,7 +109,7 @@ const Options = {
       key: 2,
     },
     {
-      options: {
+      option: {
         appendPadding: 10,
         radius: 0.8,
         label: {
@@ -124,7 +124,7 @@ const Options = {
       key: 3,
     },
     {
-      options: {
+      option: {
         appendPadding: 10,
         radius: 0.8,
         label: { type: "outer" },
@@ -133,7 +133,7 @@ const Options = {
       key: 4,
     },
     {
-      options: {
+      option: {
         appendPadding: 10,
         radius: 0.8,
         legend: false,
@@ -163,7 +163,7 @@ const Options = {
       key: 5,
     },
     {
-      options: {
+      option: {
         appendPadding: 10,
         radius: 1,
         startAngle: Math.PI,
@@ -180,7 +180,7 @@ const Options = {
       key: 6,
     },
     {
-      options: {
+      option: {
         appendPadding: 10,
         radius: 0.75,
         label: {
@@ -196,7 +196,7 @@ const Options = {
       key: 7,
     },
     {
-      options: {
+      option: {
         appendPadding: 10,
         radius: 1,
         innerRadius: 0.6,
@@ -227,7 +227,7 @@ const Options = {
       },
       key: 8,
     },
-    { options: {}, key: 9 },
+    { option: {}, key: 9 },
   ],
   scatter: [
     {
@@ -460,23 +460,23 @@ const Options = {
       key: 1,
     },
     {
-      options: {
+      option: {
         yAxis: { label: { autoRotate: false } },
         scrollbar: { type: "vertical" },
       },
       key: 2,
     },
     {
-      options: {
+      option: {
         yAxis: { label: { autoRotate: false } },
         scrollbar: { type: "vertical" },
       },
       key: 3,
     },
-    { options: { barWidthRatio: 0.8 }, key: 4 },
-    { options: { minBarWidth: 20, maxBarWidth: 20 }, key: 5 },
+    { option: { barWidthRatio: 0.8 }, key: 4 },
+    { option: { minBarWidth: 20, maxBarWidth: 20 }, key: 5 },
     {
-      options: {
+      option: {
         isGroup: true,
         marginRatio: 0,
         label: {
@@ -491,7 +491,7 @@ const Options = {
       key: 6,
     },
     {
-      options: {
+      option: {
         marginRatio: 0,
         label: {
           position: "right",
@@ -504,7 +504,7 @@ const Options = {
       key: 7,
     },
     {
-      options: {
+      option: {
         dodgePadding: 4,
         label: {
           position: "middle",
@@ -518,7 +518,7 @@ const Options = {
       key: 8,
     },
     {
-      options: {
+      option: {
         isPercent: true,
         isStack: true,
         label: {
@@ -532,7 +532,7 @@ const Options = {
       key: 9,
     },
     {
-      options: {
+      option: {
         isStack: true,
         label: {
           position: "middle",
@@ -548,7 +548,7 @@ const Options = {
   ],
   column: [
     {
-      options: {
+      option: {
         xAxis: { label: { autoRotate: false } },
         slider: {
           start: 0.1,
@@ -558,7 +558,7 @@ const Options = {
       key: 1,
     },
     {
-      options: {
+      option: {
         columnWidthRatio: 0.8,
         xAxis: {
           label: {
@@ -570,7 +570,7 @@ const Options = {
       key: 2,
     },
     {
-      options: {
+      option: {
         xAxis: {
           label: {
             autoHide: true,
@@ -583,7 +583,7 @@ const Options = {
       key: 3,
     },
     {
-      options: {
+      option: {
         isGroup: true,
 
         label: {
@@ -598,7 +598,7 @@ const Options = {
       key: 4,
     },
     {
-      options: {
+      option: {
         isGroup: "true",
         columnStyle: {
           radius: [20, 20, 0, 0],
@@ -607,7 +607,7 @@ const Options = {
       key: 5,
     },
     {
-      options: {
+      option: {
         isGroup: true,
         dodgePadding: 2,
         label: {
@@ -622,7 +622,7 @@ const Options = {
       key: 6,
     },
     {
-      options: {
+      option: {
         isGroup: true,
         dodgePadding: 2,
         intervalPadding: 20,
@@ -637,9 +637,9 @@ const Options = {
       },
       key: 7,
     },
-    { options: { isGroup: true, isStack: true }, key: 8 },
+    { option: { isGroup: true, isStack: true }, key: 8 },
     {
-      options: {
+      option: {
         isPercent: true,
         isStack: true,
         label: {
@@ -653,7 +653,7 @@ const Options = {
       key: 9,
     },
     {
-      options: {
+      option: {
         isPercent: true,
         isStack: true,
         meta: {
@@ -678,7 +678,7 @@ const Options = {
       key: 10,
     },
     {
-      options: {
+      option: {
         isStack: true,
         label: {
           position: "middle",
@@ -692,7 +692,7 @@ const Options = {
       key: 11,
     },
     {
-      options: {
+      option: {
         isStack: true,
         label: { position: "middle" },
         interactions: [
@@ -708,4 +708,4 @@ const Options = {
   ],
 };
 
-export default Options;
+export default option;

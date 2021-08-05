@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "@ant-design/charts";
-import { config } from "@fortawesome/fontawesome-svg-core";
 
 let data = [
   { title: "test1", value: 15 },
@@ -12,23 +11,28 @@ let data = [
   { title: "test7", value: 68 },
   { title: "test8", value: 38 },
 ];
-
-const LineChart = (props) => {
-  console.log(props);
-  let config = {
-    height: 400,
-    data: data,
-    padding: "auto",
-    xField: "title",
-    yField: "value",
-    // xAxis: {
-    //   type: 'timeCat',
-    //   tickCount: 5,
-    // },
-  };
-  if (props.config) {
-    config = { ...config, ...props.config };
-  }
-  return <Line {...config} />;
+let conf = {
+  height: 400,
+  data: data,
+  padding: "auto",
+  xField: "title",
+  yField: "value",
+  // xAxis: {
+  //   type: 'timeCat',
+  //   tickCount: 5,
+  // },
 };
-export default LineChart;
+const LineCht = (props) => {
+  const [config, setConfig] = useState();
+  useEffect(() => {
+    const conff = { ...props.config };
+    setConfig(conff);
+    console.log(props, conff);
+  }, [props.config]);
+
+  // if (props.config) {
+  //   conf = { ...config, ...props.config };
+  // }
+  return config ? <Line {...config} /> : null;
+};
+export default LineCht;

@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Scatter } from "@ant-design/charts";
-import scatterData from "./scatterData";
-import _ from "lodash";
 
 let data = [
   { XAxisVector: 1.0, YAxisVector: 4.0, type: "a" },
@@ -47,6 +45,7 @@ const ScatterPlot = (props) => {
   if (props.config) {
     config = { ...config, ...props.config };
   }
+  console.log(props.config);
   return <Scatter {...config} />;
 };
 
