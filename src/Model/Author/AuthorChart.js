@@ -16,7 +16,9 @@ import {
   Button,
   Input,
   Form,
+  Tooltip,
 } from "antd";
+import { RedoOutlined } from "@ant-design/icons";
 import AntFormDisplay from "Form/AntFormDisplay";
 import Dataget from "Model/Author/Dataget";
 import PieChart from "Model/Chart/antv/PieChart";
@@ -371,6 +373,10 @@ const AuthorChart = ({ authObj, edit, title }) => {
     setSetting1({ ...setting1, charttype: null });
     setTimeout(function () {
       setSetting1({ ...setting1, charttype: chart1 });
+      setChartOpt("");
+      form.setFieldsValue({
+        textarea: "",
+      });
     }, 100);
   };
   const chtonly = (
@@ -382,6 +388,17 @@ const AuthorChart = ({ authObj, edit, title }) => {
               margin: 20,
             }}
           >
+            {edit && (
+              <div style={{ textAlign: "right" }}>
+                <Tooltip title="Reload Chart">
+                  <Button
+                    type="link"
+                    icon={<RedoOutlined />}
+                    onClick={reloadChart}
+                  />
+                </Tooltip>
+              </div>
+            )}
             {setting1 &&
               config &&
               (() => {
