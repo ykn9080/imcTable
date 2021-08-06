@@ -9,6 +9,7 @@ import ColumnChart from "Model/Chart/antv/ColumnChart";
 import ScatterPlot from "Model/Chart/antv/ScatterPlot";
 import AreaChart from "Model/Chart/antv/AreaChart";
 import Options from "Model/Chart/antv/OptionArray";
+import { CleanupObj } from "Model/Author/AuthorChart";
 
 const { Panel } = Collapse;
 
@@ -22,16 +23,6 @@ const ChartOption = (props) => {
   const [selected, setSelected] = useState([]);
 
   const onCardClick = (item) => {
-    // if (selected.indexOf(item.key) > -1) {
-    //   const indx = selected.indexOf(item.key);
-    //   const nsel = selected.splice(indx);
-    //   setSelected(nsel);
-    //   props.onOptionClick(null);
-    // } else {
-    //   selected.push(item.key);
-    //   setSelected(selected);
-    //   props.onOptionClick(item.option);
-    // }
     if (selected.indexOf(item.key) > -1) {
       const indx = selected.indexOf(item.key);
       const nsel = selected.splice(indx);
@@ -74,13 +65,13 @@ const ChartOption = (props) => {
           )}
         </Panel>
       </Collapse>
-      <Button
+      {/* <Button
         onClick={() => {
           console.log(selected);
         }}
       >
         selected
-      </Button>
+      </Button> */}
     </>
   );
 };
@@ -91,15 +82,20 @@ const FindChart = (type, config, option) => {
     xField: config.xField,
     yField: config.yField,
   };
-  if (config.seriesField)
-    originfig = { ...originfig, seriesField: config.seriesField };
-  if (config.colorField)
-    originfig = { ...originfig, colorField: config.colorField };
-  if (config.sizeField)
-    originfig = { ...originfig, sizeField: config.sizeField };
+  [
+    "xField",
+    "yField",
+    "seriesField",
+    "colorField",
+    "angleField",
+    "sizeField",
+  ].map((k, i) => {
+    if (config[k]) originfig = { ...originfig, [k]: config[k] };
+    return null;
+  });
 
   originfig = { ...originfig, height: 90, autoFit: true, ...option };
-
+  originfig = CleanupObj(originfig);
   switch (type) {
     case "pie":
       return <PieChart config={originfig} />;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Scatter } from "@ant-design/charts";
 
 let data = [
@@ -12,41 +12,51 @@ let data = [
   { XAxisVector: 8.0, YAxisVector: 2.0, type: "b" },
 ];
 
-const ScatterPlot = (props) => {
-  //if(props.data) data = props.data;
+// const ScatterPlot = (props) => {
+//   //if(props.data) data = props.data;
 
-  let config = {
-    appendPadding: 10,
-    data: data,
-    xField: "XAxisVector",
-    yField: "YAxisVector",
-    seriesField: "type", //일부 차트는 seriesField
-    // colorField : 'XAxisVector',
-    shape: "circle",
-    size: [2, 16],
-    yAxis: {
-      nice: true,
-      line: { style: { stroke: "#aaa" } },
-    },
-    xAxis: {
-      grid: { line: { style: { stroke: "#eee" } } },
-      line: { style: { stroke: "#aaa" } },
-    },
-    legend: {
-      //범례
-      layout: "horizontal",
-      position: "bottom",
-    },
-    // label: {
-    //   type: 'outer',
-    //   content: '{name}',
-    // },
-  };
-  if (props.config) {
-    config = { ...config, ...props.config };
-  }
-  console.log(props.config);
-  return <Scatter {...config} />;
+//   let config = {
+//     // appendPadding: 10,
+//     // data: data,
+//     // xField: "XAxisVector",
+//     // yField: "YAxisVector",
+//     // seriesField: "type", //일부 차트는 seriesField
+//     // // colorField : 'XAxisVector',
+//     // shape: "circle",
+//     // size: [2, 16],
+//     // yAxis: {
+//     //   nice: true,
+//     //   line: { style: { stroke: "#aaa" } },
+//     // },
+//     // xAxis: {
+//     //   grid: { line: { style: { stroke: "#eee" } } },
+//     //   line: { style: { stroke: "#aaa" } },
+//     // },
+//     // legend: {
+//     //   //범례
+//     //   layout: "horizontal",
+//     //   position: "bottom",
+//     // },
+//     // label: {
+//     //   type: 'outer',
+//     //   content: '{name}',
+//     // },
+//   };
+//   if (props.config) {
+//     config = { ...config, ...props.config };
+//   }
+//   console.log(props.config);
+//   return <Scatter {...config} />;
+// };
+
+const ScatterPlot = (props) => {
+  const [config, setConfig] = useState();
+  useEffect(() => {
+    const conff = { ...props.config };
+    setConfig(conff);
+  }, [props.config]);
+  console.log(props, config);
+  return config ? <Scatter {...config} /> : null;
 };
 
 export default ScatterPlot;

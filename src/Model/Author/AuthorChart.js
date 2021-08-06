@@ -17,6 +17,8 @@ import {
   Input,
   Form,
   Tooltip,
+  Result,
+  Spin,
 } from "antd";
 import { RedoOutlined } from "@ant-design/icons";
 import AntFormDisplay from "Form/AntFormDisplay";
@@ -36,12 +38,28 @@ import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
 import ChartOption from "Model/Author/AuthorOption";
 import AntChart from "Model/Chart/antv/AntChart";
+import { ErrorBoundary } from "react-error-boundary";
+import { DarkBackground } from "Model/Author/Dataget";
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert">
+      <pre>{error.message}</pre>
+      {/* <button onClick={resetErrorBoundary}>Try again</button> */}
+      <Result
+        status="500"
+        title="500"
+        subTitle="Sorry, something went wrong."
+      />
+    </div>
+  );
+}
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 
-const AuthorChart = ({ authObj, edit, title }) => {
+const AuthorChart = ({ authObj, edit, errorurl }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
@@ -49,15 +67,75 @@ const AuthorChart = ({ authObj, edit, title }) => {
   const [dtsrc, setDtsrc] = useState();
   const [nodelist, setNodelist] = useState();
   const [filterlist, setFilterlist] = useState();
-  let [setting1, setSetting1] = useState();
+  const [setting1, setSetting1] = useState();
   const [patch, setPatch] = useState();
   const [initChart, setInitChart] = useState();
-  const [chartData, setChartData] = useState([]);
   const [config, setConfig] = useState();
   const [chartOpt, setChartOpt] = useState("");
-  const [labelName, setLabelName] = useState();
+  const [charttypeopt, setCharttypeopt] = useState();
+  const [loading, setLoading] = useState(false);
   const tempModel = useSelector((state) => state.global.tempModel);
   const trigger = useSelector((state) => state.global.triggerChild);
+
+  useEffect(() => {
+    dispatch(globalVariable({ helpLink: "/edit/graph?type=chart" }));
+    localStorage.removeItem("modelchart");
+  }, []);
+  useEffect(() => {
+    if (authObj) {
+      setLoading(true);
+      setData(authObj);
+      if (authObj.dtlist) {
+        setNodelist(authObj.dtlist);
+        aggre();
+
+        //AntFormDisplay dropdown patchlist make
+        if (authObj.dtlist.length > 0) makeOptionArray(authObj.dtlist[0]);
+      }
+      if (authObj.setting) {
+        const ds = authObj.setting;
+        setSetting1(ds);
+        setCharttypeopt(ds.charttype);
+        //AntFormDisplay init
+        setInitChart(ds); //initialValues
+        //setPatch(ds.patchlist);//Dropdown patchlist
+
+        //dataget init
+        let src = {};
+        if (ds.initVal) src.initVal = ds.initVal;
+        if (ds.result) {
+          src.result = orderByX(ds.result, ds.xField);
+        }
+        setDtsrc(src);
+
+        //config textarea init
+        if (ds.options) {
+          const optt = JSON.stringify(ds.options, null, 4);
+          setChartOpt(optt);
+          form.setFieldsValue({
+            textarea: optt,
+          });
+        }
+      } else {
+        setInitChart({});
+      }
+      if (authObj.dtsrc) setDtsrc(authObj.dtsrc);
+      setLoading(false);
+    }
+    //if (setting1 && setting1.value && setting1.charttype) chartchart(setting1);
+    // setTimeout(() => {
+    //   $(".ant-row.ant-form-item").css("margin-bottom", 1);
+    // }, 500);
+  }, [authObj]);
+  const orderByX = (data, xfield) => {
+    return _.sortBy(data, xfield);
+  };
+  useEffect(() => {
+    // if (setting1 && setting1.yField && setting1.aggregate) aggre();
+    // else if (setting1) chartchart(setting1);
+
+    if (setting1 && nodelist) aggre();
+  }, [setting1]);
 
   const makeOptionArray = (obj) => {
     let oparr = [{ value: "n/a", text: "n/a" }];
@@ -130,63 +208,6 @@ const AuthorChart = ({ authObj, edit, title }) => {
 
     chartchart(setting1, listx);
   };
-  useEffect(() => {
-    dispatch(globalVariable({ helpLink: "/edit/graph?type=chart" }));
-    localStorage.removeItem("modelchart");
-  }, []);
-  useEffect(() => {
-    if (authObj) {
-      setData(authObj);
-      if (authObj.dtlist) {
-        setNodelist(authObj.dtlist);
-        aggre();
-
-        //AntFormDisplay dropdown patchlist make
-        if (authObj.dtlist.length > 0) makeOptionArray(authObj.dtlist[0]);
-      }
-      if (authObj.setting) {
-        const ds = authObj.setting;
-        setSetting1(ds);
-
-        //AntFormDisplay init
-        setInitChart(ds); //initialValues
-        //setPatch(ds.patchlist);//Dropdown patchlist
-
-        //dataget init
-        let src = {};
-        if (ds.initVal) src.initVal = ds.initVal;
-        if (ds.result) {
-          src.result = orderByX(ds.result, ds.xField);
-        }
-        setDtsrc(src);
-
-        //config textarea init
-        if (ds.options) {
-          const optt = JSON.stringify(ds.options, null, 4);
-          setChartOpt(optt);
-          form.setFieldsValue({
-            textarea: optt,
-          });
-        }
-      } else {
-        setInitChart({});
-      }
-      if (authObj.dtsrc) setDtsrc(authObj.dtsrc);
-    }
-    //if (setting1 && setting1.value && setting1.charttype) chartchart(setting1);
-    // setTimeout(() => {
-    //   $(".ant-row.ant-form-item").css("margin-bottom", 1);
-    // }, 500);
-  }, [authObj]);
-  const orderByX = (data, xfield) => {
-    return _.sortBy(data, xfield);
-  };
-  useEffect(() => {
-    // if (setting1 && setting1.yField && setting1.aggregate) aggre();
-    // else if (setting1) chartchart(setting1);
-    if (setting1 && nodelist) aggre();
-  }, [setting1]);
-
   const saveTemp = (trigger) => {
     let authorlist = tempModel?.properties?.resultsAuthor;
     if (trigger.length > 0 && trigger[0] === "save") {
@@ -241,27 +262,18 @@ const AuthorChart = ({ authObj, edit, title }) => {
   };
   saveTemp(trigger);
 
-  const cleanupObj = (obj) => {
-    const keyarr = Object.keys(obj);
-    keyarr.map((k, i) => {
-      if (!obj[k] | (obj[k] === "n/a")) delete obj[k];
-      return null;
-    });
-
-    return obj;
-  };
   const onValuesChangeTable1 = (changedValues, allValues) => {
     //allValues = cleanupObj(changedValues, allValues);
     let set2 = {};
     if (setting1) set2 = { ...setting1 };
     set2 = { ...set2, ...changedValues };
-    set2 = cleanupObj(set2);
-    //if (changedValues.charttype) set2 = chartOrigin();
-    //console.log(chartOrigin());
-    //if (["scatter"].indexOf(allValues.charttype) > -1) set2.aggregate = "n/a";
-    //if (["pie"].indexOf(allValues.charttype) > -1) set2.aggregate = "sum";
-    //if (allValues[Object.keys(changedValues)[0]])
-
+    set2 = CleanupObj(set2);
+    if (changedValues.charttype) {
+      setCharttypeopt(null);
+      setTimeout(function () {
+        setCharttypeopt(set2.charttype);
+      }, 0);
+    }
     setSetting1(set2);
 
     //use localstorage to prevent state change
@@ -274,9 +286,8 @@ const AuthorChart = ({ authObj, edit, title }) => {
     if (!(setting1 && setting1?.yField)) return false;
     const x = setting1.xField;
     const val = setting1.yField;
-
-    let newlist = setting1.data | filterlist;
-    newlist = _.sortBy(newlist, x);
+    let newlist1 = filterlist;
+    const newlist = _.sortBy(newlist1, x);
 
     let conf = { data: newlist };
     switch (setting1.charttype) {
@@ -300,6 +311,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
         conf = { ...conf, yField: x, xField: val };
         break;
     }
+
     return conf;
   };
 
@@ -379,6 +391,14 @@ const AuthorChart = ({ authObj, edit, title }) => {
       });
     }, 100);
   };
+
+  const myErrorHandler = (error, info) => {
+    //window.location.reload(false);
+    if (errorurl) window.location.href = errorurl;
+    else window.location.reload(false);
+    // Do something with the error
+    // E.g. log to an error logging client here
+  };
   const chtonly = (
     <div id="dvCht" style={{ display: "block" }}>
       <Row gutter={4}>
@@ -421,7 +441,7 @@ const AuthorChart = ({ authObj, edit, title }) => {
                     // return <ParallelCoordinatesChart data={pcData} />;
                     return <AntChart />;
                   case "matrixdiagram":
-                    return <MatrixDiagram data={chartData} />;
+                    return <MatrixDiagram />;
 
                   case "dendrogram":
                     return <Dendrogram />;
@@ -456,7 +476,8 @@ const AuthorChart = ({ authObj, edit, title }) => {
       <div>
         {edit && setting1 && setting1.charttype && (
           <ChartOption
-            type={setting1.charttype}
+            // type={setting1.charttype}
+            type={charttypeopt}
             config={chartOrigin()}
             onOptionClick={onOptionClick}
           />
@@ -525,44 +546,64 @@ const AuthorChart = ({ authObj, edit, title }) => {
 
   return (
     <>
-      {edit ? (
-        <>
-          <Tabs tabPosition={"left"}>
-            <TabPane tab="Author">
-              <>
-                <Title level={4}>Chart</Title>
-                <Divider style={{ marginTop: 0 }} />
-                <Tabs size="small">
-                  <TabPane tab="Chart" key="1">
-                    {chtonly}
-                  </TabPane>
-                  <TabPane tab="Table" key="2">
-                    {tbonly}
-                  </TabPane>
-                  <TabPane tab="Config" key="3">
-                    <div style={{ marginRight: 10 }}>{form1}</div>
-                  </TabPane>
-                </Tabs>
+      <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+        {edit ? (
+          <>
+            <Tabs tabPosition={"left"}>
+              <TabPane tab="Author">
+                <>
+                  <Title level={4}>Chart</Title>
+                  <Divider style={{ marginTop: 0 }} />
+                  <Tabs size="small">
+                    <TabPane tab="Chart" key="1">
+                      {chtonly}
+                    </TabPane>
+                    <TabPane tab="Table" key="2">
+                      {tbonly}
+                    </TabPane>
+                    <TabPane tab="Config" key="3">
+                      <div style={{ marginRight: 10 }}>{form1}</div>
+                    </TabPane>
+                  </Tabs>
 
-                <Button
-                  onClick={() => {
-                    console.log(tempModel, nodelist);
-                  }}
-                >
-                  tempModel,nodelist
-                </Button>
-              </>
-            </TabPane>
-            <TabPane tab="Data" key="2">
-              <Dataget onDataGet={onDataGet} dtsrc={dtsrc} />
-            </TabPane>
-          </Tabs>
-        </>
-      ) : (
-        <div style={{ marginTop: 100 }}>{chtonly}</div>
-      )}
+                  <Button
+                    onClick={() => {
+                      console.log(
+                        tempModel,
+                        nodelist,
+                        filterlist,
+                        chartOrigin()
+                      );
+                    }}
+                  >
+                    tempModel,nodelist,filterlist,chartOrigin
+                  </Button>
+                </>
+              </TabPane>
+              <TabPane tab="Data" key="2">
+                <Dataget onDataGet={onDataGet} dtsrc={dtsrc} />
+              </TabPane>
+            </Tabs>
+          </>
+        ) : (
+          <div style={{ marginTop: 100 }}>{chtonly}</div>
+        )}
+      </ErrorBoundary>
+      <DarkBackground disappear={loading}>
+        <div style={{ position: "absolute", top: 200, left: "50%" }}>
+          <Spin spinning={loading} />
+        </div>
+      </DarkBackground>
     </>
   );
 };
+export const CleanupObj = (obj) => {
+  const keyarr = Object.keys(obj);
+  keyarr.map((k, i) => {
+    if (!obj[k] | (obj[k] === "n/a")) delete obj[k];
+    return null;
+  });
 
+  return obj;
+};
 export default AuthorChart;

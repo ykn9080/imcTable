@@ -87,27 +87,7 @@ const option = {
       },
       key: 1,
     },
-    {
-      option: {
-        appendPadding: 10,
 
-        radius: 0.9,
-        label: {
-          type: "inner",
-          offset: "-30%",
-          content: function content(_ref) {
-            var percent = _ref.percent;
-            return "".concat((percent * 100).toFixed(0), "%");
-          },
-          style: {
-            fontSize: 14,
-            textAlign: "center",
-          },
-        },
-        interactions: [{ type: "element-active" }],
-      },
-      key: 2,
-    },
     {
       option: {
         appendPadding: 10,
@@ -127,7 +107,12 @@ const option = {
       option: {
         appendPadding: 10,
         radius: 0.8,
-        label: { type: "outer" },
+        label: {
+          type: "outer",
+          content: function content(item) {
+            return item.value ? item.value.toFixed(2) : null;
+          },
+        },
         interactions: [{ type: "element-active" }],
       },
       key: 4,
@@ -227,7 +212,6 @@ const option = {
       },
       key: 8,
     },
-    { option: {}, key: 9 },
   ],
   scatter: [
     {
@@ -269,25 +253,25 @@ const option = {
       },
       key: 1,
     },
-    {
-      option: {
-        color: [
-          "r(0.4, 0.3, 0.7) 0:rgba(255,255,255,0.5) 1:#5B8FF9",
-          "r(0.4, 0.4, 0.7) 0:rgba(255,255,255,0.5) 1:#61DDAA",
-        ],
-        size: [5, 20],
-        shape: "circle",
-        yAxis: {
-          nice: true,
-          line: { style: { stroke: "#eee" } },
-        },
-        xAxis: {
-          grid: { line: { style: { stroke: "#eee" } } },
-          line: { style: { stroke: "#eee" } },
-        },
-      },
-      key: 2,
-    },
+    // {
+    //   option: {
+    //     color: [
+    //       "r(0.4, 0.3, 0.7) 0:rgba(255,255,255,0.5) 1:#5B8FF9",
+    //       "r(0.4, 0.4, 0.7) 0:rgba(255,255,255,0.5) 1:#61DDAA",
+    //     ],
+    //     size: [5, 20],
+    //     shape: "circle",
+    //     yAxis: {
+    //       nice: true,
+    //       line: { style: { stroke: "#eee" } },
+    //     },
+    //     xAxis: {
+    //       grid: { line: { style: { stroke: "#eee" } } },
+    //       line: { style: { stroke: "#eee" } },
+    //     },
+    //   },
+    //   key: 2,
+    // },
     {
       option: {
         size: [4, 30],
@@ -459,37 +443,14 @@ const option = {
       },
       key: 1,
     },
-    {
-      option: {
-        yAxis: { label: { autoRotate: false } },
-        scrollbar: { type: "vertical" },
-      },
-      key: 2,
-    },
-    {
-      option: {
-        yAxis: { label: { autoRotate: false } },
-        scrollbar: { type: "vertical" },
-      },
-      key: 3,
-    },
-    { option: { barWidthRatio: 0.8 }, key: 4 },
-    { option: { minBarWidth: 20, maxBarWidth: 20 }, key: 5 },
-    {
-      option: {
-        isGroup: true,
-        marginRatio: 0,
-        label: {
-          position: "middle",
-          layout: [
-            { type: "interval-adjust-position" },
-            { type: "interval-hide-overlap" },
-            { type: "adjust-color" },
-          ],
-        },
-      },
-      key: 6,
-    },
+    // {
+    //   option: {
+    //     yAxis: { label: { autoRotate: false } },
+    //     scrollbar: { type: "vertical" },
+    //   },
+    //   key: 2,
+    // },
+
     {
       option: {
         marginRatio: 0,
@@ -503,20 +464,7 @@ const option = {
       },
       key: 7,
     },
-    {
-      option: {
-        dodgePadding: 4,
-        label: {
-          position: "middle",
-          layout: [
-            { type: "interval-adjust-position" },
-            { type: "interval-hide-overlap" },
-            { type: "adjust-color" },
-          ],
-        },
-      },
-      key: 8,
-    },
+
     {
       option: {
         isPercent: true,
@@ -524,26 +472,12 @@ const option = {
         label: {
           position: "middle",
           content: function content(item) {
-            return item.value.toFixed(2);
+            return item.value ? item.value.toFixed(2) : null;
           },
           style: { fill: "#fff" },
         },
       },
       key: 9,
-    },
-    {
-      option: {
-        isStack: true,
-        label: {
-          position: "middle",
-          layout: [
-            { type: "interval-adjust-position" },
-            { type: "interval-hide-overlap" },
-            { type: "adjust-color" },
-          ],
-        },
-      },
-      key: 10,
     },
   ],
   column: [
@@ -557,18 +491,18 @@ const option = {
       },
       key: 1,
     },
-    {
-      option: {
-        columnWidthRatio: 0.8,
-        xAxis: {
-          label: {
-            autoHide: true,
-            autoRotate: false,
-          },
-        },
-      },
-      key: 2,
-    },
+    // {
+    //   option: {
+    //     columnWidthRatio: 0.8,
+    //     xAxis: {
+    //       label: {
+    //         autoHide: true,
+    //         autoRotate: false,
+    //       },
+    //     },
+    //   },
+    //   key: 2,
+    // },
     {
       option: {
         xAxis: {
@@ -597,61 +531,46 @@ const option = {
       },
       key: 4,
     },
-    {
-      option: {
-        isGroup: "true",
-        columnStyle: {
-          radius: [20, 20, 0, 0],
-        },
-      },
-      key: 5,
-    },
-    {
-      option: {
-        isGroup: true,
-        dodgePadding: 2,
-        label: {
-          position: "middle",
-          layout: [
-            { type: "interval-adjust-position" },
-            { type: "interval-hide-overlap" },
-            { type: "adjust-color" },
-          ],
-        },
-      },
-      key: 6,
-    },
-    {
-      option: {
-        isGroup: true,
-        dodgePadding: 2,
-        intervalPadding: 20,
-        label: {
-          position: "middle",
-          layout: [
-            { type: "interval-adjust-position" },
-            { type: "interval-hide-overlap" },
-            { type: "adjust-color" },
-          ],
-        },
-      },
-      key: 7,
-    },
+    // {
+    //   option: {
+    //     isGroup: "true",
+    //     columnStyle: {
+    //       radius: [20, 20, 0, 0],
+    //     },
+    //   },
+    //   key: 5,
+    // },
+    // {
+    //   option: {
+    //     isGroup: true,
+    //     dodgePadding: 2,
+    //     label: {
+    //       position: "middle",
+    //       layout: [
+    //         { type: "interval-adjust-position" },
+    //         { type: "interval-hide-overlap" },
+    //         { type: "adjust-color" },
+    //       ],
+    //     },
+    //   },
+    //   key: 6,
+    // },
+
     { option: { isGroup: true, isStack: true }, key: 8 },
-    {
-      option: {
-        isPercent: true,
-        isStack: true,
-        label: {
-          position: "middle",
-          content: function content(item) {
-            return item.value.toFixed(2);
-          },
-          style: { fill: "#fff" },
-        },
-      },
-      key: 9,
-    },
+    // {
+    //   option: {
+    //     isPercent: true,
+    //     isStack: true,
+    //     label: {
+    //       position: "middle",
+    //       content: function content(item) {
+    //         return item.value ? item.value.toFixed(2) : null;
+    //       },
+    //       style: { fill: "#fff" },
+    //     },
+    //   },
+    //   key: 9,
+    // },
     {
       option: {
         isPercent: true,
@@ -677,34 +596,34 @@ const option = {
       },
       key: 10,
     },
-    {
-      option: {
-        isStack: true,
-        label: {
-          position: "middle",
-          layout: [
-            { type: "interval-adjust-position" },
-            { type: "interval-hide-overlap" },
-            { type: "adjust-color" },
-          ],
-        },
-      },
-      key: 11,
-    },
-    {
-      option: {
-        isStack: true,
-        label: { position: "middle" },
-        interactions: [
-          {
-            type: "active-region",
-            enable: false,
-          },
-        ],
-        columnBackground: { style: { fill: "rgba(0,0,0,0.1)" } },
-      },
-      key: 12,
-    },
+    // {
+    //   option: {
+    //     isStack: true,
+    //     label: {
+    //       position: "middle",
+    //       layout: [
+    //         { type: "interval-adjust-position" },
+    //         { type: "interval-hide-overlap" },
+    //         { type: "adjust-color" },
+    //       ],
+    //     },
+    //   },
+    //   key: 11,
+    // },
+    // {
+    //   option: {
+    //     isStack: true,
+    //     label: { position: "middle" },
+    //     interactions: [
+    //       {
+    //         type: "active-region",
+    //         enable: false,
+    //       },
+    //     ],
+    //     columnBackground: { style: { fill: "rgba(0,0,0,0.1)" } },
+    //   },
+    //   key: 12,
+    // },
   ],
 };
 

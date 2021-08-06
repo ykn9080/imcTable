@@ -27,12 +27,8 @@ const LineCht = (props) => {
   useEffect(() => {
     const conff = { ...props.config };
     setConfig(conff);
-    console.log(props, conff);
   }, [props.config]);
 
-  // if (props.config) {
-  //   conf = { ...config, ...props.config };
-  // }
   return config ? <Line {...config} /> : null;
 };
 export default LineCht;

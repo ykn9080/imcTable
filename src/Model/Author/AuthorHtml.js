@@ -11,7 +11,8 @@ import {
   UpdateColnDataAndApplyToDataList,
 } from "Data/DataEdit1";
 import "components/Common/Antd_Table.css";
-import { props } from "lodash/fp";
+import SlateHtml from "Model/Editor/SlateHtml";
+
 const { Title, Text } = Typography;
 
 export const Description = ({ dtslist, format, column }) => {
@@ -317,25 +318,37 @@ const AuthorHtml = ({ authObj, edit }) => {
   };
 
   let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
+  const onChange = (value) => {
+    //if (value) setTextvalue({ value });
+    console.log(value);
+    // if (this.props.onChange) {
+    //   // Send the changes up to the parent component as an HTML string.
+    //   // This is here to demonstrate using `.toString()` but in a real app it
+    //   // would be better to avoid generating a string on each change.
+    //   this.props.onChange(value.toString("html"));
+    // }
+  };
   return (
     <div className="gridcontent">
       {edit && (
-        <>
-          <AntFormDisplay
-            formid={"5f8e8ea4dbd58cbe2f3129f4"}
-            onValuesChange={onEditValuesChangeTable}
-            patchlist={makePatch()}
-            initialValues={init}
-          />
-          <div style={{ textAlign: "right", marginTop: 5 }}>
-            <Button onClick={saveHtml}>Apply</Button>
-          </div>
-        </>
+        <Row gutter={4}>
+          <Col span={16}>
+            <SlateHtml />
+          </Col>
+          <Col span={8}>
+            <AntFormDisplay
+              formid={"5f8e8ea4dbd58cbe2f3129f4"}
+              onValuesChange={onEditValuesChangeTable}
+              patchlist={makePatch()}
+              initialValues={init}
+            />
+            <div style={{ textAlign: "right", marginTop: 5 }}>
+              <Button onClick={saveHtml}>Apply</Button>
+            </div>
+          </Col>
+        </Row>
       )}
       ​
-      {/* <div style={title && titlestyle}>
-        <Title level={4}>{title}</Title>
-      </div> */}
       <div
         id="dvtest"
         style={{

@@ -36,7 +36,6 @@ const BarChart = (props) => {
   useEffect(() => {
     conf = { ...conf, ...props.config };
     setConfig(conf);
-    console.log(conf);
   }, [props.config]);
 
   return <>{config && <Bar {...config} />}</>;
