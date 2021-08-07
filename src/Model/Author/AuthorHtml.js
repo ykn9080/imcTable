@@ -11,7 +11,6 @@ import {
   UpdateColnDataAndApplyToDataList,
 } from "Data/DataEdit1";
 import "components/Common/Antd_Table.css";
-import SlateHtml from "Model/Editor/SlateHtml";
 
 const { Title, Text } = Typography;
 
@@ -332,9 +331,7 @@ const AuthorHtml = ({ authObj, edit }) => {
     <div className="gridcontent">
       {edit && (
         <Row gutter={4}>
-          <Col span={16}>
-            <SlateHtml />
-          </Col>
+          <Col span={16}></Col>
           <Col span={8}>
             <AntFormDisplay
               formid={"5f8e8ea4dbd58cbe2f3129f4"}
