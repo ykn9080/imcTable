@@ -11,6 +11,7 @@ import {
   UpdateColnDataAndApplyToDataList,
 } from "Data/DataEdit1";
 import "components/Common/Antd_Table.css";
+import Editor from "Model/Editor";
 
 const { Title, Text } = Typography;
 
@@ -172,6 +173,7 @@ const AuthorHtml = ({ authObj, edit }) => {
   const [column, setColumn] = useState();
   const [format, setFormat] = useState();
   const [title, setTitle] = useState();
+  const [econtent, setEcontent] = useState();
 
   let tempModel = useSelector((state) => state.global.tempModel);
   const trigger = useSelector((state) => state.global.triggerChild);
@@ -200,7 +202,7 @@ const AuthorHtml = ({ authObj, edit }) => {
           });
 
         newAuth.dtslist = dts;
-
+        if (newAuth.content) setEcontent(newAuth.content);
         if (st) {
           setInit({
             title: st.title,
@@ -287,11 +289,16 @@ const AuthorHtml = ({ authObj, edit }) => {
 
     if (trigger.length > 0 && trigger[0] === "save") {
       let newdata = saveHtml();
+      if (econtent) {
+        newdata.content = econtent;
+        console.log(newdata);
+      }
       localStorage.removeItem("modelhtml");
 
       let notexist = true;
       authorlist.map((k, i) => {
-        if (k.id === newdata.id) {
+        if (k.i === newdata.i) {
+          console.log("her");
           authorlist.splice(i, 1, newdata);
           notexist = false;
         }
@@ -300,8 +307,9 @@ const AuthorHtml = ({ authObj, edit }) => {
       if (notexist) {
         authorlist.push(newdata);
       }
-
+      console.log(authorlist);
       tempModel.properties.resultsAuthor = authorlist;
+
       dispatch(globalVariable({ tempModel }));
       dispatch(globalVariable({ triggerChild: [] }));
     }
@@ -327,11 +335,20 @@ const AuthorHtml = ({ authObj, edit }) => {
     //   this.props.onChange(value.toString("html"));
     // }
   };
+  const onContentStateChange = (val) => {
+    console.log(val);
+    setEcontent(val);
+  };
   return (
     <div className="gridcontent">
       {edit && (
         <Row gutter={4}>
-          <Col span={16}></Col>
+          <Col span={16}>
+            <Editor
+              content={econtent}
+              onContentStateChange={onContentStateChange}
+            />
+          </Col>
           <Col span={8}>
             <AntFormDisplay
               formid={"5f8e8ea4dbd58cbe2f3129f4"}
