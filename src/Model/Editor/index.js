@@ -1,45 +1,67 @@
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import {
+  EditorState,
+  convertToRaw,
+  convertFromRaw,
+  AtomicBlockUtils,
+} from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
+import draftToMarkdown from "draftjs-to-markdown";
+import { Input } from "antd";
+import convert from "htmr";
 
-let content = {
-  entityMap: {},
-  blocks: [
-    {
-      key: "637gr",
-      text: "Initialized from content state.",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {},
-    },
-  ],
-};
+import parse from "html-react-parser";
+
+const { TextArea } = Input;
+// let content = {
+//   entityMap: {},
+//   blocks: [
+//     {
+//       key: "637gr",
+//       text: "Initialized from content state.",
+//       type: "unstyled",
+//       depth: 0,
+//       inlineStyleRanges: [],
+//       entityRanges: [],
+//       data: {},
+//     },
+//   ],
+// };
 const Reditor = (props) => {
-  console.log(props);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [contentState, setContentState] = useState();
-  const [htmlcontent, setHtmlcontent] = useState("");
+  const [htmlcontent, setHtmlcontent] = useState();
 
   useEffect(() => {
-    if (props.content) content = props.content;
-    const contentState = convertFromRaw(content);
-    const editorstate = EditorState.createWithContent(contentState);
-    setEditorState(editorstate);
-  }, []);
-  //   useEffect(() => {
-  //     if (editorState) {
-  //       var myString = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-  //       var $jQueryObject = $($.parseHTML(myString));
-  //       setHtmlcontent($jQueryObject.html());
-  //     }
-  //   }, [editorState]);
+    console.log(props);
+    if (props.content) {
+      const simplecontent = { entityMap: {}, blocks: props.content.blocks };
+      const contentstate = convertFromRaw(simplecontent);
+      const editorstate = EditorState.createWithContent(contentstate);
+      // var myString = draftToHtml(convertToRaw(editorstate.getCurrentContent()));
+      // var $jQueryObject = $($.parseHTML(myString));
+      // setHtmlcontent($jQueryObject.html());
+      setEditorState(editorstate);
+    }
+  }, [props]);
+  useEffect(() => {
+    if (editorState) {
+      var myString = draftToHtml(convertToRaw(editorState.getCurrentContent()));
 
+      setHtmlcontent(parse(myString, options));
+    }
+  }, [editorState]);
+  const options = {
+    replace: (domNode) => {
+      if (domNode.attribs && domNode.attribs.class === "remove") {
+        return <></>;
+      }
+    },
+  };
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
@@ -53,8 +75,7 @@ const Reditor = (props) => {
       {(() => {
         switch (props.type) {
           case "view":
-            <div id="dvHtml">{htmlcontent}</div>;
-            return;
+            return <div>{htmlcontent}</div>;
           default:
             return (
               <>
@@ -66,17 +87,15 @@ const Reditor = (props) => {
                   onEditorStateChange={onEditorStateChange}
                   onContentStateChange={onContentStateChange}
                 />
-
-                <textarea
+                {/* <textarea
                   value={draftToHtml(
                     convertToRaw(editorState.getCurrentContent())
                   )}
-                />
+                /> */}
               </>
             );
         }
       })()}
-      <div id="dvHtml"></div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import _ from "lodash";
 import $ from "jquery";
 import { globalVariable } from "actions";
 import { idMake } from "components/functions/dataUtil";
-import { Typography, Descriptions, Table, Row, Col, Button } from "antd";
+import { Typography, Descriptions, Table, Row, Col, Button, Input } from "antd";
 import AntFormDisplay from "Form/AntFormDisplay";
 import {
   UpdateColnData,
@@ -12,9 +12,12 @@ import {
 } from "Data/DataEdit1";
 import "components/Common/Antd_Table.css";
 import Editor from "Model/Editor";
+import Toast from "Model/Editor/Toast";
+import SimpleEditor from "Model/Editor/simpleEditor";
+import parse from "html-react-parser";
 
 const { Title, Text } = Typography;
-
+const { TextArea } = Input;
 export const Description = ({ dtslist, format, column }) => {
   if (!format) format = -1;
   if (!column) column = 1;
@@ -174,6 +177,8 @@ const AuthorHtml = ({ authObj, edit }) => {
   const [format, setFormat] = useState();
   const [title, setTitle] = useState();
   const [econtent, setEcontent] = useState();
+  const [econtent1, setEcontent1] = useState(); //simple
+  const [htmlcontent, setHtmlcontent] = useState();
 
   let tempModel = useSelector((state) => state.global.tempModel);
   const trigger = useSelector((state) => state.global.triggerChild);
@@ -189,6 +194,10 @@ const AuthorHtml = ({ authObj, edit }) => {
 
       if (newAuth.setting) st = newAuth.setting;
       if (st) odr = st.order;
+      if (newAuth.content) {
+        setEcontent(authObj.content);
+        setEcontent1(authObj.content);
+      }
       if (src) {
         dts = makeData(src, newAuth, odr);
         if (dts)
@@ -202,7 +211,7 @@ const AuthorHtml = ({ authObj, edit }) => {
           });
 
         newAuth.dtslist = dts;
-        if (newAuth.content) setEcontent(newAuth.content);
+
         if (st) {
           setInit({
             title: st.title,
@@ -222,7 +231,23 @@ const AuthorHtml = ({ authObj, edit }) => {
       $('link[href="Antd_Table.css"]').remove(); //.prop("disabled", true);
     };
   }, [authObj]);
-
+  const options = {
+    replace: (domNode) => {
+      if (domNode.attribs && domNode.attribs.class === "remove") {
+        return <></>;
+      }
+    },
+  };
+  useEffect(() => {
+    // setEcontent(newAuth.content);
+    // var $jQueryObject = $($.parseHTML(newAuth.content));
+    // setHtmlcontent($jQueryObject.html());
+    // console.log($jQueryObject, $($jQueryObject), newAuth.content);
+    // var $log = $("#dvContent");
+    // var html = $.parseHTML(econtent);
+    // // $log[0].innerHTML = econtent;
+    if (econtent1) setHtmlcontent(parse(econtent1, options));
+  }, [econtent1]);
   const makePatch = () => {
     let child = [],
       plist = [];
@@ -289,9 +314,18 @@ const AuthorHtml = ({ authObj, edit }) => {
 
     if (trigger.length > 0 && trigger[0] === "save") {
       let newdata = saveHtml();
-      if (econtent) {
-        newdata.content = econtent;
-        console.log(newdata);
+      const editcontent = localStorage.getItem("editcontent");
+      const editcontent1 = localStorage.getItem("editcontent1");
+
+      if (editcontent) {
+        newdata.content = JSON.parse(editcontent);
+        setEcontent(newdata.content);
+        localStorage.removeItem("editcontent");
+      }
+      if (editcontent1) {
+        newdata.content = editcontent1;
+        setEcontent1(newdata.content);
+        localStorage.removeItem("editcontent1");
       }
       localStorage.removeItem("modelhtml");
 
@@ -337,17 +371,19 @@ const AuthorHtml = ({ authObj, edit }) => {
   };
   const onContentStateChange = (val) => {
     console.log(val);
-    setEcontent(val);
+    localStorage.setItem("editcontent", JSON.stringify(val));
   };
+
   return (
     <div className="gridcontent" style={{ margin: 5 }}>
       {edit && (
         <Row gutter={16}>
           <Col span={16}>
-            <Editor
+            <SimpleEditor html={econtent1} />
+            {/* <Editor
               content={econtent}
               onContentStateChange={onContentStateChange}
-            />
+            /> */}
           </Col>
           <Col span={8}>
             <AntFormDisplay
@@ -362,7 +398,7 @@ const AuthorHtml = ({ authObj, edit }) => {
           </Col>
         </Row>
       )}
-      ​
+
       <div
         id="dvtest"
         style={{
@@ -375,7 +411,8 @@ const AuthorHtml = ({ authObj, edit }) => {
         {data && data.dtslist && (
           <Description dtslist={data.dtslist} format={format} column={column} />
         )}
-        <Editor content={econtent} type="view" />
+        {/* {econtent ? <Editor content={econtent} type="view" /> : null} */}
+        {!edit && <div id="dvContent">{htmlcontent}</div>}
       </div>
     </div>
   );
