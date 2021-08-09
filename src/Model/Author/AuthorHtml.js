@@ -340,9 +340,9 @@ const AuthorHtml = ({ authObj, edit }) => {
     setEcontent(val);
   };
   return (
-    <div className="gridcontent">
+    <div className="gridcontent" style={{ margin: 5 }}>
       {edit && (
-        <Row gutter={4}>
+        <Row gutter={16}>
           <Col span={16}>
             <Editor
               content={econtent}
@@ -375,6 +375,7 @@ const AuthorHtml = ({ authObj, edit }) => {
         {data && data.dtslist && (
           <Description dtslist={data.dtslist} format={format} column={column} />
         )}
+        <Editor content={econtent} type="view" />
       </div>
     </div>
   );
