@@ -125,6 +125,7 @@ const ModelView = (props) => {
     //   dispatch(globalVariable({ currentStep: currentStep - 1 }));
     //   dispatch(globalVariable({ nextStep: currentStep }));
     // }
+    //test
     setConfirmLoading(false);
   };
   const dataformat = ["_id", "data", "title", "desc", "type"];
