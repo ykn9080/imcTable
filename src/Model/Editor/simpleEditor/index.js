@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { DefaultEditor } from "react-simple-wysiwyg";
+import AntFormDisplay from "imcformbuilder";
 
 const SimpleEditor = (props) => {
   const [html, setHtml] = React.useState("my <b>HTML</b>");
@@ -11,6 +12,11 @@ const SimpleEditor = (props) => {
     localStorage.setItem("editcontent1", e.target.value);
   }
 
-  return <DefaultEditor value={html} onChange={onChange} />;
+  return (
+    <>
+      <DefaultEditor value={html} onChange={onChange} />
+      <AntFormDisplay />
+    </>
+  );
 };
 export default SimpleEditor;

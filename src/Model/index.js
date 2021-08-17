@@ -5,8 +5,6 @@ import ModelList from "Model/ModelList";
 import ModelView from "Model/ModelView";
 import ModelEdit from "Model/ModelEdit";
 import ModelSetting from "Model/ModelSetting";
-// import ModelGraph from "Model/Authoring/ModelGraph";
-// import ModelAuthor from "Model/Author/ModelAuthor";
 import AuthorTable from "Model/Author/AuthorTable";
 import background from "images/background.png";
 
