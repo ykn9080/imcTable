@@ -16,22 +16,9 @@ import ModelEdit4, { saveLayout } from "./ModelEdit4";
 const ModelEdit = (props) => {
   const history = useHistory(); // do this inside the component
   const dispatch = useDispatch();
-  const step = [
-    { title: "Summary", description: "Model description" },
-    { title: "Parameter", description: "Define parameters for post" },
-    {
-      title: "ModelRun",
-      description: "Define data and parameter and execute",
-    },
-    {
-      title: "Data Manipulate",
-      description: "Manipulate raw data for reporting",
-    },
-    { title: "Display", description: "Layout output" },
-  ];
+
   let currentStep = useSelector((state) => state.global.currentStep);
   let tempModel = useSelector((state) => state.global.tempModel);
-  let tempData = useSelector((state) => state.global.tempData);
 
   useEffect(() => {
     $(".ant-col.ant-col-6").css({
@@ -138,9 +125,7 @@ const ModelEdit = (props) => {
     //   },
     // },
   ];
-  const onChangeStep = (current) => {
-    dispatch(globalVariable({ currentStep: current }));
-  };
+
   return (
     <>
       <DenseAppBar

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import $ from "jquery";
-import _ from "lodash";
 import { globalVariable } from "actions";
 import DenseAppBar from "components/Common/AppBar";
 import AntBreadCrumb from "components/Common/BreadCrumb";
@@ -11,10 +10,6 @@ import AuthorTable from "Model/Author/AuthorTable";
 import AuthorHtml from "Model/Author/AuthorHtml";
 import AuthorChart from "Model/Author/AuthorChart";
 import AuthorGraph from "Model/Author/AuthorGraph";
-import Dataget from "Model/Author/Dataget";
-import { Tabs } from "antd";
-
-const { TabPane } = Tabs;
 
 const Author = (props) => {
   const [authObj, setAuthObj] = useState();
@@ -22,7 +17,6 @@ const Author = (props) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const tempModel = useSelector((state) => state.global.tempModel);
   let match = useRouteMatch("/author/:id").url.split("/");
   //const dispatch = useDispatch();
   const location = useLocation();

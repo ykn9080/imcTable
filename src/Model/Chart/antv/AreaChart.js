@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Area } from "@ant-design/charts";
-import _ from "lodash";
 
 var data = [
   {

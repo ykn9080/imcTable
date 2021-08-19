@@ -6,7 +6,6 @@ import $ from "jquery";
 import "jquery-ui-bundle";
 import "jquery-ui-bundle/jquery-ui.min.css";
 import { globalVariable } from "actions";
-import Helpdialog from "Admin/Help/Icon";
 
 import { FaQuestionCircle } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
@@ -106,7 +105,6 @@ const Popup = (props) => {
           </div>
           <div style={Style.content}>{ModalText}</div>
         </div>
-        <Helpdialog />
       </>
     )
   );

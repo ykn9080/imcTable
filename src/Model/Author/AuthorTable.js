@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { globalVariable } from "actions";
-import { idMake } from "components/functions/dataUtil";
 import { Typography, Divider, Card, Button } from "antd";
 import SingleTable from "Data/DataEdit1_SingleTable";
 import AntFormDisplay from "imcformbuilder";
 import formdt from "Model/AntFormDisplay.json";
 import Dataget from "Model/Author/Dataget";
 import { Tabs } from "antd";
-
-// import AddtoDataset from "Data/AddtoDataset";
-// import axios from "axios";
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -21,10 +17,6 @@ const AuthorTable = ({ authObj, edit, title }) => {
   const [init, setInit] = useState();
   const [dtsrc, setDtsrc] = useState();
   const [tbsetting, setTbsetting] = useState();
-  // const [selectedTable, setSelectedTable] = useState();
-  // const [selectData, setSelectData] = useState();
-  // const [visible, setVisible] = useState(false);
-  // const [addToDataset, setAddToDataset] = useState();
 
   const tempModel = useSelector((state) => state.global.tempModel);
 

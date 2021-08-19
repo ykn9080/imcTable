@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "@ant-design/charts";
 
 import "antd/dist/antd.css";
-// import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
-// import { GrDocumentImage } from "react-icons/gr"
+
 let data = [
   { title: "테스트1", value: 38 },
   { title: "테스트2", value: 52 },
@@ -21,17 +20,6 @@ let conf = {
   yField: "value",
 };
 const BarChart = (props) => {
-  // const chartRef = useRef(null);
-  // if (props.data) data = props.data;
-  // let label = [];
-  // if (props.label) label = props.label;
-
-  // // let exportReport = {
-  // //     fileName: "test"
-  // // }
-  // if (props.config) {
-  //   config = { ...config, ...props.config };
-  // }
   const [config, setConfig] = useState();
   useEffect(() => {
     conf = { ...conf, ...props.config };

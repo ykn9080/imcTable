@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -15,18 +14,12 @@ import {
   EditOutlined,
   RiseOutlined,
   FallOutlined,
-  AreaChartOutlined,
-  TableOutlined,
-  FileTextOutlined,
-  AppstoreOutlined,
   FullscreenOutlined,
 } from "@ant-design/icons";
 import IconArray1 from "components/SKD/IconArray1";
-import { FcMindMap } from "react-icons/fc";
 import "./react-grid-layout.css";
 import DisplayMore from "components/SKD/DisplayMore";
 import { makeStyles } from "@material-ui/core/styles";
-import { globalVariable } from "actions";
 
 const { Title } = Typography;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -283,15 +276,6 @@ export default class ShowcaseLayout extends React.Component {
     el.x = 0;
     el.y = 0;
 
-    let index = _.findIndex(this.state.items, (o) => {
-      return o.i === el.i;
-    });
-
-    // Replace item at index using native splice
-    //this.state.items.splice(index, 1, el);
-
-    // setItems([...removedItems]);
-    console.log(this.state.items);
     this.setState({
       items: [el],
     });
@@ -320,22 +304,6 @@ export default class ShowcaseLayout extends React.Component {
     );
   }
 }
-const chartType = (type) => {
-  switch (type) {
-    case "chart":
-      return <AreaChartOutlined />;
-    case "graph":
-      return <FcMindMap />;
-    case "table":
-      return <TableOutlined />;
-    case "html":
-      return <FileTextOutlined />;
-    case "list":
-      return <AppstoreOutlined />;
-    default:
-      return null;
-  }
-};
 
 const CreateContent = (k) => {
   const classes = useStyles();
@@ -444,15 +412,7 @@ const CreateContent = (k) => {
     }
   })();
 };
-const extractLayout = (allList) => {
-  let layList = [];
-  if (allList)
-    allList.map((k, i) => {
-      layList.push({ x: k.x, y: k.y, w: k.w, h: k.w, i: k.i });
-      return null;
-    });
-  return layList;
-};
+
 ShowcaseLayout.propTypes = {
   onLayoutChange: PropTypes.func.isRequired,
 };
@@ -465,16 +425,3 @@ ShowcaseLayout.defaultProps = {
   //initialLayout: generateLayout(),
   //initialLayout: extractLayout(this.props.resultsLayout),
 };
-
-function generateLayout() {
-  return _.map(_.range(0, 3), function (item, i) {
-    var y = 16; // Math.ceil(Math.random() * 14) + 1;
-    return {
-      x: (_.random(0, 5) * 2) % 2,
-      y: Math.floor(i / 6) * y,
-      w: 6,
-      h: y,
-      i: i.toString(),
-    };
-  });
-}

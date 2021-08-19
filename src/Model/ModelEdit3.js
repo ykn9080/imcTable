@@ -1,13 +1,9 @@
-import { globalVariable } from "actions";
-import { Button, Dropdown, Menu, Popconfirm, Spin, Tabs, Tooltip } from "antd";
-import "components/Common/Antd.css";
-import DataEdit1 from "Data/DataEdit1";
-import _ from "lodash";
-import React, { useEffect, useState } from "react";
-import { GrClearOption } from "react-icons/gr";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-const { TabPane } = Tabs;
+import { globalVariable } from "actions";
+import { Spin } from "antd";
+import "components/Common/Antd.css";
+import _ from "lodash";
 
 export const fillNodelist = (author, source) => {
   const fillnode = (k) => {
@@ -132,13 +128,11 @@ export const maketempData = (tempModel, tempData) => {
     if (arr.length > 0) chk = true;
     return chk;
   };
-  let tempDataExist = false,
-    newtempData = {},
+  let newtempData = {},
     sourceArr,
     sourceNew = createSource(tempModel);
   if (tempData) {
     newtempData = { ...tempData };
-    tempDataExist = true;
   } else if (
     tempModel?.properties?.source &&
     existdtlist(tempModel?.properties?.source)
@@ -167,13 +161,8 @@ export const maketempData = (tempModel, tempData) => {
 
 const ModelEdit3 = (props) => {
   const dispatch = useDispatch();
-  let tempModel = useSelector((state) => state.global.tempModel);
-  let tempData = useSelector((state) => state.global.tempData);
   let nextStep = useSelector((state) => state.global.nextStep);
-  let currentStep = useSelector((state) => state.global.currentStep);
-  let showSpin = useSelector((state) => state.global.showSpin);
 
-  const [filtered, setFiltered] = useState(false);
   if (nextStep) {
     dispatch(globalVariable({ currentStep: nextStep }));
     dispatch(globalVariable({ nextStep: null }));

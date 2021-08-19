@@ -113,12 +113,10 @@ const sweetmsgconfirm1 = (confirmfunc, option) => {
 };
 const sweetmsgconfirm = (confirmfunc, option) => {
   var title = "Delete Confirm",
-    body = "Are your sure to delete?",
-    cookiekey = "cookie" + idMake();
+    body = "Are your sure to delete?";
   if (typeof option != "undefined") {
     if (option.hasOwnProperty("title")) title = option.title;
     if (option.hasOwnProperty("body")) body = option.body;
-    if (option.hasOwnProperty("cookiekey")) cookiekey = option.cookiekey;
   }
   // body =
   //   "<div>" +

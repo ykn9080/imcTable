@@ -167,14 +167,11 @@ const makeTableContent = (k, title, format, column) => {
 };
 
 const AuthorHtml = ({ authObj, edit }) => {
-  //const AuthorHtml = (props) => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [init, setInit] = useState();
   const [column, setColumn] = useState();
   const [format, setFormat] = useState();
-  const [title, setTitle] = useState();
-  const [econtent, setEcontent] = useState();
   const [econtent1, setEcontent1] = useState(); //simple
   const [htmlcontent, setHtmlcontent] = useState();
 
@@ -193,7 +190,6 @@ const AuthorHtml = ({ authObj, edit }) => {
       if (newAuth.setting) st = newAuth.setting;
       if (st) odr = st.order;
       if (newAuth.content) {
-        setEcontent(authObj.content);
         setEcontent1(authObj.content);
       }
       if (src) {
@@ -201,7 +197,7 @@ const AuthorHtml = ({ authObj, edit }) => {
         if (dts)
           dts.map((a, b) => {
             const rtn = UpdateColnData(a);
-            if (!rtn.dtlist) return;
+            if (!rtn.dtlist) return null;
             a.dtlist = rtn.dtlist;
 
             dts.splice(b, 1, a);
@@ -220,7 +216,6 @@ const AuthorHtml = ({ authObj, edit }) => {
           });
           setColumn(st.column);
           setFormat(st.format);
-          setTitle(st.title);
         }
         setData(newAuth);
       }
@@ -237,13 +232,6 @@ const AuthorHtml = ({ authObj, edit }) => {
     },
   };
   useEffect(() => {
-    // setEcontent(newAuth.content);
-    // var $jQueryObject = $($.parseHTML(newAuth.content));
-    // setHtmlcontent($jQueryObject.html());
-    // console.log($jQueryObject, $($jQueryObject), newAuth.content);
-    // var $log = $("#dvContent");
-    // var html = $.parseHTML(econtent);
-    // // $log[0].innerHTML = econtent;
     if (econtent1) setHtmlcontent(parse(econtent1, options));
   }, [econtent1]);
   const makePatch = () => {
@@ -317,7 +305,6 @@ const AuthorHtml = ({ authObj, edit }) => {
 
       if (editcontent) {
         newdata.content = JSON.parse(editcontent);
-        setEcontent(newdata.content);
         localStorage.removeItem("editcontent");
       }
       if (editcontent1) {
@@ -352,24 +339,6 @@ const AuthorHtml = ({ authObj, edit }) => {
     localStorage.setItem("modelhtml", JSON.stringify(allValues));
     if (changedValues.column) setColumn(changedValues.column);
     if (changedValues.format) setFormat(changedValues.format);
-    let odrarr = [];
-    if (allValues.order) odrarr = allValues.order;
-  };
-
-  let titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
-  const onChange = (value) => {
-    //if (value) setTextvalue({ value });
-    console.log(value);
-    // if (this.props.onChange) {
-    //   // Send the changes up to the parent component as an HTML string.
-    //   // This is here to demonstrate using `.toString()` but in a real app it
-    //   // would be better to avoid generating a string on each change.
-    //   this.props.onChange(value.toString("html"));
-    // }
-  };
-  const onContentStateChange = (val) => {
-    console.log(val);
-    localStorage.setItem("editcontent", JSON.stringify(val));
   };
 
   return (

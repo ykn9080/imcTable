@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AntMenu from "components/Common/Menu";
 import DenseAppBar from "components/Common/AppBar";
 
@@ -217,7 +217,7 @@ const Admin = ({ match }) => {
   if (typeof match.params.child != "undefined") title = match.params.child;
   if (typeof match.params.grandchild != "undefined")
     title = match.params.grandchild;
-  console.log(title);
+
   if (title) {
     titleUpper = title.charAt(0).toUpperCase() + title.slice(1);
     if (title.indexOf("allpurpose") > -1) {
@@ -225,7 +225,6 @@ const Admin = ({ match }) => {
       titleUpper = up.charAt(0).toUpperCase() + up.slice(1);
     }
   }
-  useEffect(() => {}, []);
   return (
     <>
       <DenseAppBar title={"Admin"}>
@@ -240,7 +239,6 @@ const Admin = ({ match }) => {
           case "form":
           case "table":
           case "chart":
-
           default:
             return null;
         }

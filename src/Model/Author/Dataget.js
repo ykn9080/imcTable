@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import $ from "jquery";
 import axios from "axios";
 import { HiOutlineViewList } from "react-icons/hi";
 import AntFormDisplay from "imcformbuilder";
@@ -73,6 +72,7 @@ const Dataget = (props) => {
 
           fields.map((k, i) => {
             rtn = rtn[k];
+            return null;
           });
         }
         setResult(JSON.stringify(rtn, null, 2));

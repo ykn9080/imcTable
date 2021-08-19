@@ -66,6 +66,7 @@ const ListGen = (props) => {
         obj[a] = k[a];
         if (a === "title") return (obj.name = k[a]);
         if (a === "desc") return (obj.description = k[a]);
+        return null;
       });
       data = obj;
     }
@@ -95,12 +96,6 @@ const ListGen = (props) => {
   };
 
   const editHandler = (item) => {
-    dispatch(globalVariable({ currentData: item }));
-    dispatch(globalVariable({ selectedKey: item._id }));
-    history.push(`/${props.url}/edit`);
-  };
-  const selectHandler = (item) => {
-    alert("selected", item.id);
     dispatch(globalVariable({ currentData: item }));
     dispatch(globalVariable({ selectedKey: item._id }));
     history.push(`/${props.url}/edit`);

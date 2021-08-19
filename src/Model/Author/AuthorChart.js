@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import $ from "jquery";
 import "components/Common/Antd.css";
 import axios from "axios";
 import { globalVariable } from "actions";
@@ -35,7 +34,6 @@ import AreaChart from "Model/Chart/antv/AreaChart";
 import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
 import ChartOption from "Model/Author/AuthorOption";
-import AntChart from "Model/Chart/antv/AntChart";
 import { ErrorBoundary } from "react-error-boundary";
 import { DarkBackground } from "Model/Author/Dataget";
 
@@ -280,7 +278,7 @@ const AuthorChart = ({ authObj, edit, errorurl }) => {
 
   // chart Data conversion
   const chartOrigin = (allValues) => {
-    if (allValues) setting1 = allValues;
+    //if (allValues) setting1 = allValues;
     if (!(setting1 && setting1?.yField)) return false;
     const x = setting1.xField;
     const val = setting1.yField;
@@ -435,9 +433,6 @@ const AuthorChart = ({ authObj, edit, errorurl }) => {
                     return <BoxPlot />;
                   case "scatter":
                     return <ScatterPlot config={config} />;
-                  case "parallel coordinates":
-                    // return <ParallelCoordinatesChart data={pcData} />;
-                    return <AntChart />;
                   case "matrixdiagram":
                     return <MatrixDiagram />;
 

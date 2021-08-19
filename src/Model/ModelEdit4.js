@@ -393,19 +393,6 @@ const ModelEdit4 = (props) => {
     setConfirmLoading(false);
   };
 
-  const mergeDtlist = () => {
-    let tempAuthor = localStorage.getItem("tempAuthor");
-    if (tempAuthor !== "undefined") tempAuthor = JSON.parse(tempAuthor);
-    const prosrc = tempModel?.properties?.source;
-
-    if (prosrc && tempModel?.properties?.resultsAuthor) {
-      let newAuthor = JSON.parse(
-        JSON.stringify(tempModel.properties.resultsAuthor)
-      );
-
-      return newAuthor;
-    }
-  };
   const reverttempModel = () => {
     //reset
     let localAuthor = localStorage.getItem("tempAuthor");
@@ -482,6 +469,7 @@ const ModelEdit4 = (props) => {
             <>
               <PopoverContent />
               <a
+                href="#!"
                 onClick={(e) => {
                   e.stopPropagation();
                   setPopvisible(false);
@@ -515,53 +503,14 @@ const ModelEdit4 = (props) => {
       </Tooltip> */}
     </div>
   );
-  const laybutton = (
-    <Row justify="end">
-      <Col offset={21}>
-        <Tooltip title="Reset Layout">
-          <Button icon={<RollbackOutlined />} onClick={resetLayout} />
-        </Tooltip>
-      </Col>
-      <Col>
-        <Tooltip title="How many Columns">
-          <Popover
-            content={
-              <>
-                <PopoverContent />
-                <a onClick={(e) => setPopvisible(false)}>Close</a>
-              </>
-            }
-            title="Select columns"
-            placement="leftTop"
-            trigger="click"
-            visible={popvisible}
-            onVisibleChange={() => setPopvisible(!popvisible)}
-          >
-            <Button icon={<AppstoreAddOutlined />} />
-          </Popover>
-        </Tooltip>
-      </Col>
-      {/* <Col>
-        <Tooltip title="Save Layout">
-          <Button icon={<SaveOutlined />} onClick={saveLayoutChange} />
-        </Tooltip>
-      </Col> */}
-    </Row>
-  );
+
   function handleChange(value, e) {
     setSelectChart(value);
   }
   const modalInit = () => {
     const children = [],
       deflist = [];
-    const findSource = (key) => {
-      let sourcename = "";
-      const rtn = _.filter(tempModel.properties.source, (o) => {
-        return o.key === key;
-      });
-      if (rtn) sourcename = rtn.title;
-      return sourcename;
-    };
+
     const chartType = (type) => {
       switch (type) {
         case "bar":
@@ -717,6 +666,7 @@ export const saveLayout = (tempModel) => {
         }
         return null;
       });
+      return null;
     });
     localStorage.removeItem("tempLayout");
   }

@@ -4,7 +4,6 @@ import { globalVariable } from "actions";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import $ from "jquery";
-import { makeStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -18,14 +17,6 @@ import Layout6 from "images/Layout/Layout6.png";
 import Layout7 from "images/Layout/Layout7.png";
 import Layout8 from "images/Layout/Layout8.png";
 
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(0),
-  },
-}));
 const IconArray = () => {
   const layout = [
     { col: [1], repeat: 1 },

@@ -1,6 +1,5 @@
 import React from "react";
-import _ from "lodash";
-import { Descriptions, Button } from "antd";
+import { Descriptions } from "antd";
 
 export const DescRow = ({ data, title, format, colspan, extra }) => {
   if (!format) format = -1;
@@ -31,7 +30,6 @@ export const DescRow = ({ data, title, format, colspan, extra }) => {
     </>
   );
 };
-const titlestyle = { marginTop: 10, marginLeft: 20, marginBottom: 10 };
 const Description = ({ data, title, format, colspan, extra }) => {
   return (
     <>

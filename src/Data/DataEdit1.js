@@ -117,6 +117,7 @@ const filterList = (filList, columnList) => {
             [b.key]: filterColumn(b.datatype, b.decimal, a[b.key]),
           };
         }
+        return null;
       });
       filList1.push(a);
       return null;

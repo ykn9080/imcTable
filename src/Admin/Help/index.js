@@ -28,9 +28,7 @@ const Help = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [selcontent, setSelcontent] = useState();
-  const [node, setNode] = useState();
   const [initialValues, setInitialValues] = useState();
-  const [patchlist, setPatchlist] = useState();
   const [reload, setReload] = useState(false);
   const [edit, setEdit] = useState(false);
   const [newkey, setNewkey] = useState();
@@ -115,7 +113,6 @@ const Help = (props) => {
   let contextItems = [{ label: "New" }, { label: "Edit" }, { label: "Delete" }];
   const contextCallback = (index, node) => {
     if (node && typeof node === "string") node = JSON.parse(node);
-    setNode(node);
     contextAction(contextItems[index].label, node);
   };
   const contextAction = (type, node) => {
@@ -136,7 +133,6 @@ const Help = (props) => {
         helpcontent.push(add);
         dispatch(globalVariable({ help: helpcontent }));
         dispatch(globalVariable({ treeData: helpcontent }));
-        setNode(add);
         setInitialValues({
           title: "Newnode",
           desc: "",
@@ -198,51 +194,12 @@ const Help = (props) => {
     };
     setInitialValues(summary);
     if (val.contents) setSelcontent(val.contents);
-    setNode(summary);
   };
   const onSummaryChange = (changedValues, allValues) => {
     localStorage.removeItem("persist.root");
     localStorage.setItem("helpsummray", JSON.stringify(allValues));
   };
-  const onSave = (contents) => {
-    let val1 = {},
-      val2;
-    let local = localStorage.getItem("helpsummray");
-    if (local) {
-      local = JSON.parse(local);
-      val1 = {
-        title: local.title,
-        desc: local.desc,
-        link: local.link,
-        tag: local.tag,
-        type: local.type,
-        related: local.related,
-        contents: contents,
-      };
-    }
-    val2 = { ...node, contents: contents, ...val1 };
 
-    let config = {
-      method: "post",
-      url: `${currentsetting.webserviceprefix}help`,
-      data: { ...val2, pid: node.pid },
-    };
-    if (node._id) {
-      config.method = "put";
-      config.url += "/" + node._id;
-    }
-
-    axios(config).then((r) => {
-      message.info("File Saved");
-      helpcontent.map((k, i) => {
-        if (k._id === node._id) helpcontent.splice(i, 1, config.data);
-        return null;
-      });
-      dispatch(globalVariable({ help: helpcontent }));
-      setReload(true);
-    });
-    localStorage.removeItem("helpsummray");
-  };
   const onDrop = (dropobj) => {
     if (!dropobj) return;
     let config = {
@@ -300,7 +257,6 @@ const Help = (props) => {
                   <AntFormDisplay
                     formArray={formdt["5f7180353f15603130abe066"]}
                     onValuesChange={onSummaryChange}
-                    patchlist={patchlist}
                     initialValues={initialValues}
                   />
                 </div>

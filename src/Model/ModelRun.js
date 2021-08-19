@@ -11,6 +11,7 @@ export const MainMaker = (source) => {
     source.map((s, j) => {
       if (!Array.isArray(s.title) && s.title.startsWith("[main]"))
         datas.push(s.key);
+      return null;
     });
   }
   return {
@@ -100,11 +101,9 @@ const makeupResults = (results, node) => {
   if (!results) return false;
   // TODO: M/L 요청사항 해당부분 보이지 않게 처리
   if (results.toSaveInfo) {
-    let toSaveInfo = results.toSaveInfo;
     delete results.toSaveInfo;
   }
   if (results.inputData) {
-    let inputData = results.inputData;
     delete results.inputData;
   }
 
@@ -231,8 +230,6 @@ const ModelRun = async (setting, modelscript, dataset) => {
     setting.newrun = true;
     return setting;
   });
-
-  return null;
 };
 
 export default ModelRun;

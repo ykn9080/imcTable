@@ -47,7 +47,6 @@ const UploadFile = (props) => {
   const fileRef = useRef();
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [listData, setListData] = useState();
 
   useEffect(() => {
@@ -275,7 +274,7 @@ const UploadFile = (props) => {
         <AntList
           listData={listData}
           search={false}
-          loading={loading}
+          loading={false}
           deleteHandler={deleteHandler}
           size={"small"}
           layout={"horizontal"}

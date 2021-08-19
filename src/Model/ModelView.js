@@ -3,7 +3,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { globalVariable } from "actions";
 import { currentsetting } from "config/index.js";
-import _ from "lodash";
 import axios from "axios";
 import querySearch from "stringquery";
 import DenseAppBar from "components/Common/AppBar";
@@ -13,7 +12,6 @@ import { Typography, Modal } from "antd";
 import Description from "components/SKD/Description";
 import ModelViewLayout from "Model/ModelViewLayout";
 import ListGen from "components/SKD/ListGen";
-import Dt from "./block.json";
 
 const { Title } = Typography;
 
@@ -75,11 +73,7 @@ const ModelView = (props) => {
     // dispatch(globalVariable({ tempData: null }));
     // dispatch(globalVariable({ tempModel: null }));
   };
-  const setting = () => {
-    //dispatch(globalVariable({ currentData: item }));
-    dispatch(globalVariable({ selectedKey: query._id }));
-    history.push(`/setting`);
-  };
+
   //model setup summary
   //parameter
   const btnArr = [
@@ -128,7 +122,6 @@ const ModelView = (props) => {
     //test
     setConfirmLoading(false);
   };
-  const dataformat = ["_id", "data", "title", "desc", "type"];
   const selectHandler = (item) => {
     console.log("selected123", item, item.id);
     dispatch(globalVariable({ currentData: item }));

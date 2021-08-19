@@ -25,7 +25,6 @@ const ResizeableTitle = (props) => {
   );
 };
 export const DraggableColumns = (props) => {
-  const [isResizing, setIsResizing] = useState(false);
   const [columns, setColumns] = useState(props.columns);
   const [data, setData] = useState(props.data);
   const [tbsetting, setTbsetting] = useState(props.tbsetting);
@@ -52,35 +51,37 @@ export const DraggableColumns = (props) => {
     },
     nodeSelector: "th",
   };
-  const handleResize = (index) => (e, { size }) => {
-    console.log("handle resize");
-    setColumns(({ columns }) => {
-      const nextColumns = [...columns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      return nextColumns;
-    });
-  };
+  const handleResize =
+    (index) =>
+    (e, { size }) => {
+      console.log("handle resize");
+      setColumns(({ columns }) => {
+        const nextColumns = [...columns];
+        nextColumns[index] = {
+          ...nextColumns[index],
+          width: size.width,
+        };
+        return nextColumns;
+      });
+    };
 
-  const onResizeStart = (e, data) => {
-    console.log("start resize");
-    setIsResizing(true);
-    e.preventDefault();
-  };
+  // const onResizeStart = (e, data) => {
+  //   console.log("start resize");
+  //   setIsResizing(true);
+  //   e.preventDefault();
+  // };
 
-  const onResizeStop = (e, data) => {
-    console.log("end resize");
-    setIsResizing(false);
-  };
+  // const onResizeStop = (e, data) => {
+  //   console.log("end resize");
+  //   setIsResizing(false);
+  // };
   const columns1 = columns.map((col, index) => ({
     ...col,
     onHeaderCell: (column) => ({
       width: column.width,
       onResize: handleResize(index),
-      onResizeStart: onResizeStart,
-      onResizeStop: onResizeStop,
+      // onResizeStart: onResizeStart,
+      // onResizeStop: onResizeStop,
     }),
   }));
   return (
@@ -193,17 +194,19 @@ export default class Demo extends React.Component {
   //   },
   // ];
 
-  handleResize = (index) => (e, { size }) => {
-    console.log("handle resize");
-    this.setState(({ columns }) => {
-      const nextColumns = [...columns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      return { columns: nextColumns };
-    });
-  };
+  handleResize =
+    (index) =>
+    (e, { size }) => {
+      console.log("handle resize");
+      this.setState(({ columns }) => {
+        const nextColumns = [...columns];
+        nextColumns[index] = {
+          ...nextColumns[index],
+          width: size.width,
+        };
+        return { columns: nextColumns };
+      });
+    };
 
   onResizeStart = (e, data) => {
     console.log("start resize");
