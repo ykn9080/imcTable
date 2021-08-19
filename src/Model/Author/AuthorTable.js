@@ -4,7 +4,8 @@ import { globalVariable } from "actions";
 import { idMake } from "components/functions/dataUtil";
 import { Typography, Divider, Card, Button } from "antd";
 import SingleTable from "Data/DataEdit1_SingleTable";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
+import formdt from "Model/AntFormDisplay.json";
 import Dataget from "Model/Author/Dataget";
 import { Tabs } from "antd";
 
@@ -126,7 +127,7 @@ const AuthorTable = ({ authObj, edit, title }) => {
                 <Divider style={{ marginTop: 0 }} />
                 <Card>
                   <AntFormDisplay
-                    formid={"5f0ff2fe89db1023b0165b19"}
+                    formArray={formdt["5f0ff2fe89db1023b0165b19"]}
                     onValuesChange={onEditValuesChangeTable}
                     initialValues={init}
                   />

@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { Button, message, Row, Col } from "antd";
 import "components/Common/Antd.css";
 import { globalVariable } from "actions";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
 import SingleTable from "Data/DataEdit1_SingleTable";
 import SingleView from "Data/DataEdit1_SingleView";
 import DataGet from "Data/DataManipulation/DataGet";

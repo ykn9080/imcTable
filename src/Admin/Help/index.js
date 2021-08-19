@@ -8,7 +8,8 @@ import { currentsetting } from "config/index.js";
 import { globalVariable } from "actions";
 import { Row, Col, message, Button } from "antd";
 import TreeAnt from "components/Common/TreeAnt";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
+import formdt from "Model/AntFormDisplay.json";
 import { sweetmsgconfirm } from "fromImc/Common_make";
 import ViewHead, { ViewTail } from "./view";
 
@@ -297,7 +298,7 @@ const Help = (props) => {
                   }}
                 >
                   <AntFormDisplay
-                    formid={"5f7180353f15603130abe066"}
+                    formArray={formdt["5f7180353f15603130abe066"]}
                     onValuesChange={onSummaryChange}
                     patchlist={patchlist}
                     initialValues={initialValues}

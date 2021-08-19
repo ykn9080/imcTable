@@ -14,7 +14,8 @@ import {
   Popover,
 } from "antd";
 import { makeStyles } from "@material-ui/core/styles";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
+import formdt from "Model/AntFormDisplay.json";
 import { idMake } from "components/functions/dataUtil";
 // import VisGraph from "components/Graph/visnetwork/VisGraph";
 import { FiRefreshCw } from "react-icons/fi";
@@ -339,7 +340,7 @@ const AuthorGraph = ({ authObj, edit, title }) => {
                 </div>
                 <div style={{ marginTop: 2, marginRight: 5 }}>
                   <AntFormDisplay
-                    formid="5f27f3e012d3bf701818e585"
+                    formArray={formdt["5f27f3e012d3bf701818e585"]}
                     onFinish={onFinishSummary}
                     initialValues={initGraph}
                   />
@@ -348,7 +349,7 @@ const AuthorGraph = ({ authObj, edit, title }) => {
               <TabPane tab="Nodes" key="2">
                 <div style={{ marginTop: 2, marginRight: 5 }}>
                   <AntFormDisplay
-                    formid="5f61aa619b954d3dd4877559"
+                    formArray={formdt["5f61aa619b954d3dd4877559"]}
                     onValuesChange={onValuesChangeNodes}
                     onFinish={onFinishNodes}
                     patchlist={patchnodes}
@@ -365,7 +366,7 @@ const AuthorGraph = ({ authObj, edit, title }) => {
               <TabPane tab="Edges" key="3">
                 <div style={{ marginTop: 2, marginRight: 5 }}>
                   <AntFormDisplay
-                    formid="5f61ae469b954d3dd487755c"
+                    formArray={formdt["5f61ae469b954d3dd487755c"]}
                     onValuesChange={onValuesChangeEdges}
                     onFinish={onFinishEdges}
                     patchlist={patchedges}

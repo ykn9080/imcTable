@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { globalVariable } from "actions";
 import { Button, Popconfirm, Row, Col, Tooltip } from "antd";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
 import Popup from "components/Common/Popup";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import IconButton from "@material-ui/core/IconButton";

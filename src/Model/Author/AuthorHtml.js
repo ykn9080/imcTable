@@ -4,20 +4,18 @@ import _ from "lodash";
 import $ from "jquery";
 import { globalVariable } from "actions";
 import { idMake } from "components/functions/dataUtil";
-import { Typography, Descriptions, Table, Row, Col, Button, Input } from "antd";
-import AntFormDisplay from "Form/AntFormDisplay";
+import { Typography, Descriptions, Table, Row, Col, Button } from "antd";
+import AntFormDisplay from "imcformbuilder";
+import formdt from "Model/AntFormDisplay.json";
 import {
   UpdateColnData,
   UpdateColnDataAndApplyToDataList,
 } from "Data/DataEdit1";
 import "components/Common/Antd_Table.css";
-import Editor from "Model/Editor";
-import Toast from "Model/Editor/Toast";
 import SimpleEditor from "Model/Editor/simpleEditor";
 import parse from "html-react-parser";
 
 const { Title, Text } = Typography;
-const { TextArea } = Input;
 export const Description = ({ dtslist, format, column }) => {
   if (!format) format = -1;
   if (!column) column = 1;
@@ -387,7 +385,7 @@ const AuthorHtml = ({ authObj, edit }) => {
           </Col>
           <Col span={8}>
             <AntFormDisplay
-              formid={"5f8e8ea4dbd58cbe2f3129f4"}
+              formArray={formdt["5f8e8ea4dbd58cbe2f3129f4"]}
               onValuesChange={onEditValuesChangeTable}
               patchlist={makePatch()}
               initialValues={init}

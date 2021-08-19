@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "components/Common/Antd.css";
 import { Typography, Row, Col, Button, Collapse, Radio } from "antd";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
 import {
   loopCommaToObject,
   objectToComma,

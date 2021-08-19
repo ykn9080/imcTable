@@ -21,7 +21,8 @@ import {
   Spin,
 } from "antd";
 import { RedoOutlined } from "@ant-design/icons";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
+import formdt from "Model/AntFormDisplay.json";
 import Dataget from "Model/Author/Dataget";
 import PieChart from "Model/Chart/antv/PieChart";
 import BarChart from "Model/Chart/antv/BarChart";
@@ -30,10 +31,7 @@ import ColumnChart from "Model/Chart/antv/ColumnChart";
 import BoxPlot from "Model/Chart/antv/BoxPlot";
 import ScatterPlot from "Model/Chart/antv/ScatterPlot";
 import MatrixDiagram from "Model/Chart/antv/MatrixDiagram";
-import ParallelCoordinatesChart from "Model/Chart/@nivo/nivoParallel";
-import { pcData } from "Model/Chart/@nivo/parallelData";
 import AreaChart from "Model/Chart/antv/AreaChart";
-import Dendrogram from "Model/Chart/react-tree/Dendrogram";
 import Treemap from "Model/Chart/d3/Treemap";
 import treemapdata from "Model/Chart/d3/treemapData";
 import ChartOption from "Model/Author/AuthorOption";
@@ -443,8 +441,6 @@ const AuthorChart = ({ authObj, edit, errorurl }) => {
                   case "matrixdiagram":
                     return <MatrixDiagram />;
 
-                  case "dendrogram":
-                    return <Dendrogram />;
                   case "treemap":
                     return (
                       <Treemap data={treemapdata} width={600} height={400} />
@@ -463,7 +459,7 @@ const AuthorChart = ({ authObj, edit, errorurl }) => {
             <div style={{ marginTop: 10, marginRight: 5 }}>
               {patch && (
                 <AntFormDisplay
-                  formid="5f1a590712d3bf549d18e583"
+                  formArray={formdt["5f1a590712d3bf549d18e583"]}
                   onValuesChange={onValuesChangeTable1}
                   patchlist={patch}
                   initialValues={initChart}

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import "antd/dist/antd.css";
 import { Row, Col } from "antd";
 import $ from "jquery";
+import "jquery-ui-bundle";
+import "jquery-ui-bundle/jquery-ui.min.css";
 import { globalVariable } from "actions";
 import Helpdialog from "Admin/Help/Icon";
 
@@ -74,11 +76,12 @@ const Popup = (props) => {
   if (props.helpLink) link = props.helpLink;
   useEffect(() => {
     dispatch(globalVariable({ helpLink: link }));
+    setTimeout(() => {
+      $(".popdiv").draggable();
+    }, 2500);
   }, []);
   const ModalText = props.children;
-  setTimeout(() => {
-    $(".popdiv").draggable();
-  }, 1500);
+
   return (
     openPopup && (
       <>

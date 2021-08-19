@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Row, Col, Select } from "antd";
 import "components/Common/Antd.css";
 import { globalVariable } from "actions";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
 import { arrayToObjectFilter } from "Data/DataEdit1";
 
 import UploadFile from "components/Common/UploadFile";

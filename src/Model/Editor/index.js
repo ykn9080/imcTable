@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
-import $ from "jquery";
-import {
-  EditorState,
-  convertToRaw,
-  convertFromRaw,
-  AtomicBlockUtils,
-} from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
-import htmlToDraft from "html-to-draftjs";
-import draftToMarkdown from "draftjs-to-markdown";
 import { Input } from "antd";
-import convert from "htmr";
 
 import parse from "html-react-parser";
 

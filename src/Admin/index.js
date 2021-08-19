@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import AntMenu from "components/Common/Menu";
 import DenseAppBar from "components/Common/AppBar";
-import FormList from "Form/FormList";
-import FormView from "Form/FormView";
-import FormEdit from "Form/FormEdit";
-import FormMulti from "Form/ModelViewParameter";
+
 import PageHead from "components/Common/PageHeader";
 
 const adminMenu = [
@@ -243,14 +240,7 @@ const Admin = ({ match }) => {
           case "form":
           case "table":
           case "chart":
-          case "data":
-            return <FormList type={title} />;
-          case "formview":
-            return <FormView />;
-          case "formedit":
-            return <FormEdit />;
-          case "formmulti":
-            return <FormMulti />;
+
           default:
             return null;
         }

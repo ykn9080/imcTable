@@ -6,7 +6,8 @@ import _ from "lodash";
 import { globalVariable } from "actions";
 import DenseAppBar from "components/Common/AppBar";
 import AntBreadCrumb from "components/Common/BreadCrumb";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
+import formdt from "Model/AntFormDisplay.json";
 import { Button } from "antd";
 import IconArray1 from "components/SKD/IconArray1";
 import AuthorChart from "./AuthorChart";
@@ -134,7 +135,7 @@ const ModelAuthor = (props) => {
     >
       <div style={{ marginTop: 10 }}>
         <AntFormDisplay
-          formid="5f0e8d8689db1023b0165b18"
+          formArray={formdt["5f0e8d8689db1023b0165b18"]}
           onValuesChange={onValuesChange}
           patchlist={makePatch()}
           initialValues={initialValues}

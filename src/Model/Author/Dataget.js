@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import axios from "axios";
 import { HiOutlineViewList } from "react-icons/hi";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
+import formdt from "Model/AntFormDisplay.json";
 import {
   Input,
   Row,
@@ -109,7 +110,7 @@ const Dataget = (props) => {
         <Col flex={6}>
           {initVal && (
             <AntFormDisplay
-              formid="60fe76d93f6f282f238e01bb"
+              formArray={formdt["60fe76d93f6f282f238e01bb"]}
               onFinish={onFinish}
               initialValues={initVal}
             />

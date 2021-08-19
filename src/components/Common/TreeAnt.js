@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { DownOutlined, PlusOutlined } from "@ant-design/icons";
-import "react-sortable-tree/style.css"; // This only needs to be imported once in your app
 import "antd/dist/antd.css";
 import "./Antd.css";
 import { Tree, Button, Input, Col, Row } from "antd";

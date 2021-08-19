@@ -9,7 +9,7 @@ import { Button, Tooltip, message, Tabs } from "antd";
 import { DesktopOutlined, SaveOutlined, CopyOutlined } from "@ant-design/icons";
 import PageHead from "components/Common/PageHeader";
 import AntFormBuild from "Form/AntFormBuild";
-import AntFormDisplay from "Form/AntFormDisplay";
+import AntFormDisplay from "imcformbuilder";
 import "components/Common/Antd.css";
 import useForceUpdate from "use-force-update";
 import DataEdit from "Admin/Data/DataEdit";

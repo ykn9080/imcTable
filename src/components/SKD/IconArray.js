@@ -17,7 +17,6 @@ import Layout5 from "images/Layout/Layout5.png";
 import Layout6 from "images/Layout/Layout6.png";
 import Layout7 from "images/Layout/Layout7.png";
 import Layout8 from "images/Layout/Layout8.png";
-import { ObjectID } from "bson"; //_id maker for MongoDB
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -98,7 +97,8 @@ const IconArray = () => {
     else return 12 / arr[1];
   };
   let addCtr = (seq, size) => {
-    const id = new ObjectID();
+    //const id = new ObjectID();
+    const id = parseInt(Math.random() * 100000);
     console.log(id);
     return {
       _id: id,
