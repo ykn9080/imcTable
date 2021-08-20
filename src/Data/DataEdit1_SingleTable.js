@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import { globalVariable } from "actions";
 import { Button, Popconfirm, Row, Col, Tooltip } from "antd";
 import AntFormDisplay from "imcformbuilder";
-import Popup from "components/Common/Popup";
+import formdt from "./config/AntFormDisplay.json";
+import Popup from "./components/Common/Popup";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import IconButton from "@material-ui/core/IconButton";
 import { GrFormClose, GrRevert } from "react-icons/gr";
@@ -16,13 +15,12 @@ import {
   AiOutlineGroup,
 } from "react-icons/ai";
 import { RiBracesLine } from "react-icons/ri";
-import MoreMenu from "components/SKD/MoreMenu";
-import { DraggableColumns } from "components/Table/DraggableColumns";
+import MoreMenu from "./components/SKD/MoreMenu";
+import { DraggableColumns } from "./components/Table/DraggableColumns";
 
-import { baseData, UpdateColnData, arrayToObject } from "Data/DataEdit1";
+import { baseData, UpdateColnData, arrayToObject } from "./DataEdit1";
 
 const SingleTable = (props) => {
-  const dispatch = useDispatch();
   const [columns, setColumns] = useState([]);
   const [tbsetting, setTbsetting] = useState();
   const [data, setData] = useState();
@@ -33,11 +31,9 @@ const SingleTable = (props) => {
   const [delColumnShow, setDelColumnShow] = useState(false);
   let edit = props.edit;
   if (!edit) edit = false;
-  let tempData = useSelector((state) => state.global.tempData);
-  let selectedKey1 = useSelector((state) => state.global.selectedKey1);
 
   useEffect(() => {
-    let data1 = _.find(tempData?.source, { key: selectedKey1 });
+    let data1;
 
     if (props.dataObj) data1 = props.dataObj;
     const rtndt = baseData(data1);
@@ -52,7 +48,7 @@ const SingleTable = (props) => {
       setData(rtndt);
     }
 
-    if (props.edit !== true) dispatch(globalVariable({ openPopup: false }));
+    //if (props.edit !== true) dispatch(globalVariable({ openPopup: false }));
   }, [props.dataObj]);
 
   useEffect(() => {
@@ -75,7 +71,7 @@ const SingleTable = (props) => {
   const columnEdit = (column, popsetting) => {
     setPopup(popsetting); //popup position,size info
     setInitCol(column);
-    dispatch(globalVariable({ openPopup: true }));
+    // dispatch(globalVariable({ openPopup: true }));
   };
   const columnDelete = (column, colsetting) => {
     let newData = { ...data };
@@ -99,7 +95,7 @@ const SingleTable = (props) => {
               icon={<EditOutlined />}
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(globalVariable({ openPopup: false }));
+                //dispatch(globalVariable({ openPopup: false }));
                 columnEdit(column, {
                   x: e.clientX,
                   y: e.clientY,
@@ -213,7 +209,7 @@ const SingleTable = (props) => {
   };
 
   const onFinishColumn = (val) => {
-    dispatch(globalVariable({ openPopup: false }));
+    //dispatch(globalVariable({ openPopup: false }));
     let newData = { ...data };
     let columnlist = newData.setting.column || [];
 
@@ -386,7 +382,7 @@ const SingleTable = (props) => {
 
           <Popup {...popup}>
             <AntFormDisplay
-              formid="5f101b3289db1023b0165b1a"
+              formArray={formdt["5f101b3289db1023b0165b1a"]}
               showtitle={true}
               onFinish={onFinishColumn}
               initialValues={initCol}

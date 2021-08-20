@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import _ from "lodash";
 import axios from "axios";
-import { currentsetting } from "config/index.js";
-import { Spin, Row, message } from "antd";
-import MultipleTable from "Data/DataEdit1_MultipleTable";
-import JoinData from "Data/DataManipulation";
-import { Groupby } from "Data/DataManipulation";
-import { pickAndRename } from "components/functions/dataUtil";
+import { message } from "antd";
+import JoinData from "./DataManipulation";
+import { Groupby } from "./DataManipulation";
+import { pickAndRename } from "./components/functions/dataUtil";
 
-export function GroupDataList(dtList, groupby) {
+export default function GroupDataList(dtList, groupby) {
   let rtn = dtList;
   if (groupby) {
     const opt = {
@@ -537,62 +534,3 @@ export const fillDatalist = async (dt) => {
   }
   return dt;
 };
-const DataEdit1 = (props) => {
-  const [fetchdone, setFetchdone] = useState();
-  const [showloading, setShowloading] = useState(false);
-  let tempData = useSelector((state) => state.global.tempData);
-  let allData = useSelector((state) => state.global.allData);
-  let selectedKey = useSelector((state) => state.global.selectedKey);
-  let curdatalist, nodesetlist, layerlist;
-  useEffect(() => {
-    setShowloading(true);
-    initLoad();
-  }, [tempData]);
-  const initLoad = async () => {
-    const dt = await fillDatalist(tempData);
-    if (dt !== false) setFetchdone(dt);
-    setShowloading(false);
-  };
-  // const arrayToObjectFilter = (data) => {
-  //   if (data.setting.arraytoobject) {
-  //     const rtn = arrayToObject(data.dtlist, data.setting.arraytoobject);
-  //     return rtn.dt;
-  //   } else return data.dtlist;
-  // };
-  if (allData) {
-    nodesetlist = _.filter(allData.nodeset, { pid: selectedKey });
-    let nodes = [];
-    nodesetlist.map((k) => {
-      nodes.push({ text: `[node]${k.title}`, value: k._id });
-      return null;
-    });
-    const keylist = nodesetlist.map((k) => {
-      return k._id;
-    });
-    layerlist = [];
-    allData.layer.map((k, i) => {
-      if ((keylist.indexOf(k.pid) > -1) | (keylist.indexOf(k.pid1) > -1))
-        layerlist.push({ text: `[layer]${k.title}`, value: k._id });
-      return null;
-    });
-    curdatalist = nodes.concat(layerlist);
-  }
-  return (
-    <div>
-      {/* <PageHeader className="site-page-header" title="Table Edit" /> */}
-      <div>
-        {/* {fetchdone && (
-          <MultipleTable curdatalist={curdatalist} tempData1={fetchdone} />
-        )} */}
-        <MultipleTable curdatalist={curdatalist} tempData1={fetchdone} />
-      </div>
-      {showloading && (
-        <Row justify="center">
-          <Spin tip="Data Loading..."></Spin>
-        </Row>
-      )}
-    </div>
-  );
-};
-
-export default DataEdit1;
