@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   List,
@@ -13,26 +11,21 @@ import {
   Row,
   Col,
 } from "antd";
-import _ from "lodash";
 import {
   EditOutlined,
   DeleteOutlined,
   CheckSquareOutlined,
 } from "@ant-design/icons";
-import { MdViewList } from "react-icons/md";
-import { VscListFlat } from "react-icons/vsc";
-import { TiArrowUnsorted, TiArrowSortedDown } from "react-icons/ti";
 import { highlightString } from "../functions/dataUtil";
 import { GrEdit, GrTrash } from "react-icons/gr";
 import MoreMenu from "../SKD/MoreMenu";
 
 const { Search } = Input;
 const AntList = (props) => {
-  const location = useLocation();
   //loading for skeleton
   const loading = props.loading ? props.loading : false;
   const [attr, setAttr] = useState(null);
-  const [searchstr, setSearchstr] = useState(keyword);
+  const [searchstr, setSearchstr] = useState();
   //layout,datasource,size,footer,pagination
 
   useEffect(() => {
@@ -47,17 +40,17 @@ const AntList = (props) => {
     listAttr = sorting(listAttr);
     setAttr(listAttr);
   }, [props]);
-  useEffect(() => {
-    paging();
-  }, [display, sortAction]);
+  // useEffect(() => {
+  //   paging();
+  // }, [display, sortAction]);
 
-  useEffect(() => {
-    sorting();
-  }, [sortAction]);
+  // useEffect(() => {
+  //   sorting();
+  // }, [sortAction]);
   const paging = () => {
     let size = 20,
       newattr = { ...attr };
-    if (display === "list") size = 50;
+    //if (display === "list") size = 50;
     if (props.pagination)
       newattr = { ...newattr, pagination: props.pagination };
 
@@ -69,16 +62,17 @@ const AntList = (props) => {
   };
   const sorting = (newAttr) => {
     if (!newAttr) newAttr = { ...attr };
-    if (sortAction) {
-      const sorted = _.sortBy(newAttr.dataSource, [
-        function (o) {
-          return o.name;
-        },
-      ]);
-      newAttr = { ...newAttr, dataSource: sorted };
-    } else {
-      newAttr = { ...newAttr, dataSource: props.listData };
-    }
+    // if (sortAction) {
+    //   const sorted = _.sortBy(newAttr.dataSource, [
+    //     function (o) {
+    //       return o.name;
+    //     },
+    //   ]);
+    //   newAttr = { ...newAttr, dataSource: sorted };
+    // } else
+
+    newAttr = { ...newAttr, dataSource: props.listData };
+
     setAttr(newAttr);
     return newAttr;
   };
@@ -170,7 +164,7 @@ const AntList = (props) => {
     //title,desc,size,avatar
     let metaAttr = {};
     if (item.size) metaAttr = { ...metaAttr, size: item.size };
-    if (item.description && display === "icon") {
+    if (item.description) {
       let desc = highlightString(item.description, searchstr);
       metaAttr = {
         ...metaAttr,
@@ -194,7 +188,7 @@ const AntList = (props) => {
       const av = item.avatar;
       let av1 = {};
       if (av.size) av1 = { ...av1, size: av.size };
-      if (display === "list") av1 = { ...av1, size: 5 };
+      // if (display === "list") av1 = { ...av1, size: 5 };
       if (av.shape) av1 = { ...av1, shape: av.shape };
       if (av.style) av1 = { ...av1, style: av.style };
       if (av.icon) av1 = { ...av1, icon: av.icon };
@@ -222,7 +216,6 @@ const AntList = (props) => {
       setAttr(newattr);
     }
     setSearchstr(value);
-   
   };
 
   const show = (item) => {
@@ -233,14 +226,12 @@ const AntList = (props) => {
       (item._id && item._id.indexOf(searchstr) > -1)
     );
   };
-  
 
   return (
     <>
       <div style={{ paddingRight: 5 }}>
         {props.search !== false && (
           <div style={{ textAlign: "right" }}>
-           
             <Search
               placeholder="input search text"
               allowClear

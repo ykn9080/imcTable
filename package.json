@@ -1,8 +1,8 @@
 {
   "name": "imceasytable",
-  "version": "0.1.5",
-  "module": "dist/DataEdit1_SingleTable.js",
-  "main": "dist/DataEdit1_SingleTable.js",
+  "version": "0.1.6",
+  "module": "dist/EasyTable.js",
+  "main": "dist/EasyTable.js",
   "private": false,
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
@@ -14,7 +14,6 @@
     "fg-loadcss": "^3.1.0",
     "imcformbuilder": "^0.2.1",
     "jquery": "^3.6.0",
-    "jquery-ui-bundle": "^1.12.1-migrate",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

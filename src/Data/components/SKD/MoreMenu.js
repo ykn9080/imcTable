@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import { Button } from "antd";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -7,7 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 export default function MoreMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
-  let icon=<MoreVertIcon />;
+  let icon = <MoreVertIcon />;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -18,7 +18,7 @@ export default function MoreMenu(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  if(props.icon) icon=props.icon;
+  if (props.icon) icon = props.icon;
 
   return (
     <div>

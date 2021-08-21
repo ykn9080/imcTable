@@ -84,6 +84,7 @@ export const DraggableColumns = (props) => {
       // onResizeStop: onResizeStop,
     }),
   }));
+
   return (
     <div>
       <ReactDragListView.DragColumn {...dragProps}>
