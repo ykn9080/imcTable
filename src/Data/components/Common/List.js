@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { globalVariable } from "../../actions";
 import { Link } from "react-router-dom";
 import {
   List,
@@ -29,13 +28,7 @@ import MoreMenu from "../SKD/MoreMenu";
 
 const { Search } = Input;
 const AntList = (props) => {
-  const dispatch = useDispatch();
   const location = useLocation();
-  const display = useSelector((state) => state.global.display);
-  const sortAction = useSelector((state) => state.global.sortAction);
-  const searchWord = useSelector((state) => state.global.searchWord);
-  let keyword = "";
-  if (searchWord[location.pathname]) keyword = searchWord[location.pathname];
   //loading for skeleton
   const loading = props.loading ? props.loading : false;
   const [attr, setAttr] = useState(null);
@@ -229,11 +222,7 @@ const AntList = (props) => {
       setAttr(newattr);
     }
     setSearchstr(value);
-    dispatch(
-      globalVariable({
-        searchWord: { ...searchWord, [location.pathname]: value },
-      })
-    );
+   
   };
 
   const show = (item) => {
@@ -244,30 +233,14 @@ const AntList = (props) => {
       (item._id && item._id.indexOf(searchstr) > -1)
     );
   };
-  const toggleLayout = () => {
-    if (display === "icon") dispatch(globalVariable({ display: "list" }));
-    else dispatch(globalVariable({ display: "icon" }));
-  };
+  
 
   return (
     <>
       <div style={{ paddingRight: 5 }}>
         {props.search !== false && (
           <div style={{ textAlign: "right" }}>
-            <Tooltip title="Sort list">
-              <Button
-                icon={sortAction ? <TiArrowSortedDown /> : <TiArrowUnsorted />}
-                onClick={() =>
-                  dispatch(globalVariable({ sortAction: !sortAction }))
-                }
-              />
-            </Tooltip>
-            <Tooltip title="Compact/Normal">
-              <Button
-                icon={display === "icon" ? <VscListFlat /> : <MdViewList />}
-                onClick={toggleLayout}
-              />
-            </Tooltip>
+           
             <Search
               placeholder="input search text"
               allowClear

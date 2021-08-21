@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import "antd/dist/antd.css";
 import { Row, Col } from "antd";
 import $ from "jquery";
 import "jquery-ui-bundle";
 import "jquery-ui-bundle/jquery-ui.min.css";
-import { globalVariable } from "../../actions";
 
-import { FaQuestionCircle } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 let Style = {
   root: {
@@ -66,15 +63,11 @@ const Popup = (props) => {
   if (props.h) h = props.h;
 
   Style.root = { ...Style.root, left: x, top: y, width: w, height: h };
-  let openPopup = useSelector((state) => state.global.openPopup);
-  const dispatch = useDispatch();
-  const handleCancel = () => {
-    dispatch(globalVariable({ openPopup: false }));
-  };
+ 
   let link = null;
   if (props.helpLink) link = props.helpLink;
   useEffect(() => {
-    dispatch(globalVariable({ helpLink: link }));
+  
     setTimeout(() => {
       $(".popdiv").draggable();
     }, 2500);
@@ -82,23 +75,16 @@ const Popup = (props) => {
   const ModalText = props.children;
 
   return (
-    openPopup && (
+    (
       <>
         <div style={Style.root} className={"popdiv"}>
           <div style={Style.header}>
             <Row justify="end">
-              <Col>
-                <FaQuestionCircle
-                  style={Style.iconStyle}
-                  onClick={() => {
-                    dispatch(globalVariable({ openHelp: true }));
-                  }}
-                />
-              </Col>
+            
               <Col>
                 <AiOutlineClose
                   style={Style.iconStyle}
-                  onClick={handleCancel}
+                
                 />
               </Col>
             </Row>
