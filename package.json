@@ -1,5 +1,5 @@
 {
-  "name": "imceasytable",
+  "name": "@yknam/imceasytable",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@ykn9080"
   },
