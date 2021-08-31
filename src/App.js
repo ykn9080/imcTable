@@ -8,7 +8,7 @@ const App = (props) => {
     <div style={{ flexGrow: 1 }}>
       <EasyTable
         edit={true}
-        dataObj={sampledata}
+        authObj={sampledata}
         tbsetting={{ size: "small" }}
       />
     </div>
