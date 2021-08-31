@@ -1,7 +1,7 @@
 {
-  "name": "@ykn9080/imceasytable",
+  "name": "imceasytable",
   "publishConfig": {
-    "@ykn9080:registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com/@ykn9080"
   },
   "version": "1.0.0",
   "module": "dist/EasyTable.js",
