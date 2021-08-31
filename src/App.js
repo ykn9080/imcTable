@@ -18,39 +18,6 @@ const App = (props) => {
 export default App;
 
 const sampledata = {
-  key: "ext5",
-  title: "Partition Vector",
-  type: "table",
-  dtorigin: [
-    {
-      key: "1",
-      name: "John Brown",
-      chinese: 98,
-      math: 60,
-      english: 70,
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      chinese: 98,
-      math: 66,
-      english: 89,
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      chinese: 98,
-      math: 90,
-      english: 70,
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      chinese: 88,
-      math: 99,
-      english: 89,
-    },
-  ],
   setting: {
     column: [
       {
@@ -90,13 +57,6 @@ const sampledata = {
     title: "Score",
     size: "small",
   },
-  id: "210317132524",
-  checked: true,
-  x: 6,
-  y: 0,
-  w: 6,
-  h: 14,
-  i: "1",
   dtlist: [
     {
       key: "1",

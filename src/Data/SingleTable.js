@@ -17,7 +17,7 @@ import MoreMenu from "./components/SKD/MoreMenu";
 import { DraggableColumns } from "./components/Table/DraggableColumns";
 import { Groupby } from "./DataManipulation";
 
-const EasyTable = (props) => {
+const SingleTable = (props) => {
   const [columns, setColumns] = useState([]);
   const [tbsetting, setTbsetting] = useState();
   const [data, setData] = useState();
@@ -596,4 +596,4 @@ export const UpdateColnData = (data) => {
 
   return { dtlist: filList, column: cols };
 };
-export default EasyTable;
+export default SingleTable;
