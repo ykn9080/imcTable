@@ -3,7 +3,6 @@ import { Typography, Divider, Card } from "antd";
 import SingleTable from "./SingleTable";
 import AntFormDisplay from "imcformbuilder";
 import formdt from "./config/AntFormDisplay.json";
-// import Dataget from "Model/Author/Dataget";
 import { Tabs } from "antd";
 
 const { Title } = Typography;
