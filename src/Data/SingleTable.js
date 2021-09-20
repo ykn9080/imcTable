@@ -54,7 +54,6 @@ const SingleTable = (props) => {
   useEffect(() => {
     let rtn;
     if (data) {
-      console.log("imin");
       rtn = UpdateColnData(data);
       setFiltered(rtn.dtlist);
       let editcolumn = columnEditFilter(rtn.column, data.setting);

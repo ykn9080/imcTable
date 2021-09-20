@@ -3,7 +3,8 @@ import { Typography, Divider, Card } from "antd";
 import SingleTable from "./SingleTable";
 import AntFormDisplay from "imcformbuilder";
 import formdt from "./config/AntFormDisplay.json";
-import { Tabs } from "antd";
+import { Tabs, Button } from "antd";
+import { RedoOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -23,6 +24,7 @@ const EasyTable = ({ authObj, edit, save }) => {
 
       if (newAuth.title) title = newAuth.title;
       if (newAuth.setting) {
+        localStorage.setItem("modelchart", JSON.stringify(authObj));
         const st = newAuth.setting;
         if (st.title) title = st.title;
         desc = st.desc;
@@ -41,6 +43,19 @@ const EasyTable = ({ authObj, edit, save }) => {
     }
   }, [authObj]);
 
+  // const updateLocalStorage = (title, updateObj) => {
+  //   let local,
+  //     local1 = localStorage.getItem(title);
+  //   if (local1) local = JSON.parse(local1);
+  //   local.setting = { ...local.setting, ...updateObj };
+
+  //   //updateObj==={}, remove options
+  //   if ((Object.keys(updateObj).length === 0) | !updateObj.options) {
+  //     delete local.setting.options;
+  //     form.resetFields();
+  //   }
+  //   localStorage.setItem(title, JSON.stringify(local));
+  // };
   // const saveTemp = (trigger) => {
   //   let authorlist = tempModel?.properties?.resultsAuthor;
 
@@ -87,14 +102,35 @@ const EasyTable = ({ authObj, edit, save }) => {
   // saveTemp(trigger);
 
   const saveTable = (data) => {
+    let local,
+      local1 = localStorage.getItem("modelchart");
+    if (local1) local = JSON.parse(local1);
+    local.setting = data.setting;
+    localStorage.setItem("modelchart", JSON.stringify(local));
     setData(data);
     if (save) save(data);
   };
   const onEditValuesChangeTable = (changedValues, allValues) => {
-    localStorage.setItem("modeltable", JSON.stringify(allValues));
-    if (changedValues.size) setTbsetting({ size: allValues.size });
-  };
+    //use localstorage to prevent state change
+    let local = {},
+      local1 = localStorage.getItem("modelchart");
+    if (local1) local = JSON.parse(local1);
+    local.setting = { ...local.setting, ...changedValues };
+    localStorage.setItem("modelchart", JSON.stringify(local));
 
+    // if (changedValues.size) {
+    //   setTbsetting({ size: allValues.size });
+    //   //setInit({ ...init, size: allValues.size });
+    // }
+  };
+  const onFinishTable = (val) => {
+    let local,
+      local1 = localStorage.getItem("modelchart");
+    if (local1) {
+      local = JSON.parse(local1);
+      setTbsetting({ size: local?.setting?.size });
+    }
+  };
   const onDataGet = (val) => {
     const newData = { ...data, dtlist: val };
     setData(newData);
@@ -103,37 +139,37 @@ const EasyTable = ({ authObj, edit, save }) => {
   return (
     <div style={{ padding: "5px 5px 10px 10px" }}>
       {edit === true ? (
-        <Tabs tabPosition={"left"}>
-          <TabPane tab="Author" key="1">
-            {edit && init && (
-              <>
-                <Title level={4}>Table</Title>
-                <Divider style={{ marginTop: 0 }} />
-                <Card>
-                  <AntFormDisplay
-                    formArray={formdt["5f0ff2fe89db1023b0165b19"]}
-                    onValuesChange={onEditValuesChangeTable}
-                    initialValues={init}
-                  />
-                </Card>
-              </>
-            )}
-            {data && (
-              <div style={{ marginTop: 40 }}>
-                <SingleTable
-                  dataObj={data}
-                  tbsetting={tbsetting}
-                  edit={edit}
-                  className="gridcontent"
-                  save={saveTable}
+        <>
+          {init && (
+            <>
+              <Title level={4}>Table</Title>
+              <Divider style={{ marginTop: 0 }} />
+              <Card>
+                <Button
+                  type="link"
+                  icon={<RedoOutlined />}
+                  onClick={onFinishTable}
                 />
-              </div>
-            )}
-          </TabPane>
-          <TabPane tab="Data" key="2">
-            {/* <Dataget onDataGet={onDataGet} dtsrc={dtsrc} /> */}
-          </TabPane>
-        </Tabs>
+                <AntFormDisplay
+                  formArray={formdt["5f0ff2fe89db1023b0165b19"]}
+                  onValuesChange={onEditValuesChangeTable}
+                  initialValues={init}
+                />
+              </Card>
+            </>
+          )}
+          {data && (
+            <div style={{ marginTop: 40 }}>
+              <SingleTable
+                dataObj={data}
+                tbsetting={tbsetting}
+                edit={edit}
+                className="gridcontent"
+                save={saveTable}
+              />
+            </div>
+          )}
+        </>
       ) : (
         <div style={{ marginTop: 40 }}>
           <SingleTable

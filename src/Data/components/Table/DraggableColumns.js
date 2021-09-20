@@ -54,7 +54,6 @@ export const DraggableColumns = (props) => {
   const handleResize =
     (index) =>
     (e, { size }) => {
-      console.log("handle resize");
       setColumns(({ columns }) => {
         const nextColumns = [...columns];
         nextColumns[index] = {
