@@ -43,64 +43,6 @@ const EasyTable = ({ authObj, edit, save }) => {
     }
   }, [authObj]);
 
-  // const updateLocalStorage = (title, updateObj) => {
-  //   let local,
-  //     local1 = localStorage.getItem(title);
-  //   if (local1) local = JSON.parse(local1);
-  //   local.setting = { ...local.setting, ...updateObj };
-
-  //   //updateObj==={}, remove options
-  //   if ((Object.keys(updateObj).length === 0) | !updateObj.options) {
-  //     delete local.setting.options;
-  //     form.resetFields();
-  //   }
-  //   localStorage.setItem(title, JSON.stringify(local));
-  // };
-  // const saveTemp = (trigger) => {
-  //   let authorlist = tempModel?.properties?.resultsAuthor;
-
-  //   if (trigger.length > 0 && trigger[0] === "save") {
-  //     let newdata = { ...data };
-  //     let mdtb = localStorage.getItem("modeltable");
-  //     let set = {};
-  //     set = newdata.setting;
-  //     if (mdtb) {
-  //       mdtb = JSON.parse(mdtb);
-  //       set = { ...set, ...mdtb };
-  //       // newdata = { ...newdata, ...mdtb };
-  //       localStorage.removeItem("modeltable");
-  //     }
-  //     let dtsrc = localStorage.getItem("modeldtsrc");
-  //     if (dtsrc) {
-  //       dtsrc = JSON.parse(dtsrc);
-  //       set = { ...set, ...dtsrc };
-  //       localStorage.removeItem("modeldtsrc");
-  //     }
-
-  //     newdata = {
-  //       ...newdata,
-  //       setting: set,
-  //     };
-
-  //     let notexist = true;
-  //     authorlist.map((k, i) => {
-  //       if (k.i === newdata.i) {
-  //         authorlist.splice(i, 1, newdata);
-  //         notexist = false;
-  //       }
-  //       return null;
-  //     });
-  //     if (notexist) {
-  //       authorlist.push(newdata);
-  //     }
-
-  //     tempModel.properties.resultsAuthor = authorlist;
-  //     dispatch(globalVariable({ tempModel }));
-  //     dispatch(globalVariable({ triggerChild: [] }));
-  //   }
-  // };
-  // saveTemp(trigger);
-
   const saveTable = (data) => {
     let local,
       local1 = localStorage.getItem("modelchart");
@@ -117,18 +59,19 @@ const EasyTable = ({ authObj, edit, save }) => {
     if (local1) local = JSON.parse(local1);
     local.setting = { ...local.setting, ...changedValues };
     localStorage.setItem("modelchart", JSON.stringify(local));
-
-    // if (changedValues.size) {
-    //   setTbsetting({ size: allValues.size });
-    //   //setInit({ ...init, size: allValues.size });
-    // }
   };
   const onFinishTable = (val) => {
     let local,
       local1 = localStorage.getItem("modelchart");
     if (local1) {
       local = JSON.parse(local1);
+      const st = local.setting;
       setTbsetting({ size: local?.setting?.size });
+      setInit({ title: st.title, desc: st.desc, size: st.size });
+      setTimeout(() => {
+        setTbsetting({ size: local?.setting?.size });
+        setInit({ title: st.title, desc: st.desc, size: st.size });
+      }, 100);
     }
   };
   const onDataGet = (val) => {
