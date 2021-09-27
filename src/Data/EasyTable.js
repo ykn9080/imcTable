@@ -9,8 +9,8 @@ import { RedoOutlined } from "@ant-design/icons";
 const { Title } = Typography;
 const { TabPane } = Tabs;
 
-const EasyTable = ({ authObj, edit, save }) => {
-  const [data, setData] = useState([]);
+const EasyTable = ({ authObj, edit, onChange }) => {
+  const [auth, setAuth] = useState([]);
   const [init, setInit] = useState();
   const [dtsrc, setDtsrc] = useState();
   const [tbsetting, setTbsetting] = useState();
@@ -24,7 +24,6 @@ const EasyTable = ({ authObj, edit, save }) => {
 
       if (newAuth.title) title = newAuth.title;
       if (newAuth.setting) {
-        localStorage.setItem("modelchart", JSON.stringify(authObj));
         const st = newAuth.setting;
         if (st.title) title = st.title;
         desc = st.desc;
@@ -36,47 +35,40 @@ const EasyTable = ({ authObj, edit, save }) => {
       }
       if (newAuth.dtsrc) setDtsrc(newAuth.dtsrc);
       setInit({ title, desc, size });
-      setData(newAuth);
+      setAuth(newAuth);
     } else {
       setInit({ title: "", desc: "", size: "" });
-      setData({});
+      setAuth({});
     }
   }, [authObj]);
 
   const saveTable = (data) => {
-    let local,
-      local1 = localStorage.getItem("modelchart");
-    if (local1) local = JSON.parse(local1);
+    let local = auth;
     local.setting = data.setting;
-    localStorage.setItem("modelchart", JSON.stringify(local));
-    setData(data);
-    if (save) save(data);
+    onChange(data);
+    setAuth(data);
   };
   const onEditValuesChangeTable = (changedValues, allValues) => {
     //use localstorage to prevent state change
-    let local = {},
-      local1 = localStorage.getItem("modelchart");
-    if (local1) local = JSON.parse(local1);
+    let local = auth;
     local.setting = { ...local.setting, ...changedValues };
-    localStorage.setItem("modelchart", JSON.stringify(local));
+    setAuth(local);
+    onChange(local);
   };
   const onFinishTable = (val) => {
-    let local,
-      local1 = localStorage.getItem("modelchart");
-    if (local1) {
-      local = JSON.parse(local1);
-      const st = local.setting;
+    let local = auth;
+
+    const st = local.setting;
+    setTbsetting({ size: local?.setting?.size });
+    setInit({ title: st.title, desc: st.desc, size: st.size });
+    setTimeout(() => {
       setTbsetting({ size: local?.setting?.size });
       setInit({ title: st.title, desc: st.desc, size: st.size });
-      setTimeout(() => {
-        setTbsetting({ size: local?.setting?.size });
-        setInit({ title: st.title, desc: st.desc, size: st.size });
-      }, 100);
-    }
+    }, 100);
   };
   const onDataGet = (val) => {
-    const newData = { ...data, dtlist: val };
-    setData(newData);
+    const newData = { ...auth, dtlist: val };
+    setAuth(newData);
   };
 
   return (
@@ -101,10 +93,10 @@ const EasyTable = ({ authObj, edit, save }) => {
               </Card>
             </>
           )}
-          {data && (
+          {auth && (
             <div style={{ marginTop: 40 }}>
               <SingleTable
-                dataObj={data}
+                dataObj={auth}
                 tbsetting={tbsetting}
                 edit={edit}
                 className="gridcontent"
@@ -116,7 +108,7 @@ const EasyTable = ({ authObj, edit, save }) => {
       ) : (
         <div style={{ marginTop: 40 }}>
           <SingleTable
-            dataObj={data}
+            dataObj={auth}
             tbsetting={tbsetting}
             edit={edit}
             className="gridcontent"
