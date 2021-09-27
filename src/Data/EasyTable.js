@@ -3,16 +3,13 @@ import { Typography, Divider, Card } from "antd";
 import SingleTable from "./SingleTable";
 import AntFormDisplay from "imcformbuilder";
 import formdt from "./config/AntFormDisplay.json";
-import { Tabs, Button } from "antd";
-import { RedoOutlined } from "@ant-design/icons";
+import { Tabs } from "antd";
 
 const { Title } = Typography;
-const { TabPane } = Tabs;
 
 const EasyTable = ({ authObj, edit, onChange }) => {
   const [auth, setAuth] = useState([]);
   const [init, setInit] = useState();
-  const [dtsrc, setDtsrc] = useState();
   const [tbsetting, setTbsetting] = useState();
 
   useEffect(() => {
@@ -31,9 +28,7 @@ const EasyTable = ({ authObj, edit, onChange }) => {
         let src = {};
         if (st.initVal) src.initVal = st.initVal;
         if (st.result) src.result = st.result;
-        setDtsrc(src);
       }
-      if (newAuth.dtsrc) setDtsrc(newAuth.dtsrc);
       setInit({ title, desc, size });
       setAuth(newAuth);
     } else {
@@ -45,30 +40,22 @@ const EasyTable = ({ authObj, edit, onChange }) => {
   const saveTable = (data) => {
     let local = auth;
     local.setting = data.setting;
-    onChange(data);
-    setAuth(data);
-  };
-  const onEditValuesChangeTable = (changedValues, allValues) => {
-    //use localstorage to prevent state change
-    let local = auth;
-    local.setting = { ...local.setting, ...changedValues };
+    if (onChange) onChange(local);
     setAuth(local);
-    onChange(local);
   };
+
   const onFinishTable = (val) => {
     let local = auth;
 
-    const st = local.setting;
+    let st = local.setting;
+    st = { ...st, ...val };
     setTbsetting({ size: local?.setting?.size });
     setInit({ title: st.title, desc: st.desc, size: st.size });
+    if (onChange) onChange(local);
     setTimeout(() => {
       setTbsetting({ size: local?.setting?.size });
       setInit({ title: st.title, desc: st.desc, size: st.size });
     }, 100);
-  };
-  const onDataGet = (val) => {
-    const newData = { ...auth, dtlist: val };
-    setAuth(newData);
   };
 
   return (
@@ -80,14 +67,9 @@ const EasyTable = ({ authObj, edit, onChange }) => {
               <Title level={4}>Table</Title>
               <Divider style={{ marginTop: 0 }} />
               <Card>
-                <Button
-                  type="link"
-                  icon={<RedoOutlined />}
-                  onClick={onFinishTable}
-                />
                 <AntFormDisplay
                   formArray={formdt["5f0ff2fe89db1023b0165b19"]}
-                  onValuesChange={onEditValuesChangeTable}
+                  onFinish={onFinishTable}
                   initialValues={init}
                 />
               </Card>
