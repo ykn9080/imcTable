@@ -33,9 +33,12 @@ import "./App.css";
 import EasyTable from "imceasytable";
 
 const App = (props) => {
+  const onChange=(return)=>{
+    
+  }
   return (
     <div>
-      <EasyTable edit={false} authObj={sampledata} />
+      <EasyTable edit={false} authObj={sampledata} onChange={onChange}/>
     </div>
   );
 };
