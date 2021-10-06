@@ -844,16 +844,6 @@
         "name": "desc",
         "type": "input.textarea",
         "seq": 1
-      },
-      {
-        "label": "Save",
-        "name": "",
-        "type": "button",
-        "seq": 2,
-        "action": "submit",
-        "btnStyle": "secondary",
-        "btnColor": "secondary",
-        "align": "right"
       }
     ]
   },

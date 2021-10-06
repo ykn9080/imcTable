@@ -1,20 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Divider, Card } from "antd";
+import {
+  Divider,
+  Card,
+  Button,
+  PageHeader,
+  Modal,
+  Tooltip,
+  message,
+} from "antd";
+import { FaCheck } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 import SingleTable from "./SingleTable";
 import AntFormDisplay from "imcformbuilder";
 import formdt from "./config/AntFormDisplay.json";
-import { Tabs } from "antd";
 
-const { Title } = Typography;
-
-const EasyTable = ({ authObj, edit, onChange }) => {
-  const [auth, setAuth] = useState([]);
+const EasyTable = ({ authObj, onChange, showmenu }) => {
+  const [auth, setAuth] = useState();
+  const [visible, setVisible] = useState(false);
+  const [menu, setMenu] = useState();
+  const [editt, setEditt] = useState();
   const [init, setInit] = useState();
   const [tbsetting, setTbsetting] = useState();
 
   useEffect(() => {
-    if (authObj) {
-      let newAuth = { ...authObj };
+    setMenu(showmenu);
+    setEditt(showmenu);
+    setAuth(authObj);
+  }, []);
+
+  useEffect(() => {
+    if (auth) {
+      let newAuth = { ...auth };
       let title = "",
         desc = "",
         size = "";
@@ -30,12 +46,12 @@ const EasyTable = ({ authObj, edit, onChange }) => {
         if (st.result) src.result = st.result;
       }
       setInit({ title, desc, size });
-      setAuth(newAuth);
+      //setAuth(newAuth);
     } else {
       setInit({ title: "", desc: "", size: "" });
-      setAuth({});
+      //setAuth({});
     }
-  }, [authObj]);
+  }, [auth]);
 
   const saveTable = (data) => {
     let local = auth;
@@ -44,32 +60,103 @@ const EasyTable = ({ authObj, edit, onChange }) => {
     setAuth(local);
   };
 
-  const onFinishTable = (val) => {
-    let local = auth;
-
-    let st = local.setting;
-    st = { ...st, ...val };
-    setTbsetting({ size: local?.setting?.size });
-    setInit({ title: st.title, desc: st.desc, size: st.size });
-    if (onChange) onChange(local);
-    setTimeout(() => {
-      setTbsetting({ size: local?.setting?.size });
-      setInit({ title: st.title, desc: st.desc, size: st.size });
-    }, 100);
+  const onValuesChangeTable1 = (changedValues, allValues) => {
+    //use localstorage to prevent state change
+    let local = auth,
+      local1 = localStorage.getItem("modelchart");
+    if (local1) local = JSON.parse(local1);
+    local.setting = { ...local.setting, ...changedValues };
+    if (["title", "desc"].indexOf(Object.keys(changedValues)[0]) === -1) {
+      setTbsetting({ size: local.setting.size });
+      setInit(local.setting);
+    }
+    localStorage.setItem("modelchart", JSON.stringify(local));
   };
-
+  const onSave = () => {
+    let local = auth,
+      local1 = localStorage.getItem("modelchart");
+    if (local1) {
+      local = JSON.parse(local1);
+      setAuth(local);
+      setTbsetting({ size: local.setting.size });
+      if (onChange) onChange(local);
+    }
+    setEditt(false);
+  };
+  const copyClipboard = () => {
+    navigator.clipboard.writeText(JSON.stringify(auth, null, 4));
+    message.info("Copied to clipboard");
+  };
+  const modal = (
+    <Modal
+      visible={visible}
+      title="Code"
+      onCancel={() => setVisible(false)}
+      footer={[
+        <Tooltip title="Copy code to clipboard">
+          <Button key="copy" onClick={copyClipboard}>
+            Copy
+          </Button>
+        </Tooltip>,
+        <Button key="submit" type="primary" onClick={() => setVisible(false)}>
+          Close
+        </Button>,
+      ]}
+    >
+      <div style={{ overflowY: "scroll", height: 250 }}>
+        {JSON.stringify(auth, null, 4)}
+      </div>
+    </Modal>
+  );
+  const editForm = (
+    <div style={{ textAlign: "right" }}>
+      <Button
+        type="link"
+        onClick={() => {
+          setVisible(true);
+        }}
+      >
+        code
+      </Button>
+      <Button
+        type="link"
+        onClick={() => {
+          setEditt(!editt);
+          setInit(auth.setting);
+        }}
+      >
+        edit
+      </Button>
+    </div>
+  );
   return (
     <div style={{ padding: "5px 5px 10px 10px" }}>
-      {edit === true ? (
+      {editt ? (
         <>
           {init && (
             <>
-              <Title level={4}>Table</Title>
+              <PageHeader
+                title="Table"
+                extra={[
+                  <Button
+                    key="1"
+                    type="text"
+                    icon={<FaCheck />}
+                    onClick={onSave}
+                  />,
+                  <Button
+                    key="2"
+                    type="text"
+                    icon={<ImCross />}
+                    onClick={() => setEditt(false)}
+                  />,
+                ]}
+              />
               <Divider style={{ marginTop: 0 }} />
               <Card>
                 <AntFormDisplay
                   formArray={formdt["5f0ff2fe89db1023b0165b19"]}
-                  onFinish={onFinishTable}
+                  onValuesChange={onValuesChangeTable1}
                   initialValues={init}
                 />
               </Card>
@@ -80,7 +167,7 @@ const EasyTable = ({ authObj, edit, onChange }) => {
               <SingleTable
                 dataObj={auth}
                 tbsetting={tbsetting}
-                edit={edit}
+                edit={editt}
                 className="gridcontent"
                 save={saveTable}
               />
@@ -89,15 +176,17 @@ const EasyTable = ({ authObj, edit, onChange }) => {
         </>
       ) : (
         <div style={{ marginTop: 40 }}>
+          {menu && editForm}
           <SingleTable
             dataObj={auth}
             tbsetting={tbsetting}
-            edit={edit}
+            edit={editt}
             className="gridcontent"
             save={saveTable}
           />
         </div>
       )}
+      {modal}
     </div>
   );
 };

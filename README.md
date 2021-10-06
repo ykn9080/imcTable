@@ -34,11 +34,11 @@ import EasyTable from "imceasytable";
 
 const App = (props) => {
   const onChange=(return)=>{
-    
+
   }
   return (
     <div>
-      <EasyTable edit={false} authObj={sampledata} onChange={onChange}/>
+      <EasyTable showmenu={false} authObj={sampledata} onChange={onChange}/>
     </div>
   );
 };
@@ -46,7 +46,15 @@ const App = (props) => {
 export default App;
 ```
 
-change edit mode if you change edit={true}
+## 📜 Document & API
+
+| Property | Description                   | Type                    | defaultValue |
+| -------- | ----------------------------- | ----------------------- | ------------ |
+| showmenu | edit or display               | boolean                 |              |
+| authObj  | chart data & setting          | json data               |              |
+| onChange | return changed data from edit | (val)=>console.log(val) |              |
+
+show edit button if you change showmenu={true}
 
 sampledata example:
 

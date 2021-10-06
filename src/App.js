@@ -7,7 +7,7 @@ const App = (props) => {
   return (
     <div style={{ flexGrow: 1 }}>
       <EasyTable
-        edit={true}
+        showmenu={true}
         authObj={sampledata}
         tbsetting={{ size: "small" }}
       />

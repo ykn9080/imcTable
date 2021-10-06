@@ -347,7 +347,6 @@ const SingleTable = (props) => {
             columns={columns}
             data={filtered}
             onDragEnd={onDragEnd}
-            //tbsetting={{ size: "small" }}
             tbsetting={tbsetting}
           />
         </div>
