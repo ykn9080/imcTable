@@ -14,7 +14,7 @@ import SingleTable from "./SingleTable";
 import AntFormDisplay from "imcformbuilder";
 import formdt from "./config/AntFormDisplay.json";
 
-const EasyTable = ({ authObj, onChange, showmenu }) => {
+const EasyTable = ({ authObj, onChange, edit, showmenu }) => {
   const [auth, setAuth] = useState();
   const [visible, setVisible] = useState(false);
   const [menu, setMenu] = useState();
@@ -24,7 +24,8 @@ const EasyTable = ({ authObj, onChange, showmenu }) => {
 
   useEffect(() => {
     setMenu(showmenu);
-    setEditt(false);
+    if (!edit) setEditt(false);
+    else setEditt(edit);
     setAuth(authObj);
   }, []);
 
@@ -46,6 +47,7 @@ const EasyTable = ({ authObj, onChange, showmenu }) => {
         if (st.result) src.result = st.result;
       }
       setInit({ title, desc, size });
+      localStorage.setItem("modelchart", JSON.stringify(auth));
       //setAuth(newAuth);
     } else {
       setInit({ title: "", desc: "", size: "" });
@@ -137,20 +139,22 @@ const EasyTable = ({ authObj, onChange, showmenu }) => {
             <>
               <PageHeader
                 title="Table"
-                extra={[
-                  <Button
-                    key="1"
-                    type="text"
-                    icon={<FaCheck />}
-                    onClick={onSave}
-                  />,
-                  <Button
-                    key="2"
-                    type="text"
-                    icon={<ImCross />}
-                    onClick={() => setEditt(false)}
-                  />,
-                ]}
+                extra={
+                  showmenu && [
+                    <Button
+                      key="1"
+                      type="text"
+                      icon={<FaCheck />}
+                      onClick={onSave}
+                    />,
+                    <Button
+                      key="2"
+                      type="text"
+                      icon={<ImCross />}
+                      onClick={() => setEditt(false)}
+                    />,
+                  ]
+                }
               />
               <Divider style={{ marginTop: 0 }} />
               <Card>
