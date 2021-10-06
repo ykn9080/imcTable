@@ -24,7 +24,7 @@ const EasyTable = ({ authObj, onChange, showmenu }) => {
 
   useEffect(() => {
     setMenu(showmenu);
-    setEditt(showmenu);
+    setEditt(false);
     setAuth(authObj);
   }, []);
 
