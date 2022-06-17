@@ -16,6 +16,7 @@ import {
 import MoreMenu from "./components/SKD/MoreMenu";
 import { DraggableColumns } from "./components/Table/DraggableColumns";
 import { Groupby } from "./DataManipulation";
+import moment from "moment";
 
 const SingleTable = (props) => {
   const [columns, setColumns] = useState([]);
@@ -35,7 +36,7 @@ const SingleTable = (props) => {
     if (props.dataObj) data1 = props.dataObj;
     const rtndt = baseData(data1);
     if (rtndt) {
-      if (rtndt?.setting) {
+      if (rtndt.setting) {
         let setting = rtndt.setting;
         let size = setting.size;
         if (!size) size = "small";
@@ -55,11 +56,12 @@ const SingleTable = (props) => {
     let rtn;
     if (data) {
       rtn = UpdateColnData(data);
+
       setFiltered(rtn.dtlist);
       let editcolumn = columnEditFilter(rtn.column, data.setting);
       setColumns(editcolumn);
 
-      if (data?.setting?.groupby)
+      if (data.setting && data.setting.groupby)
         setGroupbyTable(data.setting.groupby, rtn.dtlist);
     }
   }, [data]);
@@ -223,6 +225,7 @@ const SingleTable = (props) => {
       return null;
     });
     newData.setting.order = odr;
+
     setData(newData);
   };
 
@@ -321,6 +324,7 @@ const SingleTable = (props) => {
       },
     },
   ];
+
   return (
     <>
       {columns && (
@@ -433,7 +437,7 @@ export function GroupDataList(dtList, groupby) {
 }
 const filterList = (filList, columnList) => {
   let filList1 = [];
-  const filterColumn = (type, decimal, data) => {
+  const filterColumn = (type, decimal, dateformat, data) => {
     Boolean.parse = function (str) {
       switch (str.toLowerCase()) {
         case "true":
@@ -446,7 +450,7 @@ const filterList = (filList, columnList) => {
 
     switch (type) {
       case "string":
-        return data?.toString();
+        return data.toString();
       case "int":
         return parseInt(data);
       case "float":
@@ -454,7 +458,7 @@ const filterList = (filList, columnList) => {
       case "bool":
         return Boolean.parse(data);
       case "datetime":
-        return Date.parse(data);
+        return moment(Date.parse(data)).format(dateformat);
       default:
         break;
     }
@@ -472,7 +476,12 @@ const filterList = (filList, columnList) => {
         if (b.datatype) {
           a = {
             ...a,
-            [b.key]: filterColumn(b.datatype, b.decimal, a[b.key]),
+            [b.key]: filterColumn(
+              b.datatype,
+              b.decimal,
+              b.dateformat,
+              a[b.key]
+            ),
           };
         }
         return null;
@@ -541,6 +550,7 @@ const makeColumn = (columns, colsetting) => {
       sort: column.sort,
       datatype: column.datatype,
       decimal: column.decimal,
+      dateformat: column.dateformat,
       render(text, record) {
         let styleset = {};
         if (record[`color.${obj.origin}`])
@@ -577,9 +587,15 @@ const makeColumn = (columns, colsetting) => {
 };
 export const UpdateColnData = (data) => {
   let columnList = [];
-  let colArr = data?.setting?.column;
-  let dttlist = data.dtlist;
-  if (!colArr) return false;
+  if (!data) return false;
+  if (!data.setting) return false;
+  let colArr = data.setting.column;
+  let dttlist;
+  if (data.originlist) dttlist = data.originlist;
+  else if (data.dtlist) dttlist = data.dtlist;
+  if (!colArr)
+    if (dttlist) colArr = columnFromTable(dttlist[0]);
+    else return false;
   let ds = data.setting;
 
   colArr.map((k, i) => {

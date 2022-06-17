@@ -161,6 +161,69 @@
         "shouldvalue": "float"
       },
       {
+        "label": "DateFormat",
+        "name": "dateformat",
+        "type": "select",
+        "seq": 3,
+        "optionArray": [
+          {
+            "value": "yyyy-MM-DD",
+            "text": "yyyy-MM-DD"
+          },
+          {
+            "value": "YY-MM-DD",
+            "text": "YY-MM-DD"
+          },
+          {
+            "value": "M-D",
+            "text": "M-D"
+          },
+          {
+            "value": "MM/DD/yyyy",
+            "text": "MM/DD/yyyy"
+          },
+          {
+            "value": "MM/DD/YY",
+            "text": "MM/DD/YY"
+          },
+          {
+            "value": "M/D",
+            "text": "M/D"
+          },
+          {
+            "value": "YYYY-MM-DD HH:mm:ss",
+            "text": "YYYY-MM-DD HH:mm:ss"
+          },
+          {
+            "value": "MM",
+            "text": "MM"
+          },
+          {
+            "value": "MMMM",
+            "text": "MMMM"
+          },
+          {
+            "value": "DD",
+            "text": "DD"
+          },
+          {
+            "value": "dddd",
+            "text": "dddd"
+          },
+          {
+            "value": "HH:mm",
+            "text": "HH:mm"
+          },
+          {
+            "value": "hh:mm A",
+            "text": "hh:mm A"
+          }
+        ],
+        "shouldupdate": true,
+        "shouldfield": "datatype",
+        "shouldvalue": "datetime"
+      },
+      {
         "label": "Sort",
         "name": "sort",
         "type": "checkbox",

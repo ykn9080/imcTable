@@ -27,7 +27,7 @@ const EasyTable = ({ authObj, onChange, edit, showmenu }) => {
     if (!edit) setEditt(false);
     else setEditt(edit);
     setAuth(authObj);
-  }, []);
+  }, [authObj]);
 
   useEffect(() => {
     if (auth) {
@@ -56,7 +56,7 @@ const EasyTable = ({ authObj, onChange, edit, showmenu }) => {
   }, [auth]);
 
   const saveTable = (data) => {
-    let local = auth;
+    let local = _.cloneDeep(auth);
     local.setting = data.setting;
     if (onChange) onChange(local);
     setAuth(local);
@@ -131,6 +131,7 @@ const EasyTable = ({ authObj, onChange, edit, showmenu }) => {
       </Button>
     </div>
   );
+
   return (
     <div style={{ padding: "5px 5px 10px 10px" }}>
       {editt ? (
@@ -179,7 +180,15 @@ const EasyTable = ({ authObj, onChange, edit, showmenu }) => {
           )}
         </>
       ) : (
-        <div style={{ marginTop: 40 }}>
+        <div
+          style={{
+            position: "absolute",
+            top: 40,
+            left: 15,
+            width: "97%",
+            height: "98%",
+          }}
+        >
           {menu && editForm}
           <SingleTable
             dataObj={auth}

@@ -52,6 +52,14 @@ const sampledata = {
         key: "english",
         datatype: "int",
       },
+      {
+        title: "date",
+        titletext: "date",
+        origin: "date",
+        dataIndex: "date",
+        key: "date",
+        datatype: "datetime",
+      },
     ],
     reset: false,
     title: "Score",
@@ -64,6 +72,7 @@ const sampledata = {
       chinese: 98,
       math: 60,
       english: 70,
+      date: "2022-01-22",
     },
     {
       key: "2",
@@ -71,6 +80,7 @@ const sampledata = {
       chinese: 98,
       math: 66,
       english: 89,
+      date: "2022-03-22",
     },
     {
       key: "3",
@@ -78,6 +88,7 @@ const sampledata = {
       chinese: 98,
       math: 90,
       english: 70,
+      date: "2022-04-02",
     },
     {
       key: "4",
@@ -85,6 +96,7 @@ const sampledata = {
       chinese: 88,
       math: 99,
       english: 89,
+      date: "2022-05-11",
     },
   ],
 };
